@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../../src/css/output.css" type="text/css" />
+    <link rel="stylesheet" href="../../src/css/custom.css" type="text/css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <title>FASCO Shop</title>
+  </head>
+  <style>
+    .navigation-link a + a::before {
+      content: " > ";
+      margin: 0 5px;
+    }
+    .active-color {
+      border: 2px solid #505050;
+    }
+    .acive-page {
+      background: #f3f3f3;
+    }
+  </style>
+  <body>
+    <main class="relative">
+      <header class="header"></header>
+      <!-- Content -->
+      <div class="pt-24 pb-14">
+        <!-- Fashion -->
+        <div class="mx-56">
+          <div class="flex flex-col items-center gap-y-5">
+            <h1 class="font-volkhov text-5xl">Fashion</h1>
+            <!-- navigation  -->
+            <div class="navigation-link flex items-center">
+              <a href="" class="font-poppins">Home</a>
+              <a href="" class="font-poppins">Fashion</a>
+            </div>
+          </div>
+          <div class="w-full h-full mt-32 flex items-start">
+            <!-- filter  -->
+            <div class="w-1/5 flex flex-col gap-y-5">
+              <h3 class="font-volkhov text-3xl mb-5">Filters</h3>
+              <!-- size  -->
+              <div>
+                <p class="font-poppins text-lg mb-3">Size</p>
+                <div class="flex flex-wrap gap-5">
+                  <button
+                    data-size="S"
+                    class="font-jost text-2xl text-[#8A8A8A] border border-[#8A8A8A] w-11 h-11 rounded-md hover:text-red-500 hover:border-red-500"
+                  >
+                    S
+                  </button>
+                  <button
+                    data-size="S"
+                    class="font-jost text-2xl text-[#8A8A8A] border border-[#8A8A8A] w-11 h-11 rounded-md hover:text-red-500 hover:border-red-500"
+                  >
+                    M
+                  </button>
+                  <button
+                    data-size="S"
+                    class="font-jost text-2xl text-[#8A8A8A] border border-[#8A8A8A] w-11 h-11 rounded-md hover:text-red-500 hover:border-red-500"
+                  >
+                    L
+                  </button>
+                  <button
+                    data-size="S"
+                    class="font-jost text-2xl text-[#8A8A8A] border border-[#8A8A8A] w-11 h-11 rounded-md hover:text-red-500 hover:border-red-500"
+                  >
+                    XL
+                  </button>
+                </div>
+              </div>
+              <!-- color -->
+              <div>
+                <p class="font-poppins text-lg mb-3">Color</p>
+                <div class=""></div>
+              </div>
+              <!-- price  -->
+              <div>
+                <p class="font-poppins text-lg mb-3">Price</p>
+                <ul class="flex flex-col items-start">
+                  <li
+                    class="text-[#8A8A8A] font-poppins hover:text-red-500 tracking-widest"
+                  >
+                    <a href="">$0-$50</a>
+                  </li>
+                  <li
+                    class="text-[#8A8A8A] font-poppins hover:text-red-500 tracking-widest"
+                  >
+                    <a href="">$50-$100</a>
+                  </li>
+                  <li
+                    class="text-[#8A8A8A] font-poppins hover:text-red-500 tracking-widest"
+                  >
+                    <a href="">$100-$150</a>
+                  </li>
+                  <li
+                    class="text-[#8A8A8A] font-poppins hover:text-red-500 tracking-widest"
+                  >
+                    <a href="">$150-$200</a>
+                  </li>
+                  <li
+                    class="text-[#8A8A8A] font-poppins hover:text-red-500 tracking-widest"
+                  >
+                    <a href="">$300-$400</a>
+                  </li>
+                </ul>
+              </div>
+              <!-- brands -->
+              <div class="brands">
+                <div class="flex items-center justify-between pr-10 mb-3">
+                  <p class="font-poppins text-lg">Brands</p>
+                  <button class="btn-collapse-brands">
+                    <i class="fa-solid fa-angle-up"></i>
+                  </button>
+                </div>
+                <ul class="flex flex-wrap gap-x-4 gap-y-2 pr-10">
+                  <li class="text-[#8A8A8A] font-poppins hover:text-red-500">
+                    <a href="">Minimong</a>
+                  </li>
+                  <li class="text-[#8A8A8A] font-poppins hover:text-red-500">
+                    <a href="">Retrolie</a>
+                  </li>
+                  <li class="text-[#8A8A8A] font-poppins hover:text-red-500">
+                    <a href="">Brook</a>
+                  </li>
+                  <li class="text-[#8A8A8A] font-poppins hover:text-red-500">
+                    <a href="">Learts</a>
+                  </li>
+                  <li class="text-[#8A8A8A] font-poppins hover:text-red-500">
+                    <a href="">Vagabond</a>
+                  </li>
+                  <li class="text-[#8A8A8A] font-poppins hover:text-red-500">
+                    <a href="">Abby</a>
+                  </li>
+                </ul>
+              </div>
+              <!-- collections -->
+              <div class="collections">
+                <div class="flex items-center justify-between pr-10 mb-3">
+                  <p class="font-poppins text-lg">Collections</p>
+                  <button class="btn-collapse-collections">
+                    <i class="fa-solid fa-angle-up"></i>
+                  </button>
+                </div>
+                <ul class="">
+                  <li class="text-[#8A8A8A] font-poppins hover:text-red-500">
+                    <a href="">All product</a>
+                  </li>
+                  <li class="text-[#8A8A8A] font-poppins hover:text-red-500">
+                    <a href="">Best seller</a>
+                  </li>
+                  <li class="text-[#8A8A8A] font-poppins hover:text-red-500">
+                    <a href="">New arrivals</a>
+                  </li>
+                  <li class="text-[#8A8A8A] font-poppins hover:text-red-500">
+                    <a href="">Accessories</a>
+                  </li>
+                </ul>
+              </div>
+              <!-- tags -->
+              <div class="pr-5">
+                <p class="font-poppins text-lg mb-3">Tags</p>
+                <ul class="flex flex-wrap gap-x-4 gap-y-2">
+                  <li class="text-[#8A8A8A] font-poppins hover:text-red-500">
+                    <a href="">Fashion</a>
+                  </li>
+                  <li class="text-[#8A8A8A] font-poppins hover:text-red-500">
+                    <a href="">Hats</a>
+                  </li>
+                  <li class="text-[#8A8A8A] font-poppins hover:text-red-500">
+                    <a href="">Sandal</a>
+                  </li>
+                  <li class="text-[#8A8A8A] font-poppins hover:text-red-500">
+                    <a href="">Belt</a>
+                  </li>
+                  <li class="text-[#8A8A8A] font-poppins hover:text-red-500">
+                    <a href="">Bags</a>
+                  </li>
+                  <li class="text-[#8A8A8A] font-poppins hover:text-red-500">
+                    <a href="">Snacker</a>
+                  </li>
+                  <li class="text-[#8A8A8A] font-poppins hover:text-red-500">
+                    <a href="">Minimong</a>
+                  </li>
+                  <li class="text-[#8A8A8A] font-poppins hover:text-red-500">
+                    <a href="">Vagabond</a>
+                  </li>
+                  <li class="text-[#8A8A8A] font-poppins hover:text-red-500">
+                    <a href="">Sunglasses</a>
+                  </li>
+                  <li class="text-[#8A8A8A] font-poppins hover:text-red-500">
+                    <a href="">Beachwear</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <!-- products  -->
+            <div class="w-4/5">
+              <!-- header products  -->
+              <div class="flex items-center justify-between">
+                <select name="" id="" class="outline-none font-volkhov">
+                  <option value="best-seller" class="">Best seller</option>
+                  <option value="recommend" class="">Recommend</option>
+                </select>
+                <!-- view style  -->
+                <div class="flex items-center gap-x-5">
+                  <button
+                    class="w-9 h-9 rounded-md bg-[#f2f2f2] flex items-center justify-center"
+                  >
+                    <img src="../../src/icons/icon-5.svg" alt="" />
+                  </button>
+                  <button
+                    class="w-9 h-9 rounded-md bg-[#f2f2f2] flex items-center justify-center"
+                  >
+                    <img src="../../src/icons/icon-6.svg" alt="" />
+                  </button>
+                  <button
+                    class="w-9 h-9 rounded-md bg-[#f2f2f2] flex items-center justify-center"
+                  >
+                    <img src="../../src/icons/icon-7.svg" alt="" />
+                  </button>
+                  <button
+                    class="w-9 h-9 rounded-md bg-[#f2f2f2] flex items-center justify-center"
+                  >
+                    <img src="../../src/icons/icon-8.svg" alt="" />
+                  </button>
+                  <button
+                    class="w-9 h-9 rounded-md bg-[#f2f2f2] flex items-center justify-center"
+                  >
+                    <img src="../../src/icons/icon-9.svg" alt="" />
+                  </button>
+                </div>
+              </div>
+              <!-- list product  -->
+              <div class="flex flex-wrap mt-10 justify-between gap-y-10">
+                <!-- item product  -->
+                <div class="item-product w-80 h-[500px]">
+                  <a href="" class="block w-full h-3/4">
+                    <img
+                      class="w-full h-full object-cover rounded-md"
+                      src="https://photo.znews.vn/w660/Uploaded/mdf_eioxrd/2021_07_06/2.jpg"
+                      alt=""
+                    />
+                  </a>
+                  <div class="mt-5 flex flex-col gap-y-3 h-1/4">
+                    <!-- name  -->
+                    <p class="font-volkhov">Rounded Red Hat</p>
+                    <!-- price & size -->
+                    <div class="flex items-center justify-between">
+                      <p class="font-volkhov tracking-wider">$8.00</p>
+                      <select name="size" class="font-volkhov outline-none">
+                        <option value="S">S</option>
+                        <option value="M">M</option>
+                        <option value="L">L</option>
+                        <option value="XL">XL</option>
+                      </select>
+                    </div>
+                    <!-- color  -->
+                    <ul class="flex items-center gap-x-2">
+                      <li
+                        class="active-color size-6 rounded-full flex items-center justify-center cursor-pointer"
+                        data-color="black"
+                      >
+                        <p
+                          class="size-5 rounded-full bg-black border border-white"
+                        ></p>
+                      </li>
+                      <li
+                        class="size-6 rounded-full flex items-center justify-center cursor-pointer"
+                        data-color="blue"
+                      >
+                        <p
+                          class="size-5 rounded-full bg-[blue] border border-white"
+                        ></p>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <!-- pagination -->
+              <div class="w-full flex justify-center">
+                <div class="mx-auto mt-10 flex items-center gap-x-3">
+                  <ul class="flex items-center gap-x-3">
+                    <li
+                      class="acive-page w-10 h-10 rounded-full flex items-center justify-center font-jost hover:text-red-500"
+                    >
+                      <a href="">1</a>
+                    </li>
+                    <li
+                      class="w-10 h-10 rounded-full flex items-center justify-center font-jost hover:text-red-500"
+                    >
+                      <a href="">2</a>
+                    </li>
+                    <li
+                      class="w-10 h-10 rounded-full flex items-center justify-center font-jost hover:text-red-500"
+                    >
+                      <a href="">3</a>
+                    </li>
+                  </ul>
+                  <!-- next  -->
+                  <a href="" class="hover:text-red-500">
+                    <i class="fa-solid fa-chevron-right size-1"></i>
+                    <i class="fa-solid fa-chevron-right size-1"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Banner middle -->
+        <div class="banner-middle"></div>
+        <!-- Gallery -->
+        <div class="gallery"></div>
+        <!-- Subscribe -->
+        <div class="subscribe"></div>
+      </div>
+      <!-- btn-show-mini-cart  -->
+      <button
+        class="btn-show-mini-cart fixed right-5 top-1/2 size-12 bg-black flex items-center justify-center rounded-xl"
+      >
+        <img src="../../src/icons/cart.png" alt="" />
+      </button>
+      <!-- Mini cart  -->
+      <div class="mini-cart"></div>
+      <footer class="footer"></footer>
+    </main>
+  </body>
+  <script>
+    const btnCollapseBrand = document.querySelector(".btn-collapse-brands");
+    const brandsElement = document.querySelector(".brands ul");
+    btnCollapseBrand.addEventListener("click", () => {
+      brandsElement.classList.toggle("hidden");
+      if (brandsElement.classList.contains("hidden")) {
+        btnCollapseBrand.innerHTML = ' <i class="fa-solid fa-angle-down"></i>';
+      } else {
+        btnCollapseBrand.innerHTML = ' <i class="fa-solid fa-angle-up"></i>';
+      }
+    });
+    const btnCollapseCollection = document.querySelector(
+      ".btn-collapse-collections"
+    );
+    const collectionsElement = document.querySelector(".collections ul");
+    btnCollapseCollection.addEventListener("click", () => {
+      collectionsElement.classList.toggle("hidden");
+      if (collectionsElement.classList.contains("hidden")) {
+        btnCollapseCollection.innerHTML =
+          ' <i class="fa-solid fa-angle-down"></i>';
+      } else {
+        btnCollapseCollection.innerHTML =
+          ' <i class="fa-solid fa-angle-up"></i>';
+      }
+    });
+  </script>
+  <script src="../../src/js/main.js"></script>
+</html>

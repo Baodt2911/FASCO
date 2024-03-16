@@ -1,0 +1,16 @@
+{
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "tailwindcss": "^3.4.1",
+    "yarn": "^1.22.22"
+  },
+  "name": "fasco",
+  "version": "1.0.0",
+  "main": "tailwind.config.js",
+  "scripts": {
+    "tailwindcss": "tailwindcss -i ./src/css/input.css -o ./src/css/output.css --watch"
+  },
+  "author": "Baodt2911",
+  "license": "ISC",
+  "description": ""
+}

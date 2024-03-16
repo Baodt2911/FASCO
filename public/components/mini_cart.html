@@ -1,0 +1,84 @@
+<div class="overlay-mini-cart w-3/5 h-full bg-[#787878CC]"></div>
+<div
+  class="relative w-2/5 h-full bg-white py-5 px-10 flex flex-col justify-between"
+>
+  <button class="btn-hide-mini-cart absolute top-5 right-5">
+    <i class="fa-solid fa-xmark text-3xl"></i>
+  </button>
+  <!-- title  -->
+  <div>
+    <h1 class="font-volkhov text-5xl mt-5">Shopping Cart</h1>
+    <p class="font-poppins text-2xl text-[#8A8A8A] mt-5">
+      Buy <b class="text-black">$122.35</b> More And Get
+      <b class="text-black">Free Shipping</b>
+    </p>
+  </div>
+  <!-- products -->
+  <div
+    class="mini-cart-products flex flex-1 flex-col gap-y-10 mt-10 pb-10 overflow-y-scroll"
+  >
+    <!-- item product  -->
+    <div class="flex gap-x-5">
+      <div class="w-40 h-56">
+        <img
+          class="w-full h-full object-cover"
+          src="https://didongviet.vn/dchannel/wp-content/uploads/2022/01/cute-didongviet.jpg"
+          alt=""
+        />
+      </div>
+      <div class="flex-1 flex flex-col gap-y-3">
+        <!-- name product  -->
+        <p class="font-volkhov text-xl font-bold">Denim Jacket</p>
+        <!-- color  -->
+        <p class="font-poppins text-lg text-[#8A8A8A]">Color: Red</p>
+        <!-- size  -->
+        <p class="font-poppins text-lg text-[#8A8A8A]">Size: M</p>
+        <!-- price  -->
+        <p class="font-poppins text-lg">$14.80</p>
+        <!-- quantity & remove -->
+        <div class="w-full flex items-center justify-between pr-10">
+          <!-- quantity  -->
+          <div
+            class="flex items-center w-40 h-12 border border-[#EEEEE] justify-around p-x-5 rounded-sm"
+          >
+            <button class="w-5 h-full btn-reduce text-xl">-</button>
+            <input
+              type="number"
+              class="quantity w-5 h-full outline-none font-jost text-center"
+              value="1"
+            />
+            <button class="btn-increase w-5 h-full text-xl">+</button>
+          </div>
+          <!-- remove  -->
+          <button class="font-poppins text-md text-[#DA3F3F] hover:underline">
+            Remove
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="w-full">
+    <div class="flex items-center border-b-2 border-[#f5f5f5] py-3 gap-x-3">
+      <input
+        type="checkbox"
+        class="size-5 border-2 border-black outline-none"
+      />
+      <p>For <b>$10.00</b> please wrap the product</p>
+    </div>
+    <!-- subtotal -->
+    <div class="flex items-center justify-between my-5">
+      <p class="font-volkhov text-lg">Subtotal</p>
+      <p class="font-volkhov text-lg">$100.00</p>
+    </div>
+    <!-- checkout  -->
+    <button
+      class="bg-black rounded-xl w-full h-14 flex items-center justify-center hover:text-[#FF4646] font-poppins text-sm text-white shadow-xl shadow-[#bbbbbbcc] mb-3"
+    >
+      Check out
+    </button>
+    <!-- view cart -->
+    <div class="w-full flex justify-center">
+      <a href="" class="underline font-volkhov text-lg">View Cart</a>
+    </div>
+  </div>
+</div>

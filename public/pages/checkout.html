@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../../src/css/output.css" type="text/css" />
+    <link rel="stylesheet" href="../../src/css/custom.css" type="text/css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <title>FASCO Check Out</title>
+  </head>
+  <style>
+    .navigation-link a + a::before {
+      content: " > ";
+      margin: 0 5px;
+    }
+    .active-color {
+      border: 2px solid #505050;
+    }
+    .acive-page {
+      background: #f3f3f3;
+    }
+    .coutry-region-input:focus ~ .card-coutry_region {
+      opacity: 1;
+      visibility: visible;
+    }
+    .show-card {
+      opacity: 1;
+      visibility: visible;
+    }
+    .hidden-card {
+      opacity: 0;
+      visibility: hidden;
+    }
+  </style>
+  <body>
+    <main class="relative w-full h-full">
+      <header class="header"></header>
+      <!-- Content -->
+      <div class="pt-24 pb-14">
+        <h1 class="font-volkhov text-5xl w-full text-center py-10">
+          Shopping Cart
+        </h1>
+        <div class="flex border-y-2">
+          <div class="flex-1 flex flex-col gap-y-20 border-r pl-56 pr-10 pb-20">
+            <!-- contact  -->
+            <div class="mt-10">
+              <div class="flex items-center justify-between">
+                <h1 class="font-volkhov text-5xl text-[#484848]">Contact</h1>
+                <p class="font-poppins">
+                  Have an account?<a
+                    href=""
+                    class="text-[#1456FF] hover:underline"
+                  >
+                    Create Account</a
+                  >
+                </p>
+              </div>
+              <div class="w-full h-16 border border-[#8A8A8A] mt-5">
+                <input
+                  type="email"
+                  class="w-full h-full px-5 font-poppins placeholder:placeholder:text-[#8A8A8A]"
+                  placeholder="Email Address"
+                />
+              </div>
+            </div>
+            <!-- delivery  -->
+            <div>
+              <h1 class="font-volkhov text-5xl text-[#484848]">Delivery</h1>
+              <div class="flex flex-col w-full gap-y-3">
+                <!-- coutry / region -->
+                <div
+                  class="relative w-full h-16 border border-[#8A8A8A] mt-5 placeholder:text-[#8A8A8A]"
+                >
+                  <input
+                    type="text"
+                    class="coutry-region-input w-full h-full font-poppins placeholder:text-[#8A8A8A] px-5 outline-none"
+                    placeholder="Country / Region"
+                    oninput="searchCoutry(this)"
+                  />
+                  <!-- btn show coutry / region  -->
+                  <button class="btn-show-coutry-region size-6 cursor-pointer">
+                    <i
+                      class="fa-solid fa-angle-down absolute top-1/2 -translate-y-1/2 right-5"
+                    ></i>
+                  </button>
+                  <!-- card coutry / region -->
+                  <div
+                    class="card-coutry_region absolute top-16 w-full h-60 border-2 border-gray-200 bg-white hidden-card transition-all shadow-xl flex flex-col overflow-y-scroll gap-y-1"
+                  >
+                    <!-- item coutry -->
+                    <!-- <div
+                      class="font-poppins cursor-pointer flex items-center gap-x-2 hover:bg-gray-100 h-12 px-5 py-2"
+                    >
+                      <div class="size-5">
+                        <img src="../../src/logo/facebook.png" alt="" />
+                      </div>
+                      <p class="font-jost capitalize">Vietnam</p>
+                    </div> -->
+                  </div>
+                </div>
+                <!-- name  -->
+                <div class="flex w-full h-16 items-center gap-x-5">
+                  <!-- first name -->
+                  <div class="w-1/2 h-full border border-[#8A8A8A]">
+                    <input
+                      type="text"
+                      class="w-full h-full px-5 font-poppins placeholder:text-[#8A8A8A]"
+                      placeholder="First Name"
+                    />
+                  </div>
+                  <!-- last name -->
+                  <div class="w-1/2 h-full border border-[#8A8A8A]">
+                    <input
+                      type="text"
+                      class="w-full h-full px-5 font-poppins placeholder:text-[#8A8A8A]"
+                      placeholder="Last Name"
+                    />
+                  </div>
+                </div>
+                <!-- address  -->
+                <div class="w-full h-16 border border-[#8A8A8A]">
+                  <input
+                    type="text"
+                    class="w-full h-full px-5 font-poppins placeholder:text-[#8A8A8A]"
+                    placeholder="Address"
+                  />
+                </div>
+                <!-- city & postal code  -->
+                <div class="flex w-full h-16 items-center gap-x-5">
+                  <!-- city-->
+                  <div class="w-1/2 h-full border border-[#8A8A8A]">
+                    <input
+                      type="text"
+                      class="w-full h-full px-5 font-poppins placeholder:text-[#8A8A8A]"
+                      placeholder="City"
+                    />
+                  </div>
+                  <!-- postal code -->
+                  <div class="w-1/2 h-full border border-[#8A8A8A]">
+                    <input
+                      type="text"
+                      class="w-full h-full px-5 font-poppins placeholder:text-[#8A8A8A]"
+                      placeholder="Postal code"
+                    />
+                  </div>
+                </div>
+                <!-- save info -->
+                <div class="flex items-center gap-x-3 mt-5">
+                  <input type="checkbox" class="size-6" id="save-info-user" />
+                  <label
+                    for="save-info-user"
+                    class="font-poppins text-[#8A8A8A]"
+                  >
+                    Save This Info for future
+                  </label>
+                </div>
+              </div>
+            </div>
+            <!-- payment  -->
+            <div>
+              <h1 class="font-volkhov text-5xl text-[#484848] mb-5">Payment</h1>
+              <div
+                class="select-payment relative w-full h-16 border border-[#8A8A8A] flex items-center justify-between cursor-pointer"
+                data-method="mastercard"
+              >
+                <p class="font-poppins text-[#484848] ml-5 capitalize">
+                  Mastercard
+                </p>
+                <!-- icon payment -->
+                <div class="flex items-center gap-x-3">
+                  <div class="size-12">
+                    <img
+                      class="w-full h-full object-contain"
+                      src="../../src/logo/mastercard.png"
+                      alt=""
+                    />
+                  </div>
+                  <i class="fa-solid fa-angle-down mr-5"></i>
+                </div>
+                <!-- card option-pay  -->
+                <div
+                  class="card-option_pay absolute z-10 top-16 w-full border-2 border-gray-200 bg-white invisible opacity-0 transition-all shadow-xl"
+                >
+                  <!-- mastercard -->
+                  <div
+                    class="item-method_pay flex items-center justify-between px-5 hover:bg-gray-200"
+                    data-optionMethod="mastercard"
+                    onclick="changeMethod(this)"
+                    style="display: none"
+                  >
+                    <p class="font-poppins text-[#484848]">Mastercard</p>
+                    <div class="size-12">
+                      <img
+                        class="w-full h-full object-contain"
+                        src="../../src/logo/mastercard.png"
+                        alt=""
+                      />
+                    </div>
+                  </div>
+                  <!-- visa  -->
+                  <div
+                    class="item-method_pay flex items-center justify-between px-5 hover:bg-gray-200"
+                    data-optionMethod="visa"
+                    onclick="changeMethod(this)"
+                  >
+                    <p class="font-poppins text-[#484848]">Visa</p>
+                    <div class="size-12">
+                      <img
+                        class="w-full h-full object-contain"
+                        src="../../src/logo/visa.png"
+                        alt=""
+                      />
+                    </div>
+                  </div>
+                  <!-- paypal  -->
+                  <div
+                    class="item-method_pay flex items-center justify-between px-5 hover:bg-gray-200"
+                    data-optionMethod="paypal"
+                    onclick="changeMethod(this)"
+                  >
+                    <p class="font-poppins text-[#484848]">Paypal</p>
+                    <div class="size-12">
+                      <img
+                        class="w-full h-full object-contain"
+                        src="../../src/logo/paypal.png"
+                        alt=""
+                      />
+                    </div>
+                  </div>
+                  <!-- vnpay  -->
+                  <div
+                    class="item-method_pay flex items-center justify-between px-5 hover:bg-gray-200"
+                    data-optionMethod="vnpay"
+                    onclick="changeMethod(this)"
+                  >
+                    <p class="font-poppins text-[#484848]">Vnpay</p>
+                    <div class="size-12">
+                      <img
+                        class="w-full h-full object-contain"
+                        src="../../src/logo/vnpay.png"
+                        alt=""
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- form info card -->
+              <div
+                class="form-card bg-[#f5f5f5] flex flex-col gap-y-5 p-5 pb-7"
+              >
+                <!-- Card number  -->
+                <div class="relative w-full h-16 border border-[#8A8A8A]">
+                  <input
+                    type="text"
+                    class="w-full h-full pl-5 pr-10 font-poppins placeholder:text-[#8A8A8A]"
+                    placeholder="Card Number"
+                  />
+                  <i
+                    class="fa-solid fa-lock absolute top-1/2 -translate-y-1/2 right-5 text-[#8A8A8A]"
+                  ></i>
+                </div>
+                <!-- Expiration Date  & Security Code  -->
+                <div class="flex w-full h-16 items-center gap-x-5">
+                  <!-- Expiration Date -->
+                  <div class="w-1/2 h-full border border-[#8A8A8A]">
+                    <input
+                      type="text"
+                      class="w-full h-full px-5 font-poppins placeholder:text-[#8A8A8A]"
+                      placeholder="Expiration Date"
+                    />
+                  </div>
+                  <!-- Security Code -->
+                  <div class="w-1/2 h-full border border-[#8A8A8A]">
+                    <input
+                      type="text"
+                      class="w-full h-full px-5 font-poppins placeholder:text-[#8A8A8A]"
+                      placeholder="Security Code"
+                    />
+                  </div>
+                </div>
+                <!-- Card Holder Name  -->
+                <div class="w-full h-16 border border-[#8A8A8A]">
+                  <input
+                    type="text"
+                    class="w-full h-full px-5 font-poppins placeholder:text-[#8A8A8A]"
+                    placeholder="Card Holder Name"
+                  />
+                </div>
+                <!-- save info -->
+                <div class="flex items-center gap-x-3">
+                  <input type="checkbox" class="size-6" id="save-info-user" />
+                  <label
+                    for="save-info-user"
+                    class="font-poppins text-[#8A8A8A]"
+                  >
+                    Save This Info for future
+                  </label>
+                </div>
+              </div>
+            </div>
+            <!-- paynow  -->
+            <button
+              class="bg-black rounded-xl w-full h-14 flex items-center justify-center hover:text-[#FF4646] font-poppins text-sm text-white shadow-xl shadow-[#bbbbbbcc] mb-3"
+            >
+              Pay now
+            </button>
+          </div>
+          <!-- card product  -->
+          <div class="flex-1 bg-[#f5f5f5] pl-20 pt-20 pb-96 pr-56">
+            <div>
+              <!-- item product  -->
+              <div class="flex items-center gap-x-10">
+                <div class="size-32">
+                  <img
+                    class="w-full h-full object-cover"
+                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_WoVenEyI9GKqFTb0hCJiWhqlMPwDF0FsJg&usqp=CAU"
+                    alt=""
+                  />
+                </div>
+                <div>
+                  <!-- name product  -->
+                  <p class="font-volkhov text-lg">
+                    Mini dress with ruffled straps
+                  </p>
+                  <!-- size  -->
+                  <p class="font-poppins text-[#484848]">Size: M</p>
+                  <!-- color  -->
+                  <p class="font-poppins text-[#484848]">Color: Red</p>
+                </div>
+                <!-- price -->
+                <p class="font-poppins text-[#484848]">$100.00</p>
+              </div>
+            </div>
+            <div class="mt-10">
+              <!-- Discount code -->
+              <div class="flex items-center gap-x-5">
+                <div class="w-3/4 h-16 bg-white rounded-sm">
+                  <input
+                    type="text"
+                    class="w-full h-full placeholder:text-[#484848] px-5 outline-none font-poppins"
+                    placeholder="Discount code"
+                  />
+                </div>
+                <button
+                  class="w-1/4 h-16 bg-black shadow-lg text-white rounded-lg font-poppins"
+                >
+                  Apply
+                </button>
+              </div>
+              <!-- Subtotal  -->
+              <div class="flex items-center justify-between mt-5">
+                <p class="font-poppins text-[#484848]">Subtotal</p>
+                <p class="subtotal font-poppins text-[#484848]">$100.00</p>
+              </div>
+              <!-- Shipping  -->
+              <div class="flex items-center justify-between mt-5">
+                <p class="font-poppins text-[#484848]">Shipping</p>
+                <p class="shipping font-poppins text-[#484848]">$40.00</p>
+              </div>
+              <!-- Total  -->
+              <div class="flex items-center justify-between mt-5">
+                <p class="font-poppins text-[#484848]">Total</p>
+                <p class="total font-poppins">$140.00</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Subscribe -->
+        <div class="subscribe"></div>
+      </div>
+      <footer class="footer"></footer>
+    </main>
+  </body>
+  <script>
+    const cardOptionPay = document.querySelector(".card-option_pay");
+    const itemMethodPays = document.querySelectorAll(".item-method_pay");
+    const formCard = document.querySelector(".form-card");
+    const selectPayment = document.querySelector(".select-payment");
+    const cardCoutryRegion = document.querySelector(".card-coutry_region");
+    const btnShowCoutryRegion = document.querySelector(
+      ".btn-show-coutry-region"
+    );
+    const coutryRegionInput = document.querySelector(".coutry-region-input");
+    const API_URL_BASE = "https://restcountries.com/v3.1";
+    btnShowCoutryRegion.addEventListener("click", () => {
+      cardCoutryRegion.classList.toggle("hidden-card");
+    });
+    function changeMethod(e) {
+      selectPayment.dataset.method = e.dataset.optionmethod;
+      selectPayment.querySelector("p").textContent = e.dataset.optionmethod;
+      selectPayment.querySelector(
+        "img"
+      ).src = `../../src/logo/${e.dataset.optionmethod}.png`;
+      itemMethodPays.forEach((element) => {
+        if (selectPayment.dataset.method == element.dataset.optionmethod) {
+          element.style = "display:none;";
+        } else {
+          element.style = "display:flex;";
+        }
+      });
+      if (!(selectPayment.dataset.method == "mastercard")) {
+        formCard.style = "display:none;";
+      } else {
+        formCard.style = "display:flex;";
+      }
+    }
+    selectPayment.addEventListener("click", (e) => {
+      cardOptionPay.classList.toggle("show-card");
+    });
+    const addDataCoutry = (datas) => {
+      if (datas.length <= 12) {
+        cardCoutryRegion.classList.remove("h-60");
+      } else {
+        cardCoutryRegion.classList.add("h-60");
+      }
+      const htmls = datas.map(
+        (data) =>
+          `
+        <div
+        class="font-poppins cursor-pointer flex items-center gap-x-2 hover:bg-gray-100 h-12 px-5 py-2 flex items-center" onclick="chooseCoutry(this)">
+          <!-- flag coutry  -->
+          <div class="size-5">
+            <img class="w-full h-full  object-contain" src=${data.flags.svg} alt="" />
+          </div>
+          <!-- name coutry  -->
+          <p class="font-jost capitalize">${data?.name.common}</p>
+        </div>`
+      );
+      cardCoutryRegion.innerHTML = htmls.join("");
+    };
+    async function getDataCoutry(url) {
+      try {
+        const res = await fetch(url);
+        if (res.ok) {
+          const datas = await res.json();
+          addDataCoutry(datas);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    async function searchCoutry(keyword) {
+      try {
+        const res = await fetch(`${API_URL_BASE}/name/${keyword.value}`);
+        if (res.ok) {
+          const datas = await res.json();
+          addDataCoutry(datas);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    function chooseCoutry(e) {
+      cardCoutryRegion.classList.add("hidden-card");
+      coutryRegionInput.value = e.querySelector("p").textContent;
+    }
+    getDataCoutry(API_URL_BASE + "/all");
+  </script>
+  <script src="../../src/js/main.js"></script>
+</html>

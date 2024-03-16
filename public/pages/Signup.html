@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../../src/css/output.css" type="text/css" />
+    <link rel="stylesheet" href="../../src/css/custom.css" type="text/css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <title>Sign Up</title>
+  </head>
+  <body>
+    <main class="w-full h-screen flex justify-center items-center">
+      <!-- Container -->
+      <div
+        class="relative w-3/4 h-[800px] grid grid-rows-1 grid-cols-2 gap-x-32"
+      >
+        <!-- image  -->
+        <div class="w-full h-full">
+          <img
+            class="w-full h-full object-cover"
+            src="https://media.baoquangninh.vn/upload/image/202310/medium/2137171_f1207af841cbfc6683b03f4d1fdab7ce.jpg"
+            alt=""
+          />
+        </div>
+        <!-- card sign in  -->
+        <div class="w-full h-full pt-12">
+          <!-- title  -->
+          <h1 class="font-volkhov text-6xl text-[#484848] mb-12">FASCO</h1>
+          <!-- Sign In with  -->
+          <p class="font-volkhov text-3xl">Create Account</p>
+          <div class="flex items-center justify-between mt-5">
+            <!-- google  -->
+            <a
+              href=""
+              class="px-12 py-2 flex items-center justify-center gap-x-3 border border-gray-300 rounded-xl hover:border-red-400"
+            >
+              <div class="w-7 h-7">
+                <img
+                  class="w-full h-full object-cover"
+                  src="../../src/logo/google.png"
+                  alt=""
+                />
+              </div>
+              <span class="font-poppins">Sign up with Google</span>
+            </a>
+            <!-- facebook  -->
+            <a
+              href=""
+              class="px-12 py-2 flex items-center justify-center gap-x-3 border border-gray-300 rounded-xl hover:border-blue-500"
+            >
+              <div class="w-7 h-7">
+                <img
+                  class="w-full h-full object-cover"
+                  src="../../src/logo/facebook.png"
+                  alt=""
+                />
+              </div>
+              <span class="font-poppins">Sign up with Facebbok</span>
+            </a>
+          </div>
+          <p
+            class="text-center font-poppins font-bold text-3xl tracking-[15px] text-[#838383] mt-10"
+          >
+            -OR-
+          </p>
+          <!-- form  -->
+          <div class="grid grid-cols-2 grid-rows-3 mt-10 gap-x-7 gap-y-10">
+            <!-- First name  -->
+            <div class="w-full border-b border-[#9D9D9D] px-2 pb-2">
+              <input
+                type="text"
+                placeholder="First name"
+                class="font-poppins outline-none w-full h-full"
+              />
+            </div>
+            <!-- Last name  -->
+            <div class="w-full border-b border-[#9D9D9D] px-2 pb-2">
+              <input
+                type="text"
+                placeholder="Last name"
+                class="font-poppins outline-none w-full h-full"
+              />
+            </div>
+            <!-- Email  -->
+            <div class="w-full border-b border-[#9D9D9D] px-2 pb-2">
+              <input
+                type="text"
+                placeholder="Email address"
+                class="font-poppins outline-none w-full h-full"
+              />
+            </div>
+            <!-- Phone Number  -->
+            <div class="w-full border-b border-[#9D9D9D] px-2 pb-2">
+              <input
+                type="text"
+                placeholder="Phone Number"
+                class="font-poppins outline-none w-full h-full"
+              />
+            </div>
+            <!-- Password  -->
+            <div
+              class="relative w-full border-b border-[#9D9D9D] pl-2 pb-2 pr-10"
+            >
+              <input
+                type="password"
+                placeholder="Password"
+                class="password font-poppins outline-none w-full h-full"
+              />
+              <span class="show-password absolute right-3 cursor-pointer">
+                <i class="fa-regular fa-eye"></i>
+              </span>
+            </div>
+            <!-- Confirm password  -->
+            <div
+              class="relative w-full border-b border-[#9D9D9D] pl-2 pb-2 pr-10"
+            >
+              <input
+                type="password"
+                placeholder="Confirm Password"
+                class="confirm-password font-poppins outline-none w-full h-full"
+              />
+              <span
+                class="show-confirm-password absolute right-3 cursor-pointer"
+              >
+                <i class="fa-regular fa-eye"></i>
+              </span>
+            </div>
+          </div>
+          <!-- button create -->
+          <button
+            class="mt-10 block w-4/5 h-14 mx-auto bg-black text-white font-poppins font-semibold rounded-xl shadow-xl"
+          >
+            Create Accout
+          </button>
+          <p class="font-poppins text-center mt-5">
+            Already have an account?
+            <a href="../pages/signIn.html" class="text-[#5B86E5]">Login</a>
+          </p>
+        </div>
+        <span class="absolute bottom-0 right-0 font-poppins"
+          >FASCO Terms & Codnitions</span
+        >
+      </div>
+    </main>
+  </body>
+  <script>
+    const password = document.querySelector(".password");
+    const confirmPassword = document.querySelector(".confirm-password");
+    const btnShowPassword = document.querySelector(".show-password");
+    const btnShowConfirmPassword = document.querySelector(
+      ".show-confirm-password"
+    );
+
+    btnShowPassword.addEventListener("click", () => {
+      if (password.type == "password") {
+        password.type = "text";
+        btnShowPassword.innerHTML = '<i class="fa-regular fa-eye-slash"></i>';
+      } else {
+        password.type = "password";
+        btnShowPassword.innerHTML = '<i class="fa-regular fa-eye"></i>';
+      }
+    });
+    btnShowConfirmPassword.addEventListener("click", () => {
+      if (confirmPassword.type == "password") {
+        confirmPassword.type = "text";
+        btnShowConfirmPassword.innerHTML =
+          '<i class="fa-regular fa-eye-slash"></i>';
+      } else {
+        confirmPassword.type = "password";
+        btnShowConfirmPassword.innerHTML = '<i class="fa-regular fa-eye"></i>';
+      }
+    });
+  </script>
+</html>
