@@ -616,6 +616,14 @@ video {
   top: 1.25rem;
 }
 
+.bottom-2{
+  bottom: 0.5rem;
+}
+
+.bottom-3{
+  bottom: 0.75rem;
+}
+
 .z-10{
   z-index: 10;
 }
@@ -1537,6 +1545,10 @@ video {
   padding-top: 10rem;
 }
 
+.pr-24{
+  padding-right: 6rem;
+}
+
 .text-left{
   text-align: left;
 }
@@ -1725,6 +1737,11 @@ video {
 .text-black{
   --tw-text-opacity: 1;
   color: rgb(0 0 0 / var(--tw-text-opacity));
+}
+
+.text-blue-500{
+  --tw-text-opacity: 1;
+  color: rgb(59 130 246 / var(--tw-text-opacity));
 }
 
 .text-white{
