@@ -7,7 +7,7 @@ import jwt from "jsonwebtoken";
 const generateAccessToken = (payload) => {
   return jwt.sign(
     {
-      userId: payload._id,
+      userId: payload._id || payload.userId,
       admin: payload.admin,
     },
     process.env.ACCESSTOKEN_KEY,
@@ -22,7 +22,7 @@ const generateRefreshToken = async (payload) => {
     Math.floor(currentDate.getTime() / 1000) + 15 * 24 * 60 * 60;
   const refreshToken = jwt.sign(
     {
-      userId: payload._id,
+      userId: payload._id || payload.userId,
       admin: payload.admin,
     },
     process.env.REFRESHTOKEN_KEY,
@@ -32,7 +32,7 @@ const generateRefreshToken = async (payload) => {
   );
   //Save refreshToken to DB
   const newRefreshToken = new _refreshToken({
-    userId: payload._id,
+    userId: payload._id || payload.userId,
     refreshToken,
     expiresAt: new Date(expiresIn * 1000), // Convert seconds to milliseconds
   });
@@ -154,9 +154,30 @@ const updateUserService = async ({ _id, data }) => {
     console.log(error);
   }
 };
-const refreshTokenService = async (req, res, next) => {
+const refreshTokenService = async ({ refreshToken }) => {
   try {
-  } catch (error) {}
+    const isRefreshToken = await _refreshToken.findOne({ refreshToken });
+    if (!isRefreshToken) {
+      return {
+        status: 403,
+        message: "Refresh token is'nt valid",
+      };
+    }
+    const decoded = jwt.verify(refreshToken, process.env.REFRESHTOKEN_KEY);
+    // Create new refreshToken, accessToken
+    const newAccessToken = generateAccessToken(decoded);
+    const newRefreshToken = await generateRefreshToken(decoded);
+    return {
+      status: 200,
+      message: "Refresh token successfully",
+      element: {
+        accessToken: newAccessToken,
+        refreshToken: newRefreshToken,
+      },
+    };
+  } catch (error) {
+    console.log(error);
+  }
 };
 const resetPasswordService = async (req, res, next) => {
   try {

@@ -18,12 +18,7 @@ const loginController = async (req, res, next) => {
     });
     const currentDate = new Date();
     if (status == 200) {
-      res.cookie("at", element?.accessToken, {
-        HttpOny: true,
-        Secure: false,
-        SameSite: "strict",
-        maxAge: 120000,
-      });
+      //Save refreshtoken to cookie
       res.cookie("rt", element?.refreshToken, {
         HttpOny: true,
         Secure: false,
@@ -37,7 +32,6 @@ const loginController = async (req, res, next) => {
       message,
       user: element?.user,
       accessToken: element?.accessToken,
-      refreshToken: element?.refreshToken,
     });
   } catch (error) {
     console.log(error);
@@ -54,6 +48,7 @@ const registerController = async (req, res, next) => {
       password,
       otp,
     });
+    console.log(otp);
     res.status(status).json({
       message,
       element,
@@ -69,7 +64,6 @@ const logoutController = async (req, res, next) => {
     const { status, message } = await logoutService({
       refreshToken,
     });
-    res.clearCookie("at");
     res.clearCookie("rt");
     res.status(status).json({
       message,
@@ -85,7 +79,6 @@ const updateUserController = async (req, res, next) => {
       _id,
       data,
     });
-    console.log(data);
     res.status(status).json({
       message,
       element,
@@ -96,11 +89,33 @@ const updateUserController = async (req, res, next) => {
 };
 const refreshTokenController = async (req, res, next) => {
   try {
-  } catch (error) {}
+    const refreshToken = req.headers.authorization.split(" ")[1];
+    const { status, element, message } = await refreshTokenService({
+      refreshToken,
+    });
+    const currentDate = new Date();
+    //Save refreshtoken to cookie
+    res.cookie("rt", element?.refreshToken, {
+      HttpOny: true,
+      Secure: false,
+      SameSite: "strict",
+      expires: new Date(
+        Math.floor(currentDate.getTime()) + 15 * 24 * 60 * 60 * 1000
+      ),
+    });
+    res.status(status).json({
+      message,
+      accessToken: element?.accessToken,
+    });
+  } catch (error) {
+    console.log(error);
+  }
 };
 const resetPasswordController = async (req, res, next) => {
   try {
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export {
