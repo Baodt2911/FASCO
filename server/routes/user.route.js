@@ -5,6 +5,7 @@ import {
   logoutController,
   refreshTokenController,
   resetPasswordController,
+  updateUserController,
 } from "../controllers/user.controller.js";
 import {
   verfifyAccessToken,
@@ -17,5 +18,5 @@ router.post("/register", registerController);
 router.post("/logout", verfifyRefreshToken, logoutController);
 router.post("/reset-password", verfifyAccessToken, resetPasswordController);
 router.post("/refresh-token", refreshTokenController);
-
+router.post("/update-profile", verfifyAccessToken, updateUserController);
 export default router;

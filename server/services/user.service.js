@@ -138,7 +138,8 @@ const logoutService = async ({ refreshToken }) => {
 const updateUserService = async ({ _id, data }) => {
   try {
     const user = await _user.findById({ _id });
-    const isUpdate = await user.updateOne({ $set: { data } });
+    const isUpdate = await user.updateOne({ $set: data });
+    console.log(isUpdate);
     if (!isUpdate) {
       return {
         status: 404,
@@ -179,9 +180,42 @@ const refreshTokenService = async ({ refreshToken }) => {
     console.log(error);
   }
 };
-const resetPasswordService = async (req, res, next) => {
+const resetPasswordService = async ({ email, password, otp }) => {
   try {
-  } catch (error) {}
+    const otpHolder = await _otp.find({ email });
+    console.log(otpHolder);
+    if (!otpHolder.length) {
+      return {
+        status: 404,
+        message: "Expired OTP!",
+      };
+    }
+    const lastOtp = otpHolder[otpHolder.length - 1];
+    const isValid = await validOtpService({ otp, hashOtp: lastOtp.otp });
+    if (!isValid) {
+      return {
+        status: 401,
+        message: "Invalid OTP!",
+      };
+    }
+    if (isValid && email == lastOtp.email) {
+      const salt = await brcypt.genSalt(10);
+      const hashPassword = await brcypt.hash(password, salt);
+      const isUser = await _user.findOneAndUpdate(
+        { email },
+        { password: hashPassword }
+      );
+      if (isUser) {
+        await _otp.deleteMany({ email });
+      }
+      return {
+        status: 200,
+        message: "You have successfully changed your password",
+      };
+    }
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export {

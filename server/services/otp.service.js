@@ -70,10 +70,10 @@ const sendToMail = async ({ email, otp }) => {
     console.log(error);
   }
 };
-const sendOtpService = async ({ email }) => {
+const sendOtpService = async ({ email, isForgotPassword }) => {
   try {
     const isEmail = await _user.findOne({ email });
-    if (isEmail) {
+    if (!(!isEmail || isForgotPassword)) {
       return {
         status: 401,
         message: "Email already exists!",

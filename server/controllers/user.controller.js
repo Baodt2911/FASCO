@@ -113,6 +113,16 @@ const refreshTokenController = async (req, res, next) => {
 };
 const resetPasswordController = async (req, res, next) => {
   try {
+    const { email, password, otp } = req.body;
+    const { status, message } = await resetPasswordService({
+      email,
+      password,
+      otp,
+    });
+    console.log(email, password, otp);
+    res.status(status).json({
+      message,
+    });
   } catch (error) {
     console.log(error);
   }
