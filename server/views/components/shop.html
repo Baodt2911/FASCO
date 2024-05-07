@@ -1,0 +1,106 @@
+<div class="container rounded-2 mt-4">
+  <div class="row row-cols-sm-1 row-cols-xl-2">
+    <div class="col-6 shadow rounded-2 container py-4 px-5">
+      <p class="fs-4">Thông tin sản phẩm</p>
+      <form>
+        <div class="mb-3 col-xl-10 col-sm-12">
+          <label for="name-product" class="form-label">Tên sản phẩm</label>
+          <input type="text" id="name-product" class="form-control" required />
+        </div>
+        <div class="mb-3 col-xl-10 col-sm-12">
+          <label for="brand-product" class="form-label">Hãng sản phẩm</label>
+          <input type="text" id="brand-product" class="form-control" required />
+        </div>
+        <div class="mb-3 col-xl-10 col-sm-12">
+          <label for="price-product" class="form-label">Giá sản phẩm</label>
+          <input
+            type="number"
+            id="price-product"
+            class="form-control"
+            required
+          />
+        </div>
+        <div class="form-floating mb-3 col-xl-10 col-sm-12">
+          <select
+            class="form-select"
+            id="sex-product"
+            aria-label="Floating label select example"
+          >
+            <option selected value="men">Nam</option>
+            <option value="women">Nữ</option>
+          </select>
+          <label for="sex-product">Vui lòng chọn giới tính</label>
+        </div>
+        <div class="form-floating mb-3 col-xl-10 col-sm-12">
+          <select class="form-select" id="type-product">
+            <option value="clothes">Quần áo</option>
+            <option value="hats">Mũ</option>
+            <option value="sandal">Dép Sandal</option>
+            <option value="belt">Thắt lưng</option>
+            <option value="bags">Túi</option>
+            <option value="shoe">Giày</option>
+            <option value="sunglasses">Kính</option>
+            <option value="beachwear">Đồ bơi</option>
+            <option value="other">Khác</option>
+          </select>
+          <label for="type-product">Vui lòng chọn loại sản phẩm</label>
+        </div>
+        <div class="mb-3 col-xl-10 col-sm-12 visually-hidden">
+          <label for="type-other-product" class="form-label">Khác</label>
+          <input type="text" id="type-other-product" class="form-control" />
+        </div>
+        <div class="form-floating mb-3 col-xl-10 col-sm-12">
+          <textarea
+            class="form-control"
+            id="description-product"
+            maxlength="200"
+            style="height: 120px; max-height: 120px"
+          ></textarea>
+          <label for="description-product">Mô tả</label>
+        </div>
+        <button type="submit" class="btn btn-primary col-xl-10 col-sm-12 my-3">
+          Thêm sản phẩm
+        </button>
+      </form>
+    </div>
+    <div class="col-6 shadow rounded-2 container py-4 px-5">
+      <p class="fs-4">Phân loại sản phẩm</p>
+
+      <div class="d-flex column-gap-3 mb-3 align-items-end">
+        <div class="col-6">
+          <label for="color-product" class="form-label">Màu sắc</label>
+          <input type="text" id="color-product" class="form-control" />
+        </div>
+        <div class="col-4">
+          <label for="quantity-product" class="form-label">Số lượng</label>
+          <input type="number" id="quantity-product" class="form-control" />
+        </div>
+        <div class="d-flex flex-column col-2">
+          <label for="size-product">Kích thước</label>
+          <select class="form-select mt-1" id="size-product">
+            <option value="S">S</option>
+            <option value="M">M</option>
+            <option value="L">L</option>
+            <option value="XL">XL</option>
+            <option value="XXL">XXL</option>
+          </select>
+        </div>
+      </div>
+      <div class="d-flex align-items-end column-gap-3">
+        <div class="col-10">
+          <label for="upload-photos" class="form-label">Ảnh sản phẩm</label>
+          <input
+            class="form-control"
+            type="file"
+            id="upload-photos"
+            accept=".png, .jpg, .svg"
+          />
+        </div>
+        <button class="btn btn-primary col-2" id="btn-edit" disabled>
+          Sửa
+        </button>
+      </div>
+      <div id="card-photos-product" class="row g-4 mt-1"></div>
+    </div>
+  </div>
+</div>

@@ -27,10 +27,6 @@ const user = new Schema({
   password: {
     type: String,
   },
-  isNewUser: {
-    type: Boolean,
-    default: true,
-  },
   admin: {
     type: Boolean,
     default: false,
