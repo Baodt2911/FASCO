@@ -4,7 +4,7 @@ import shop from "./shop.js";
 import orders_sell from "./orders-sell.js";
 import comments from "./comment.js";
 import promotion from "./promotion.js";
-// utils.isLoggedIn();
+utils.isLoggedIn();
 const currentUrl = utils.getCurrentUrl();
 const btnLogout = document.getElementById("btn-logout");
 const navItems = document.querySelectorAll(".nav-item");
@@ -12,6 +12,8 @@ const content = document.getElementById("content");
 utils.setComponent(content, "./components/shop.html");
 btnLogout.addEventListener("click", async () => {
   try {
+    console.log(utils.getRefreshToken());
+
     await fetch(currentUrl + "/auth/logout", {
       method: "POST",
       headers: {
@@ -68,8 +70,7 @@ const mutationContent = (mutation) => {
       break;
   }
 };
-const mutationObserver = new MutationObserver(mutationContent);
-mutationObserver.observe(content, {
+utils.mutationObserverElement(content, mutationContent, {
   attributes: true,
   childList: true,
   attributeOldValue: true,

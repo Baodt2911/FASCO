@@ -9,70 +9,144 @@
       integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
       crossorigin="anonymous"
     />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
     <title>Dashboard</title>
   </head>
   <style>
-    .active{
-        color:  #FF3333CC !important;
-        background: transparent !important;
+    .active {
+      color: #ff3333cc !important;
+      background: transparent !important;
+    }
+    /* width */
+    ::-webkit-scrollbar {
+      width: 7px;
+    }
+
+    /* Track */
+    ::-webkit-scrollbar-track {
+      border-radius: 10px;
+    }
+
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+      background: #3b3b3b4d;
+      border-radius: 10px;
+    }
+    #notification {
+      position: fixed;
+      top: 30px;
+      right: 10px;
+      padding: 15px 30px 15px 20px;
+      transform: translateX(200%);
+      transition: 0.5s all;
+    }
+    .show-notification {
+      transform: translateX(0px) !important;
     }
   </style>
   <body>
-   <div class="container-fluid">
-    <div class="row flex-nowrap ">
-        <div class="col-auto col-md-3 col-xl-2 px-sm-4 px-0  shadow-lg" style="background-color: #20344C;">
-            <div class="d-flex flex-column align-items-center align-items-sm-start  pt-3 text-white min-vh-100">
-                <a href="/dashboard" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-                    <span class="fs-2 d-none d-sm-inline ">FASCO</span>
+    <div class="container-fluid">
+      <div class="row flex-nowrap">
+        <!-- nav bar fixed left  -->
+        <div
+          class="col-auto col-md-3 col-xl-2 px-sm-4 px-0 shadow-lg"
+          style="background-color: #20344c; position: fixed; left: 0"
+        >
+          <div
+            class="d-flex flex-column align-items-center align-items-sm-start pt-3 text-white min-vh-100"
+          >
+            <a
+              href="/dashboard"
+              class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none"
+            >
+              <span class="fs-2 d-none d-sm-inline">FASCO</span>
+            </a>
+            <ul
+              class="nav nav-pills flex-column mb-sm-auto mt-1 pt-3 mb-0 align-items-center align-items-sm-start row-gap-2 border-top"
+              id="menu"
+            >
+              <li class="nav-item" data-page="home">
+                <a
+                  href="/dashboard"
+                  class="active text-white nav-link align-middle px-0 fs-5"
+                >
+                  <i class="bi-house"></i>
+                  <span class="ms-1 d-none d-sm-inline">Trang chủ</span>
                 </a>
-                <ul class="nav nav-pills flex-column mb-sm-auto mt-1 pt-3 mb-0 align-items-center align-items-sm-start row-gap-2 border-top" id="menu">
-                    <li class="nav-item" data-page="home">
-                        <a href="/dashboard" class="active text-white nav-link align-middle px-0 fs-5">
-                            <i class=" bi-house"></i> <span class="ms-1 d-none d-sm-inline">Trang chủ</span>
-                        </a>
-                    </li>
-                    <li class="nav-item" data-page="shop">
-                        <a href="/dashboard/shop.html" class="text-white nav-link align-middle px-0 fs-5">
-                            <i class=" bi bi-clipboard-check"></i> <span class="ms-1 d-none d-sm-inline">Quản lý gian hàng</span>
-                        </a>
-                    </li>
-                    <li class="nav-item" data-page="orders_sell">
-                        <a href="/dashboard/orders-sell.html" class="text-white nav-link align-middle px-0 fs-5">
-                            <i class=" bi bi-clipboard-data"></i> <span class="ms-1 d-none d-sm-inline">Đơn hàng sản phẩm</span>
-                        </a>
-                    </li>
-                    <li class="nav-item" data-page="comments">
-                        <a href="/dashboard/comments.html" class="text-white nav-link align-middle px-0 fs-5">
-                            <i class=" bi bi-chat"></i> <span class="ms-1 d-none d-sm-inline">Đánh giá</span>
-                        </a>
-                    </li>
-                    <li class="nav-item" data-page="promotion">
-                        <a href="/dashboard/promotion.html" class="text-white nav-link align-middle px-0 fs-5">
-                            <i class=" bi bi-currency-dollar"></i> <span class="ms-1 d-none d-sm-inline">Mã giảm giá</span>
-                        </a>
-                    </li>
-                </ul>
-                <hr>
-                <div class="dropdown pb-5">
-                    <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-                      <i class=" bi bi-person-gear"></i>
-                        <span class="d-none d-sm-inline mx-2">Đỗ Bảo</span>
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-dark text-small shadow">                 
-                        <li id="btn-logout"><a class="dropdown-item" href="#">Đăng xuất</a></li>
-                    </ul>
-                </div>
+              </li>
+              <li class="nav-item" data-page="shop">
+                <a
+                  href="/dashboard/shop.html"
+                  class="text-white nav-link align-middle px-0 fs-5"
+                >
+                  <i class="bi bi-clipboard-check"></i>
+                  <span class="ms-1 d-none d-sm-inline">Quản lý gian hàng</span>
+                </a>
+              </li>
+              <li class="nav-item" data-page="orders_sell">
+                <a
+                  href="/dashboard/orders-sell.html"
+                  class="text-white nav-link align-middle px-0 fs-5"
+                >
+                  <i class="bi bi-clipboard-data"></i>
+                  <span class="ms-1 d-none d-sm-inline">Đơn hàng sản phẩm</span>
+                </a>
+              </li>
+              <li class="nav-item" data-page="comments">
+                <a
+                  href="/dashboard/comments.html"
+                  class="text-white nav-link align-middle px-0 fs-5"
+                >
+                  <i class="bi bi-chat"></i>
+                  <span class="ms-1 d-none d-sm-inline">Đánh giá</span>
+                </a>
+              </li>
+              <li class="nav-item" data-page="promotion">
+                <a
+                  href="/dashboard/promotion.html"
+                  class="text-white nav-link align-middle px-0 fs-5"
+                >
+                  <i class="bi bi-currency-dollar"></i>
+                  <span class="ms-1 d-none d-sm-inline">Mã giảm giá</span>
+                </a>
+              </li>
+            </ul>
+            <hr />
+            <div class="dropdown pb-5">
+              <a
+                href="#"
+                class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
+                id="dropdownUser1"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                <i class="bi bi-person-gear"></i>
+                <span class="d-none d-sm-inline mx-2">Đỗ Bảo</span>
+              </a>
+              <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
+                <li id="btn-logout">
+                  <a class="dropdown-item" href="#">Đăng xuất</a>
+                </li>
+              </ul>
             </div>
+          </div>
         </div>
+        <!-- colums emty -->
+        <div class="col-auto col-md-3 col-xl-2 px-sm-4 px-0 shadow-lg"></div>
         <!-- content  -->
-        <div class="col py-3" id="content">
-
+        <div class="col py-3" id="content"></div>
+      </div>
     </div>
-</div>
+    <div id="notification" class="alert"></div>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
     <script src="./js/main.js" type="module"></script>
-  </body>
   </body>
 </html>

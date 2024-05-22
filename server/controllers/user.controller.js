@@ -1,5 +1,3 @@
-import createHttpError from "http-errors";
-import jwt from "jsonwebtoken";
 import {
   loginService,
   registerService,
@@ -48,10 +46,8 @@ const registerController = async (req, res, next) => {
       password,
       otp,
     });
-    console.log(otp);
     res.status(status).json({
       message,
-      element,
     });
   } catch (error) {
     console.log(error);

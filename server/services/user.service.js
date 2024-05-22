@@ -110,7 +110,6 @@ const registerService = async ({
       }
       return {
         status: 200,
-        element: user,
         message: "Register successfully!",
       };
     }
@@ -137,9 +136,8 @@ const logoutService = async ({ refreshToken }) => {
 };
 const updateUserService = async ({ _id, data }) => {
   try {
-    const user = await _user.findById({ _id });
+    const user = await _user.findById(_id);
     const isUpdate = await user.updateOne({ $set: data });
-    console.log(isUpdate);
     if (!isUpdate) {
       return {
         status: 404,

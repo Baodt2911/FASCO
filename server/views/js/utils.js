@@ -41,6 +41,25 @@ const utils = (function () {
         console.error(error);
       }
     },
+    mutationObserverElement: (element, callback, option) => {
+      const mutationObserver = new MutationObserver(callback);
+      mutationObserver.observe(element, option);
+    },
+    showNotification: ({ message, status }) => {
+      const notification = document.getElementById("notification");
+      const icons = {
+        success: '<i class="bi bi-check-circle text-success mx-2"></i>',
+        warning: '<i class="bi bi-exclamation-triangle text-warning mx-2"></i>',
+      };
+      notification.classList.add("show-notification", `alert-${status}`);
+      notification.innerHTML = `
+        ${icons[status]}
+        ${message}
+      `;
+      setTimeout(() => {
+        notification.classList.remove("show-notification");
+      }, 2000);
+    },
   };
 })();
 export default utils;
