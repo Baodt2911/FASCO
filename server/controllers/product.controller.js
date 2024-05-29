@@ -2,9 +2,9 @@ import {
   addProductService,
   deleteProductService,
   getAllProductService,
+  searchProductService,
   updateProductService,
 } from "../services/product.service.js";
-import { uploadService } from "../services/photo.service.js";
 const getAllProductController = async (req, res) => {
   try {
     const { page = 1, pageSize = 50 } = req.query;
@@ -26,22 +26,22 @@ const getDetailProductController = async (req, res) => {
     console.log(error);
   }
 };
-const uploadController = async (req, res) => {
+const searchProductController = async (req, res) => {
   try {
-    const _id = req.params._id;
-    const files = req.files;
-    const metadata = req.body.metadata;
-    console.log(files);
-    const { status, message, element } = await uploadService({
-      _id,
-      files,
-      metadata,
+    const { q: querySearch, order } = req.query;
+    const { message, status, element } = await searchProductService({
+      querySearch,
+      order,
     });
-    res.status(status).json({ message });
+    res.status(status).json({
+      message,
+      element,
+    });
   } catch (error) {
     console.log(error);
   }
 };
+
 const addProductController = async (req, res) => {
   try {
     const { name, brand, price, type, sex, description } = req.body;
@@ -96,5 +96,5 @@ export {
   getDetailProductController,
   updateProductController,
   deleteProductController,
-  uploadController,
+  searchProductController,
 };

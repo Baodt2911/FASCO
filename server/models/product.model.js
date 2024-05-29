@@ -20,10 +20,12 @@ const products = new Schema(
     sex: {
       type: String,
       enum: ["men", "women"],
+      required: true,
     },
     description: {
       type: String,
     },
+    photos: [{ type: mongoose.Schema.Types.ObjectId, ref: "photos" }],
   },
   {
     timestamps: true,

@@ -4,7 +4,7 @@ import shop from "./shop.js";
 import orders_sell from "./orders-sell.js";
 import comments from "./comment.js";
 import promotion from "./promotion.js";
-utils.isLoggedIn();
+// utils.isLoggedIn();
 const currentUrl = utils.getCurrentUrl();
 const btnLogout = document.getElementById("btn-logout");
 const navItems = document.querySelectorAll(".nav-item");

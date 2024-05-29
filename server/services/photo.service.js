@@ -1,20 +1,22 @@
 import { bucket } from "../config/firebase.js";
 import _product from "../models/product.model.js";
 import _photo from "../models/photo.model.js";
-import { addSizeProductService } from "./size.service.js";
-const addPhotoService = async ({ idProduct, url, color }) => {
+import { updateProductService } from "./product.service.js";
+const addPhotoService = async ({ url, color, sizes }) => {
   try {
     const isPhoto = await _photo.create({
-      idProduct,
       url,
       color,
+      sizes,
     });
-    return !!isPhoto;
+    return {
+      idPhoto: isPhoto._doc._id,
+    };
   } catch (error) {
     console.log(error);
   }
 };
-const uploadService = async ({ _id, files, metadata }) => {
+const uploadService = async ({ _id, files, metadatas }) => {
   try {
     const isProduct = await _product.findById(_id);
     if (!isProduct) {
@@ -25,40 +27,36 @@ const uploadService = async ({ _id, files, metadata }) => {
     }
     const upload = async (file, index) => {
       const blob = bucket.file("photos/" + file.originalname);
-      const isUpload = await blob.save(file.buffer, {
+      const isUpload = blob.save(file.buffer, {
         metadata: {
           contentType: file.mimetype,
         },
       });
-      console.log("index:", index, file, file.originalname);
       if (isUpload) {
-        const { color, quantity, size } = metadata[index];
-        const isAddPhoto = await addPhotoService({
-          idProduct: _id,
+        const { color, sizes } = metadatas[index];
+        const { idPhoto } = await addPhotoService({
           color,
           url: `https://firebasestorage.googleapis.com/v0/b/fasco-a5db7.appspot.com/o/photos%2F${file.originalname}?alt=media`,
+          sizes,
         });
-        if (isAddPhoto) {
-          const isAddSize = await addSizeProductService({
-            idProduct: _id,
-            size,
-            quantity,
+        if (idPhoto) {
+          console.log(idPhoto);
+          await updateProductService({
+            _id,
+            data: {
+              photos: [idPhoto],
+            },
           });
-          if (isAddSize) {
-            console.log("Đã up");
-          }
         }
       }
     };
     const uploadPromises = files.map(
       async (file, index) => await upload(file, index)
     );
-    console.log(uploadPromises);
     await Promise.all(uploadPromises);
     return {
       status: 200,
-      message: "Uploaded successfully!",
-      element: [],
+      message: "Upload photo successfully",
     };
   } catch (error) {
     console.log(error);

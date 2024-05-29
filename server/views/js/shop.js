@@ -1,15 +1,85 @@
 import utils from "./utils.js";
+const ItemProductElement = (url) => {
+  return ` <div
+            class="col-4 rounded-3"
+            style="
+              position: relative;
+              height: 220px;
+              cursor: pointer !important;
+            "
+          >
+            <div style="height: 80%; margin-top: 5px">
+              <img
+                src="${url}"
+                alt=""
+                class="image-photo col-12"
+                style="
+                  width: 100%;
+                  height: 100%;
+                  object-fit: cover;
+                  border-radius: 6px 6px 0 0;
+                "
+              />
+            </div>
+            <!-- btn close image  -->
+            <div
+              class="btn-close-image shadow rounded-circle bg-light text-center"
+              style="
+                width: 30px;
+                height: 30px;
+                cursor: pointer;
+                position: absolute;
+                top: -10px;
+                left: -10px;
+              "
+            >
+              <i class="fs-5 bi bi-x text-dark"></i>
+            </div>
+            <div
+              class="input-group input-group-sm col-12 px-3 py-2"
+              style="
+                border-radius: 0 0 6px 6px;
+                box-shadow: 0 10px 25px 0 #8383834d;
+              "
+            >
+              <span class="input-group-text">Màu</span>
+              <input type="text" class="form-control color-product" />
+            </div>
+          </div>
+          <!-- size && quantity  -->
+          <div class="d-flex flex-column">
+            <!-- list size, quantity -->
+            <ol
+              class="d-flex flex-column flex-fill  list-size-quantity"
+            >
 
+            </ol>
+            <!-- add -->
+            <div class="d-flex align-items-end gap-2">
+              <div class="d-flex flex-column col-3">
+                <select class="form-select mt-1 size-product">
+                  <option value="S">S</option>
+                  <option value="M">M</option>
+                  <option value="L">L</option>
+                  <option value="XL">XL</option>
+                  <option value="XXL">XXL</option>
+                </select>
+              </div>
+              <div class="col-6">
+                <input
+                  type="number"
+                  class="form-control quantity-product"
+                  placeholder="Số lượng"
+                />
+              </div>
+              <button type="button" class="btn btn-primary btn-add-size-quantity col-3">Thêm</button>
+            </div>
+          </div>
+        `;
+};
 const shop = () => {
-  const uploadPhotos = document.getElementById("upload-photos");
+  const uploadPhotosFile = document.getElementById("upload-photos-file");
   const cardPhotos = document.getElementById("card-photos-product");
-  const color = document.getElementById("color-product");
-  const quantity = document.getElementById("quantity-product");
-  const size = document.getElementById("size-product");
-  const colorModal = document.getElementById("color-product-modal");
-  const quantityModal = document.getElementById("quantity-product-modal");
-  const sizeModal = document.getElementById("size-product-modal");
-  const imageProductModal = document.getElementById("image-product-modal");
   const btnSaveChanges = document.getElementById("btn-save_changes");
   const name = document.getElementById("name-product");
   const brand = document.getElementById("brand-product");
@@ -19,8 +89,16 @@ const shop = () => {
   const description = document.getElementById("description-product");
   const btnAddNew = document.getElementById("btn-add-new-product");
   const listProducts = document.getElementById("list-products");
+  const btnConfirmDelete = document.getElementById("btn-confirm-delete");
   const objectURLs = [];
   const dataImageProduct = [];
+
+  const cleanUpURLsAndCardImage = () => {
+    cardPhotos.innerHTML = "";
+    objectURLs.forEach((url) => {
+      URL.revokeObjectURL(url);
+    });
+  };
   const handleRenderProduct = async () => {
     try {
       const res = await fetch(utils.getCurrentUrl() + "/product/all");
@@ -40,7 +118,8 @@ const shop = () => {
               <td data-description=${product.description} >${product.description}</td>
               <td>
                 <div class="d-flex justify-content-end column-gap-3">
-                <button class="rounded border item-btn-remove-product bg-danger text-white px-2">Xóa</button>
+                <button class="rounded border item-btn-remove-product bg-danger text-white px-2" data-bs-toggle="modal"
+                  data-bs-target="#modal-delete-product">Xóa</button>
                   <button class="bg-primary rounded border text-white item-btn-edit-product px-2" data-bs-toggle="modal"
                   data-bs-target="#modal-edit-product">Sửa</button>
                 </div>
@@ -53,26 +132,15 @@ const shop = () => {
     }
   };
   handleRenderProduct();
-
   const uploadPhoto = async (_id) => {
     const formData = new FormData();
-    for (const file of dataImageProduct) {
-      const metadata = {
-        color: "đỏ",
-        quantity: 12,
-        size: "XL",
-      };
-      const blobWithMetadata = new Blob([file], {
-        type: file.type,
-        metadata,
-      });
-
-      formData.append("files", blobWithMetadata); // Append file with metadata to FormData
-      formData.append("metadata", JSON.stringify(metadata)); // Append metadata as separate data (optional)
+    for (const data of dataImageProduct) {
+      formData.append("files", data.file);
+      formData.append("metadata", JSON.stringify(data.metadata));
     }
     try {
       const response = await fetch(
-        utils.getCurrentUrl() + `/product/upload/${_id}`,
+        utils.getCurrentUrl() + `/photo/upload/${_id}`,
         {
           method: "POST",
           body: formData,
@@ -123,6 +191,7 @@ const shop = () => {
       });
       document.getElementById("form-product").reset(); //reset form
       handleRenderProduct();
+      cleanUpURLsAndCardImage();
     } catch (error) {
       console.log(error);
     }
@@ -136,61 +205,89 @@ const shop = () => {
     const url = URL.createObjectURL(files[0]);
     objectURLs.push(url);
     const div = document.createElement("div");
-    div.classList.add("col-4", "rounded-3", "item-image-product");
-    div.style =
-      "position: relative; height: 220px; cursor: pointer !important;";
-    div.innerHTML = `
-          <div style="height: 60%; margin-top:5px" 
-          data-bs-toggle="modal"
-          data-bs-target="#modal-show_image" >
-            <img
-              src="${url}"
-              alt=""
-              class="image-photo col-12"
-              style="width: 100%; height: 100%; object-fit: cover; border-radius: 6px 6px 0 0 "
-            />
-          </div>
-          <div
-            class="btn-close-image shadow rounded-circle bg-light text-center"
-            style="
-              width: 30px;
-              height: 30px;
-              cursor: pointer;
-              position: absolute;
-              top: -10px;
-              right: 0;">
-            <i class="fs-5 bi bi-x text-dark"></i>
-          </div>
-          <div class="col-12  px-3 py-2" 
-          style="border-radius: 0 0 6px 6px; 
-          box-shadow: 0 10px 25px 0 #8383834d";
-          data-bs-toggle="modal"
-          data-bs-target="#modal-show_image">
-             <span  style="font-size:12px">Màu: <b id="color-image-product">
-             ${color.value}</b></span>
-             <br/>
-            <span  style="font-size:12px">Số lượng: <b id="quantity-image-product">${quantity.value}</b></span>
-            <br/>
-            <span  style="font-size:12px">Kích thước: <b id="size-image-product">${size.value}</b></span>
-          </div>
-        `;
-    dataImageProduct.push(files[0]);
-
-    cardPhotos.appendChild(div);
-    quantity.value = "";
-    color.value = "";
-    // uploadPhotos.disabled = true;
-  };
-  uploadPhotos.addEventListener("change", onRenderPhotos);
-  const cleanUpURLs = () => {
-    objectURLs.forEach((url) => {
-      URL.revokeObjectURL(url);
+    div.classList.add("d-flex", "items-start", "gap-3", "item-image-product");
+    div.setAttribute("data-name", files[0].name);
+    div.innerHTML = ItemProductElement(url);
+    dataImageProduct.push({
+      metadata: {
+        sizes: [],
+      },
+      file: files[0],
     });
+    cardPhotos.appendChild(div);
   };
+  uploadPhotosFile.addEventListener("change", onRenderPhotos);
 
   const mutationCardPhotosProduct = () => {
-    const itemImageProducts = document.querySelectorAll(".item-image-product");
     const itemBtnCloseImages = document.querySelectorAll(".btn-close-image");
+    const itemBtnAddSizeQuantity = document.querySelectorAll(
+      ".btn-add-size-quantity"
+    );
+    const itemBtnRemoveSizeQuantity = document.querySelectorAll(
+      ".btn-remove-size-quantity"
+    );
+    itemBtnRemoveSizeQuantity.forEach((item) => {
+      item.onclick = () => {
+        item.parentElement.remove();
+      };
+    });
+    itemBtnAddSizeQuantity.forEach((item) => {
+      item.onclick = () => {
+        const listSizeQuantity = item.parentElement.parentElement.querySelector(
+          ".list-size-quantity"
+        );
+        const color =
+          item.parentElement.parentElement.parentElement.querySelector(
+            ".color-product"
+          );
+        const size = item.parentElement.querySelector(".size-product");
+        const quantity = item.parentElement.querySelector(".quantity-product");
+        let countList = listSizeQuantity.childElementCount;
+        const li = document.createElement("li");
+        const nameFile = item.closest(".item-image-product").dataset.name;
+        li.innerHTML = `
+          <span>Kích thước: <b class="item-size">${size.value}</b></span>
+          <span class="mx-4">Số lượng: <b class="item-quantity">${quantity.value}</b></span>
+          <span class="btn-remove-size-quantity" style="cursor: pointer">
+              <i class="bi bi-x text-danger fs-5"></i>
+          </span>
+        `;
+        if (!color.value) {
+          utils.showNotification({
+            message: "Bạn cần phải thêm màu cho sản phẩm",
+            status: "warning",
+          });
+          return;
+        }
+        if (!quantity.value) {
+          utils.showNotification({
+            message: "Bạn cần phải thêm số lượng cho sản phẩm",
+            status: "warning",
+          });
+          return;
+        }
+        if (!(countList >= 5)) {
+          dataImageProduct.forEach((item) => {
+            if (item.file.name == nameFile) {
+              item.metadata.color = color.value;
+              item.metadata.sizes.push({
+                size: size.value,
+                quantity: quantity.value,
+              });
+            }
+          });
+          console.log(dataImageProduct);
+          listSizeQuantity.appendChild(li);
+          color.readOnly = true;
+          quantity.value = null;
+        } else {
+          utils.showNotification({
+            message: "Chỉ có thể thêm tối đa 5 kích thước",
+            status: "warning",
+          });
+        }
+      };
+    });
     btnSaveChanges.addEventListener("click", () => {
       utils.showNotification({
         message: "Đã thay đổi",
@@ -199,30 +296,33 @@ const shop = () => {
     });
     itemBtnCloseImages.forEach((item) => {
       item.onclick = () => {
-        item.parentElement.remove();
-        const imgUrl = item.parentElement.querySelector("img").src;
+        item.parentElement.parentElement.remove();
+        const imgUrl =
+          item.parentElement.parentElement.querySelector("img").src;
         URL.revokeObjectURL(imgUrl);
       };
     });
-    itemImageProducts.forEach((item) => {
-      item.onclick = () => {
-        const imageUrl = item.querySelector("img").src;
-        const color = item.querySelector("#color-image-product");
-        const quantity = item.querySelector("#quantity-image-product");
-        const size = item.querySelector("#size-image-product");
-        // set info for modal
-        imageProductModal.src = imageUrl;
-        colorModal.value = color.textContent;
-        quantityModal.value = quantity.textContent;
-        sizeModal.value = size.textContent;
-        // save changes
-        btnSaveChanges.onclick = () => {
-          color.innerText = colorModal.value;
-          quantity.innerText = quantityModal.value;
-          size.innerText = sizeModal.value;
-        };
-      };
-    });
+  };
+  btnConfirmDelete.onclick = async () => {
+    try {
+      const { id } = btnConfirmDelete.dataset;
+      const res = await fetch(utils.getCurrentUrl() + "/product/delete", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ _id: id }),
+      });
+      if (res.ok) {
+        utils.showNotification({
+          message: "Đã xóa sản phẩm",
+          status: "success",
+        });
+        handleRenderProduct();
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
   const mutationListProduct = () => {
     const itemBtnEditProducts = document.querySelectorAll(
@@ -240,20 +340,7 @@ const shop = () => {
     itemBtnRemoveProducts.forEach((item) => {
       item.onclick = async (e) => {
         const { id } = e.target.closest("tr").dataset;
-        const res = await fetch(utils.getCurrentUrl() + "/product/delete", {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ _id: id }),
-        });
-        if (res.ok) {
-          utils.showNotification({
-            message: "Đã xóa sản phẩm",
-            status: "success",
-          });
-          handleRenderProduct();
-        }
+        btnConfirmDelete.dataset.id = id;
       };
     });
   };

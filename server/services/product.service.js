@@ -1,4 +1,6 @@
 import _product from "../models/product.model.js";
+import _photo from "../models/photo.model.js";
+import { checkId } from "../utils/check_id.js";
 const getAllProductService = async ({ page, pageSize }) => {
   try {
     const skip = (page - 1) * pageSize;
@@ -6,11 +8,43 @@ const getAllProductService = async ({ page, pageSize }) => {
       .find({})
       .skip(skip)
       .limit(pageSize)
-      .sort({ createdAt: -1 });
+      .sort({ createdAt: -1 })
+      .populate("photos");
     return {
       status: 200,
       message: "Geted list product",
       element: products,
+    };
+  } catch (error) {
+    console.log(error);
+  }
+};
+const searchProductService = async ({ querySearch, order }) => {
+  try {
+    if (!querySearch) {
+      return {
+        message: "No result is found",
+        status: 404,
+      };
+    }
+    let resultsProducts = await _product.find({
+      name: { $regex: querySearch, $options: "i" },
+    });
+    if (order === "suggest") {
+      const firstWord = querySearch.split(" ")[0];
+      resultsProducts = await _product.find(
+        {
+          name: {
+            $regex: new RegExp(`^${firstWord}`), //query firstWord
+            $options: "i",
+          },
+        },
+        "name"
+      ); //Get fieldName
+    }
+    return {
+      status: 200,
+      element: resultsProducts,
     };
   } catch (error) {
     console.log(error);
@@ -50,14 +84,36 @@ const addProductService = async ({
 };
 const updateProductService = async ({ _id, data }) => {
   try {
+    // Check id invalid
+    if (checkId(_id)) {
+      return {
+        status: 500,
+        message: "_id product invalid",
+      };
+    }
     const product = await _product.findById(_id);
-    const isUpdate = await product.updateOne({ $set: data });
-    if (!isUpdate) {
+    if (!product) {
       return {
         status: 404,
         message: "Product not found!",
       };
     }
+    if (!!data.photos) {
+      // Check id invalid
+      if (checkId(data.photos[0])) {
+        return {
+          status: 500,
+          message: "_id photo invalid",
+        };
+      }
+      await product.updateOne({ $addToSet: { photos: data.photos } });
+      return {
+        status: 200,
+        message: "Updated successfully!",
+        element: data,
+      };
+    }
+    await product.updateOne({ $set: data });
     return {
       status: 200,
       message: "Updated successfully!",
@@ -69,8 +125,13 @@ const updateProductService = async ({ _id, data }) => {
 };
 const deleteProductService = async ({ _id }) => {
   try {
-    const isDelete = await _product.findByIdAndDelete(_id);
-    if (!isDelete) {
+    const isDtProduct = await _product.findByIdAndDelete(_id);
+    const { photos } = isDtProduct._doc;
+    const dlPhoto = photos.map(
+      async (item) => await _photo.deleteMany({ _id: item })
+    );
+    const isDtPhoto = await Promise.all(dlPhoto);
+    if (!(isDtProduct && isDtPhoto)) {
       return {
         status: 404,
         message: "Product not found!",
@@ -89,4 +150,5 @@ export {
   getAllProductService,
   updateProductService,
   deleteProductService,
+  searchProductService,
 };

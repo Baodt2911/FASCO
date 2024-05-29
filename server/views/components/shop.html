@@ -18,6 +18,7 @@
             type="number"
             id="price-product"
             class="form-control"
+            placeholder="$"
             required
           />
         </div>
@@ -73,41 +74,19 @@
       style="height: 90vh"
     >
       <p class="fs-4">Phân loại sản phẩm</p>
-      <div class="d-flex column-gap-3 mb-3 align-items-end">
-        <div class="col-5">
-          <label for="color-product" class="form-label">Màu sắc</label>
-          <input type="text" id="color-product" class="form-control" />
-        </div>
-        <div class="col-4">
-          <label for="quantity-product" class="form-label">Số lượng</label>
-          <input type="number" id="quantity-product" class="form-control" />
-        </div>
-        <div class="d-flex flex-column col-2">
-          <label for="size-product">Kích thước</label>
-          <select class="form-select mt-1" id="size-product">
-            <option value="S">S</option>
-            <option value="M">M</option>
-            <option value="L">L</option>
-            <option value="XL">XL</option>
-            <option value="XXL">XXL</option>
-          </select>
-        </div>
-      </div>
-      <button class="btn btn-primary" id="upload">Upload</button>
       <div class="col-12">
-        <label for="upload-photos" class="form-label">Ảnh sản phẩm</label>
+        <label for="upload-photos-file" class="form-label">Ảnh sản phẩm</label>
         <input
           class="form-control"
           type="file"
-          multiple
-          id="upload-photos"
+          id="upload-photos-file"
           accept=".png, .jpg, .svg"
         />
       </div>
       <div id="card-photos-product" class="mt-2 row row-gap-4 g-4"></div>
     </div>
   </div>
-  <!-- Full screen modal show image -->
+  <!-- Modal show image -->
   <div class="modal fade" id="modal-show_image">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
@@ -239,6 +218,35 @@
             data-bs-dismiss="modal"
           >
             Lưu và thay đổi
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Modal delete product  -->
+  <div class="modal fade" id="modal-delete-product">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header"><h3>Thông báo</h3></div>
+        <div class="modal-body">
+          <!-- Content modal  -->
+          <p>Bạn có chắc chắn muốn xóa sản phẩm này không ?</p>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Hủy
+          </button>
+          <button
+            type="button"
+            class="btn btn-primary"
+            id="btn-confirm-delete"
+            data-bs-dismiss="modal"
+          >
+            Xác nhận
           </button>
         </div>
       </div>

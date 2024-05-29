@@ -7,7 +7,12 @@ import cookieParser from "cookie-parser";
 import createHttpError from "http-errors";
 import { fileURLToPath } from "url";
 import path, { dirname } from "path";
-import { userRouter, otpRouter, productRouter } from "./routes/index.js";
+import {
+  userRouter,
+  otpRouter,
+  productRouter,
+  photoRouter,
+} from "./routes/index.js";
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -30,6 +35,8 @@ app.use("/dashboard", express.static(path.join(__dirname, "views")));
 app.use("/auth", userRouter);
 app.use("/otp", otpRouter);
 app.use("/product", productRouter);
+app.use("/photo", photoRouter);
+
 app.use((req, res, next) => {
   next(createHttpError.NotFound("Not Found!"));
 });

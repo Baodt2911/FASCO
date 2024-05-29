@@ -58,7 +58,7 @@ const utils = (function () {
       `;
       setTimeout(() => {
         notification.classList.remove("show-notification");
-      }, 2000);
+      }, 2500);
     },
   };
 })();
