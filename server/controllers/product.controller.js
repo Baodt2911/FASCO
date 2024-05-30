@@ -2,15 +2,17 @@ import {
   addProductService,
   deleteProductService,
   getAllProductService,
+  getDetailProductService,
   searchProductService,
   updateProductService,
 } from "../services/product.service.js";
 const getAllProductController = async (req, res) => {
   try {
-    const { page = 1, pageSize = 50 } = req.query;
+    const { page = 1, pageSize = 50, sold_rate } = req.query;
     const { status, message, element } = await getAllProductService({
       page: +page,
       pageSize: +pageSize,
+      sold_rate,
     });
     res.status(status).json({
       products: element,
@@ -22,6 +24,12 @@ const getAllProductController = async (req, res) => {
 };
 const getDetailProductController = async (req, res) => {
   try {
+    const { id } = req.query;
+    const { status, message, element } = await getDetailProductService({ id });
+    res.status(status).json({
+      product: element,
+      message,
+    });
   } catch (error) {
     console.log(error);
   }
