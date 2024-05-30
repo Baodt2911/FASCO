@@ -160,7 +160,16 @@ const shop = () => {
     }
   };
   const onAddNewProduct = async (e) => {
+    if (!(name.value || price.value || brand.value)) {
+      return;
+    }
     e.preventDefault();
+    if (dataImageProduct.length == 0) {
+      return utils.showNotification({
+        message: "Vui lòng thêm ảnh cho sản phẩm",
+        status: "warning",
+      });
+    }
     try {
       const res = await fetch(utils.getCurrentUrl() + "/product/add-new", {
         method: "POST",
@@ -228,7 +237,23 @@ const shop = () => {
     );
     itemBtnRemoveSizeQuantity.forEach((item) => {
       item.onclick = () => {
-        item.parentElement.remove();
+        const nameFile = item.closest(".item-image-product").dataset.name;
+        const size = item.parentElement.querySelector(".item-size");
+        const quantity = item.parentElement.querySelector(".item-quantity");
+        dataImageProduct.forEach((data) => {
+          if (data.file.name == nameFile) {
+            data.metadata.sizes.forEach((ItemSize, index) => {
+              if (
+                size.textContent == ItemSize.size &&
+                quantity.textContent == ItemSize.quantity
+              ) {
+                data.metadata.sizes.splice(index, 1); //remove item in dataImageProduct
+                item.parentElement.remove(); //remove item in list size quantity
+              }
+            });
+          }
+        });
+        console.log(dataImageProduct);
       };
     });
     itemBtnAddSizeQuantity.forEach((item) => {
@@ -247,9 +272,9 @@ const shop = () => {
         const nameFile = item.closest(".item-image-product").dataset.name;
         li.innerHTML = `
           <span>Kích thước: <b class="item-size">${size.value}</b></span>
-          <span class="mx-4">Số lượng: <b class="item-quantity">${quantity.value}</b></span>
-          <span class="btn-remove-size-quantity" style="cursor: pointer">
-              <i class="bi bi-x text-danger fs-5"></i>
+          <span class="mx-2">Số lượng: <b class="item-quantity">${quantity.value}</b></span>
+          <span class="btn-remove-size-quantity bg-danger fs-6 text-center rounded-circle" style="cursor: pointer">
+              <i class="bi bi-x text-white fs-5"></i>
           </span>
         `;
         if (!color.value) {
@@ -270,14 +295,22 @@ const shop = () => {
           dataImageProduct.forEach((item) => {
             if (item.file.name == nameFile) {
               item.metadata.color = color.value;
+              let isColor = false;
+              //check size in dataImageProduct already exists
+              isColor = item.metadata.sizes.some((s) => s.size == size.value);
+              if (isColor) {
+                return utils.showNotification({
+                  message: "Bạn không thể thêm trùng kích thước",
+                  status: "warning",
+                });
+              }
               item.metadata.sizes.push({
                 size: size.value,
                 quantity: quantity.value,
               });
+              listSizeQuantity.appendChild(li);
             }
           });
-          console.log(dataImageProduct);
-          listSizeQuantity.appendChild(li);
           color.readOnly = true;
           quantity.value = null;
         } else {
