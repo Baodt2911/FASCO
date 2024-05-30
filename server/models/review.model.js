@@ -13,8 +13,7 @@ const reviews = new Schema(
     },
     rate: {
       type: Number,
-      min: 1,
-      max: 5,
+      enum: [1, 2, 3, 4, 5],
       required: true,
     },
     content: {
