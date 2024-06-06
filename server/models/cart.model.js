@@ -8,8 +8,17 @@ const cart = new Schema(
     },
     products: [
       {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "products",
+        product: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "products",
+        },
+        quantity: {
+          type: Number,
+        },
+        size: {
+          type: String,
+          enum: ["S", "M", "L", "XL", "XXL"],
+        },
       },
     ],
   },
