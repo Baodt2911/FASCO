@@ -15,6 +15,30 @@ const utils = (function () {
       });
       return token.split("=")[1];
     },
+    getAccessToken: () => {
+      return window.localStorage.getItem("at");
+    },
+    parseJwt: (token) => {
+      const base64Url = token.split(".")[1];
+      const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+      const jsonPayload = decodeURIComponent(
+        atob(base64)
+          .split("")
+          .map(function (c) {
+            return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+          })
+          .join("")
+      );
+      return JSON.parse(jsonPayload);
+    },
+    isTokenExpired: (token) => {
+      const decoded = parseJwt(token);
+      const currentTime = Math.floor(Date.now() / 1000);
+      return decoded.exp < currentTime;
+    },
+    isAdmin: (token) => {
+      return utils.parseJwt(token)?.admin;
+    },
     isLoggedIn: () => {
       const isCookie = utils.checkCookie("rt");
       const pathname = window.location.pathname;
@@ -28,6 +52,19 @@ const utils = (function () {
           return;
         }
         window.location.href = "/dashboard/login.html";
+      }
+    },
+    logout: async () => {
+      try {
+        await fetch(currentUrl + "/auth/logout", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + utils.getRefreshToken(),
+          },
+        });
+      } catch (error) {
+        console.log(error);
       }
     },
     setComponent: async (element, url) => {

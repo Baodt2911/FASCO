@@ -1,5 +1,5 @@
 import mongoose, { Schema } from "mongoose";
-const reviews = new Schema(
+const review = new Schema(
   {
     userId: {
       type: mongoose.Schema.Types.ObjectId,
@@ -24,4 +24,4 @@ const reviews = new Schema(
     timestamps: true,
   }
 );
-export default mongoose.model("reviews", reviews);
+export default mongoose.model("review", review);

@@ -4,32 +4,31 @@ import shop from "./shop.js";
 import orders_sell from "./orders-sell.js";
 import comments from "./comment.js";
 import promotion from "./promotion.js";
-// utils.isLoggedIn();
+import { io } from "https://cdn.socket.io/4.7.5/socket.io.esm.min.js";
+utils.isLoggedIn();
 const currentUrl = utils.getCurrentUrl();
+const socket = io(currentUrl);
+socket.on("connect", () => {
+  console.log("Connected to server");
+});
 const btnLogout = document.getElementById("btn-logout");
 const navItems = document.querySelectorAll(".nav-item");
 const content = document.getElementById("content");
-utils.setComponent(content, "./components/shop.html");
+utils.setComponent(content, "./components/home.html");
 btnLogout.addEventListener("click", async () => {
   try {
-    console.log(utils.getRefreshToken());
-
-    await fetch(currentUrl + "/auth/logout", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + utils.getRefreshToken(),
-      },
-    });
+    await utils.logout();
     utils.isLoggedIn();
+    window.localStorage.removeItem("at");
   } catch (error) {
     console.log(error);
   }
 });
-let pageActive = "shop";
+let pageActive = "home";
 const changePage = (e) => {
   e.preventDefault();
   const page = e.target.closest(".nav-item").dataset.page;
+  socket.emit("chat", page);
   pageActive = page;
   const urls = {
     shop: "./components/shop.html",

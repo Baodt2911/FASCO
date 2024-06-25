@@ -26,7 +26,16 @@ btnLogin.addEventListener("click", async (e) => {
         password.classList.add("is-invalid");
       }
     } else {
-      utils.isLoggedIn();
+      if (data.user.admin) {
+        utils.isLoggedIn();
+        window.localStorage.setItem("at", data.accessToken);
+      } else {
+        await utils.logout();
+        utils.showNotification({
+          message: "Bạn không có quyền truy cập",
+          status: "warning",
+        });
+      }
     }
   } catch (error) {
     console.log(error);

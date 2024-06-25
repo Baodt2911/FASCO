@@ -4,6 +4,7 @@ import _refreshToken from "../models/refreshToken.model.js";
 import _otp from "../models/otp.model.js";
 import { validOtpService } from "./otp.service.js";
 import jwt from "jsonwebtoken";
+import { createCartService } from "./cart.service.js";
 const generateAccessToken = (payload) => {
   return jwt.sign(
     {
@@ -12,7 +13,7 @@ const generateAccessToken = (payload) => {
     },
     process.env.ACCESSTOKEN_KEY,
     {
-      expiresIn: "2m",
+      expiresIn: "1 day",
     }
   );
 };
@@ -105,6 +106,7 @@ const registerService = async ({
         phone,
         password: hashPassword,
       });
+      await createCartService({ userId: user._doc._id });
       if (user) {
         await _otp.deleteMany({ email });
       }

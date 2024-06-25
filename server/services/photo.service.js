@@ -40,7 +40,6 @@ const uploadService = async ({ _id, files, metadatas }) => {
           sizes,
         });
         if (idPhoto) {
-          console.log(idPhoto);
           await updateProductService({
             _id,
             data: {

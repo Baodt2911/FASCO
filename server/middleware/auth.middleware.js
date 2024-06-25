@@ -38,7 +38,7 @@ const verfifyRefreshToken = (req, res, next) => {
 };
 const checkAdmin = (req, res, next) => {
   verfifyAccessToken(req, res, () => {
-    if (req.user.isAdmin) {
+    if (req.user.admin) {
       next();
     } else {
       res.status(403).json({

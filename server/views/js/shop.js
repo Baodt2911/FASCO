@@ -107,15 +107,32 @@ const shop = () => {
         console.log("Không lấy được danh sách sản phẩm");
         return;
       }
+      const sex = {
+        men: "Nam",
+        women: "Nữ",
+      };
+      const types = {
+        clothes: "Quần áo",
+        hats: "Mũ",
+        sandal: "Dép Sandal",
+        belt: "Thắt lưng",
+        bags: "Túi",
+        shoe: "Giày",
+        sunglasses: "Kính",
+        beachwear: "Đồ bơi",
+        other: "Khác",
+      };
       const htmls = products.map(
         (product) => `
         <tr data-id=${product._id}>
           <td data-name=${product.name} >${product.name}</td>
               <td data-brand=${product.brand} >${product.brand}</td>
               <td data-price=${product.price} >${product.price}</td>
-              <td data-sex=${product.sex} >${product.sex}</td>
-              <td data-type=${product.type} >${product.type}</td>
-              <td data-description=${product.description} >${product.description}</td>
+              <td data-sex=${product.sex} >${sex[product.sex]}</td>
+              <td data-type=${product.type} >${types[product.type]}</td>
+              <td data-description=${product.description} >${
+          product.description
+        }</td>
               <td>
                 <div class="d-flex justify-content-end column-gap-3">
                 <button class="rounded border item-btn-remove-product bg-danger text-white px-2" data-bs-toggle="modal"
@@ -143,6 +160,9 @@ const shop = () => {
         utils.getCurrentUrl() + `/photo/upload/${_id}`,
         {
           method: "POST",
+          headers: {
+            Authorization: `Bearer ${utils.getAccessToken()}`,
+          },
           body: formData,
         }
       );
@@ -175,6 +195,7 @@ const shop = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${utils.getAccessToken()}`,
         },
         body: JSON.stringify({
           name: name.value,
@@ -343,6 +364,7 @@ const shop = () => {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${utils.getAccessToken()}`,
         },
         body: JSON.stringify({ _id: id }),
       });
