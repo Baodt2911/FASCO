@@ -6,18 +6,22 @@ const cart = new Schema(
       ref: "user",
       require: true,
     },
-    products: [
+    carts: [
       {
         product: {
           type: mongoose.Schema.Types.ObjectId,
           ref: "products",
         },
-        quantity: {
-          type: Number,
+        color: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "photos",
         },
         size: {
           type: String,
           enum: ["S", "M", "L", "XL", "XXL"],
+        },
+        quantity: {
+          type: Number,
         },
       },
     ],
