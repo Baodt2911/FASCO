@@ -16,6 +16,7 @@ import {
   photoRouter,
   cartRouter,
 } from "./routes/index.js";
+import socketServer from "./sockets/index.js";
 dotenv.config();
 const app = express();
 const server = http.createServer(app);
@@ -23,12 +24,7 @@ const PORT = process.env.PORT || 5000;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const io = new Server(server);
-io.on("connection", (socket) => {
-  console.log("...Connected to socket.io server...");
-  socket.on("chat", async (data) => {
-    console.log("mess", data);
-  });
-});
+socketServer(io);
 app.use(morgan("combined"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

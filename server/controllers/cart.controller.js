@@ -1,7 +1,7 @@
 import {
   addToCartService,
   getCartService,
-  removeProductCartService,
+  removeFromCartService,
 } from "../services/cart.service.js";
 const getCartController = async (req, res) => {
   try {
@@ -27,11 +27,11 @@ const addToCartController = async (req, res) => {
     console.log(error);
   }
 };
-const removeProductCartController = async (req, res) => {
+const removeFromCartController = async (req, res) => {
   try {
     const { userId } = req.user;
     const { carts } = req.body;
-    const { status, message } = await removeProductCartService({
+    const { status, message } = await removeFromCartService({
       userId,
       carts,
     });
@@ -41,4 +41,4 @@ const removeProductCartController = async (req, res) => {
   }
 };
 
-export { addToCartController, getCartController, removeProductCartController };
+export { addToCartController, getCartController, removeFromCartController };

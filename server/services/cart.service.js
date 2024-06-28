@@ -89,7 +89,7 @@ const addToCartService = async ({ userId, carts }) => {
     console.log(error);
   }
 };
-const removeProductCartService = async ({ userId, carts }) => {
+const removeFromCartService = async ({ userId, carts }) => {
   try {
     const isRemove = await _cart.findOneAndUpdate(
       {
@@ -123,5 +123,5 @@ export {
   getCartService,
   createCartService,
   addToCartService,
-  removeProductCartService,
+  removeFromCartService,
 };
