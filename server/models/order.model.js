@@ -1,11 +1,11 @@
 import mongoose, { Schema } from "mongoose";
-const cart = new Schema({
+const order = new Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "user",
     required: true,
   },
-  carts: [
+  list: [
     {
       product: {
         type: mongoose.Schema.Types.ObjectId,
@@ -24,5 +24,17 @@ const cart = new Schema({
       },
     },
   ],
+  total: {
+    type: Number,
+    required: true,
+  },
+  status: {
+    type: String,
+    enum: ["paid", "process", "completed"],
+  },
+  date: {
+    type: Date,
+    default: Date.now,
+  },
 });
-export default mongoose.model("cart", cart);
+export default mongoose.model("order", order);
