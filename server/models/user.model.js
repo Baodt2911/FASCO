@@ -25,6 +25,9 @@ const user = new Schema(
         message: (props) => `${props.value} không đủ 10 chữ số!`,
       },
     },
+    adress: {
+      type: String,
+    },
     password: {
       type: String,
     },
