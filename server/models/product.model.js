@@ -26,11 +26,6 @@ const products = new Schema(
       type: String,
     },
     photos: [{ type: mongoose.Schema.Types.ObjectId, ref: "photos" }],
-    sold_rate: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "sold_rate",
-      required: true,
-    },
   },
   {
     timestamps: true,

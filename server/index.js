@@ -15,6 +15,11 @@ import {
   productRouter,
   photoRouter,
   cartRouter,
+  reviewRouter,
+  saleRouter,
+  orderRouter,
+  paymentRouter,
+  soldRateRouter,
 } from "./routes/index.js";
 import socketServer from "./sockets/index.js";
 dotenv.config();
@@ -30,7 +35,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(
   cors({
-    origin: `http://localhost:${PORT}`,
+    origin: [`http://localhost:${PORT}`, "http://127.0.0.1:5500"],
     credentials: true,
   })
 );
@@ -45,6 +50,12 @@ app.use("/otp", otpRouter);
 app.use("/product", productRouter);
 app.use("/photo", photoRouter);
 app.use("/cart", cartRouter);
+app.use("/review", reviewRouter);
+app.use("/sale", saleRouter);
+app.use("/order", orderRouter);
+app.use("/payment", paymentRouter);
+app.use("/sold_rate", soldRateRouter);
+
 app.use((req, res, next) => {
   next(createHttpError.NotFound("Not Found!"));
 });

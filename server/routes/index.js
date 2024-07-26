@@ -3,9 +3,11 @@ import otpRouter from "./otp.route.js";
 import productRouter from "./product.route.js";
 import photoRouter from "./photo.route.js";
 import cartRouter from "./cart.route.js";
-import reviewRouter from "./photo.route.js";
-import finishedProductsRouter from "./finished_products.route.js";
-
+import reviewRouter from "./review.route.js";
+import saleRouter from "./sale.route.js";
+import orderRouter from "./order.route.js";
+import paymentRouter from "./payment.route.js";
+import soldRateRouter from "./sold_rate.route.js";
 export {
   userRouter,
   otpRouter,
@@ -13,5 +15,8 @@ export {
   photoRouter,
   cartRouter,
   reviewRouter,
-  finishedProductsRouter,
+  saleRouter,
+  orderRouter,
+  paymentRouter,
+  soldRateRouter,
 };

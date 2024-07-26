@@ -2,25 +2,15 @@ import _product from "../models/product.model.js";
 import _photo from "../models/photo.model.js";
 import _soldRate from "../models/sold_rate.model.js";
 import { checkId } from "../utils/check_id.js";
-import { createSoldRate } from "./sold_rate.service.js";
-const getAllProductService = async ({ page, pageSize, sold_rate }) => {
+const getAllProductService = async ({ page, pageSize }) => {
   try {
     const skip = (page - 1) * pageSize;
-    let products = await _product
+    const products = await _product
       .find({})
       .skip(skip)
       .limit(pageSize)
       .sort({ createdAt: -1 })
       .populate("photos");
-    if (sold_rate) {
-      products = await _product
-        .find({})
-        .skip(skip)
-        .limit(pageSize)
-        .sort({ createdAt: -1 })
-        .populate("photos")
-        .populate("sold_rate");
-    }
     return {
       status: 200,
       message: "Geted list product",
@@ -32,14 +22,18 @@ const getAllProductService = async ({ page, pageSize, sold_rate }) => {
 };
 const getDetailProductService = async ({ id }) => {
   try {
-    const product = await _product
-      .findById(id)
-      .populate("photos")
-      .populate("sold_rate");
+    // Check id invalid
+    if (checkId(id)) {
+      return {
+        status: 500,
+        message: "_id product invalid",
+      };
+    }
+    const product = await _product.findById(id).populate("photos");
     if (!product) {
       return {
-        message: "No result is found",
         status: 404,
+        message: "No result is found",
       };
     }
     return {
@@ -93,7 +87,6 @@ const addProductService = async ({
   description,
 }) => {
   try {
-    const sold_rate = await createSoldRate();
     const isProduct = await _product.create({
       name,
       brand,
@@ -101,7 +94,6 @@ const addProductService = async ({
       type,
       sex,
       description,
-      sold_rate,
     });
     if (isProduct) {
       return {
@@ -161,13 +153,20 @@ const updateProductService = async ({ _id, data }) => {
 };
 const deleteProductService = async ({ _id }) => {
   try {
+    // Check id invalid
+    if (checkId(_id)) {
+      return {
+        status: 500,
+        message: "_id product invalid",
+      };
+    }
     const isDtProduct = await _product.findByIdAndDelete(_id);
-    const { photos, sold_rate } = isDtProduct._doc;
+    const { photos } = isDtProduct._doc;
     const dlPhoto = photos.map(
       async (item) => await _photo.deleteMany({ _id: item })
     );
     const isDtPhoto = await Promise.all(dlPhoto);
-    const isDtSoldRate = await _soldRate.findByIdAndDelete(sold_rate);
+    const isDtSoldRate = await _soldRate.findByIdAndDelete(isDtProduct);
     if (!(isDtProduct && isDtPhoto && isDtSoldRate)) {
       return {
         status: 404,

@@ -1,21 +1,29 @@
 import mongoose, { Schema } from "mongoose";
-const payment = new Schema({
-  orderId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "order",
-    required: true,
+const payment = new Schema(
+  {
+    orderId: {
+      type: String,
+      required: true,
+    },
+    captureId: {
+      type: String,
+    },
+    method: {
+      type: String,
+      required: true,
+    },
+    amount: {
+      type: Number,
+      required: true,
+    },
+    status: {
+      type: String,
+      enum: ["pending", "captured", "failed", "refunded", "canceled"],
+      default: "pending",
+    },
   },
-  method: {
-    type: String,
-    required: true,
-  },
-  status: {
-    type: String,
-    enum: ["paid", "unpaid"],
-  },
-  date: {
-    type: Date,
-    default: Date.now,
-  },
-});
+  {
+    timestamps: true,
+  }
+);
 export default mongoose.model("payment", payment);
