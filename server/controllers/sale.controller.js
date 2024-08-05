@@ -5,10 +5,11 @@ import {
 
 const getMonthSaleController = async (req, res) => {
   try {
-    const { start_date, end_date } = req.query;
+    const { start_date, end_date, status_order } = req.query;
     const { status, message, element } = await getMonthSaleService({
       start_date,
       end_date,
+      status_order,
     });
     res.status(status).json({
       message,
@@ -20,12 +21,12 @@ const getMonthSaleController = async (req, res) => {
 };
 const getDaySaleController = async (req, res) => {
   try {
-    const { day, month, year } = req.query;
-    console.log({ day, month, year });
+    const { day, month, year, status_order } = req.query;
     const { status, message, element } = await getDaySaleService({
       day: +day,
       month: +month,
       year: +year,
+      status_order,
     });
     res.status(status).json({
       message,
