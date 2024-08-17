@@ -17,6 +17,6 @@ router.post("/login", loginController);
 router.post("/register", registerController);
 router.post("/logout", verfifyRefreshToken, logoutController);
 router.post("/reset-password", verfifyAccessToken, resetPasswordController);
-router.post("/refresh-token", refreshTokenController);
+router.post("/refresh-token", verfifyRefreshToken, refreshTokenController);
 router.post("/update-profile", verfifyAccessToken, updateUserController);
 export default router;

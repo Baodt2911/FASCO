@@ -17,28 +17,47 @@ const generateAccessToken = (payload) => {
     }
   );
 };
-const generateRefreshToken = async (payload) => {
-  const currentDate = new Date();
-  const expiresIn =
-    Math.floor(currentDate.getTime() / 1000) + 15 * 24 * 60 * 60;
-  const refreshToken = jwt.sign(
-    {
-      userId: payload._id || payload.userId,
-      admin: payload.admin,
-    },
-    process.env.REFRESHTOKEN_KEY,
-    {
-      expiresIn,
-    }
-  );
-  //Save refreshToken to DB
-  const newRefreshToken = new _refreshToken({
-    userId: payload._id || payload.userId,
-    refreshToken,
-    expiresAt: new Date(expiresIn * 1000), // Convert seconds to milliseconds
-  });
-  await newRefreshToken.save();
-  return refreshToken;
+const generateRefreshToken = (payload) => {
+  try {
+    const currentDate = new Date();
+    const expiresIn =
+      Math.floor(currentDate.getTime() / 1000) + 15 * 24 * 60 * 60;
+    const refreshToken = jwt.sign(
+      {
+        userId: payload._id || payload.userId,
+        admin: payload.admin,
+      },
+      process.env.REFRESHTOKEN_KEY,
+      {
+        expiresIn,
+      }
+    );
+    return refreshToken;
+  } catch (error) {
+    console.log(error);
+  }
+};
+const saveRefreshToken = async ({ refreshToken, payload }) => {
+  try {
+    const currentDate = new Date();
+    const expiresIn =
+      Math.floor(currentDate.getTime() / 1000) + 15 * 24 * 60 * 60;
+    return await _refreshToken.findOneAndUpdate(
+      {
+        userId: payload._id || payload.userId,
+      },
+      {
+        refreshToken,
+        expiresAt: new Date(expiresIn * 1000), // Convert seconds to milliseconds
+      },
+      {
+        upsert: true,
+        new: true,
+      }
+    );
+  } catch (error) {
+    console.log(error);
+  }
 };
 const loginService = async ({ email, password }) => {
   try {
@@ -58,7 +77,8 @@ const loginService = async ({ email, password }) => {
       };
     }
     const accessToken = generateAccessToken(other);
-    const refreshToken = await generateRefreshToken(other);
+    const refreshToken = generateRefreshToken(other);
+    await saveRefreshToken({ refreshToken, payload: other });
     return {
       status: 200,
       message: "Login successfully",
@@ -155,7 +175,7 @@ const updateUserService = async ({ _id, data }) => {
     console.log(error);
   }
 };
-const refreshTokenService = async ({ refreshToken }) => {
+const refreshTokenService = async ({ refreshToken, user }) => {
   try {
     const isRefreshToken = await _refreshToken.findOne({ refreshToken });
     if (!isRefreshToken) {
@@ -164,10 +184,10 @@ const refreshTokenService = async ({ refreshToken }) => {
         message: "Refresh token is'nt valid",
       };
     }
-    const decoded = jwt.verify(refreshToken, process.env.REFRESHTOKEN_KEY);
     // Create new refreshToken, accessToken
-    const newAccessToken = generateAccessToken(decoded);
-    const newRefreshToken = await generateRefreshToken(decoded);
+    const newAccessToken = generateAccessToken(user);
+    const newRefreshToken = generateRefreshToken(user);
+    await saveRefreshToken({ refreshToken: newRefreshToken, payload: user });
     return {
       status: 200,
       message: "Refresh token successfully",

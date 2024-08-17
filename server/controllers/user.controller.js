@@ -7,7 +7,7 @@ import {
   updateUserService,
 } from "../services/user.service.js";
 
-const loginController = async (req, res, next) => {
+const loginController = async (req, res) => {
   try {
     const { email, password } = req.body;
     const { status, element, message } = await loginService({
@@ -35,7 +35,7 @@ const loginController = async (req, res, next) => {
     console.log(error);
   }
 };
-const registerController = async (req, res, next) => {
+const registerController = async (req, res) => {
   try {
     const { firstName, lastName, email, phone, password, otp } = req.body;
     const { status, element, message } = await registerService({
@@ -53,7 +53,7 @@ const registerController = async (req, res, next) => {
     console.log(error);
   }
 };
-const logoutController = async (req, res, next) => {
+const logoutController = async (req, res) => {
   try {
     const { authorization } = req.headers;
     const refreshToken = authorization.split(" ")[1];
@@ -68,7 +68,7 @@ const logoutController = async (req, res, next) => {
     console.log(error);
   }
 };
-const updateUserController = async (req, res, next) => {
+const updateUserController = async (req, res) => {
   try {
     const { _id, ...data } = req.body;
     const { status, element, message } = await updateUserService({
@@ -83,11 +83,13 @@ const updateUserController = async (req, res, next) => {
     console.log(error);
   }
 };
-const refreshTokenController = async (req, res, next) => {
+const refreshTokenController = async (req, res) => {
   try {
+    const user = req.user;
     const refreshToken = req.headers.authorization.split(" ")[1];
     const { status, element, message } = await refreshTokenService({
       refreshToken,
+      user,
     });
     const currentDate = new Date();
     //Save refreshtoken to cookie
@@ -107,7 +109,7 @@ const refreshTokenController = async (req, res, next) => {
     console.log(error);
   }
 };
-const resetPasswordController = async (req, res, next) => {
+const resetPasswordController = async (req, res) => {
   try {
     const { email, password, otp } = req.body;
     const { status, message } = await resetPasswordService({
