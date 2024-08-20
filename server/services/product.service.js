@@ -161,18 +161,18 @@ const deleteProductService = async ({ _id }) => {
       };
     }
     const isDtProduct = await _product.findByIdAndDelete(_id);
-    const { photos } = isDtProduct._doc;
-    const dlPhoto = photos.map(
-      async (item) => await _photo.deleteMany({ _id: item })
-    );
-    const isDtPhoto = await Promise.all(dlPhoto);
-    const isDtSoldRate = await _soldRate.findByIdAndDelete(isDtProduct);
-    if (!(isDtProduct && isDtPhoto && isDtSoldRate)) {
+    if (!isDtProduct) {
       return {
         status: 404,
         message: "Product not found!",
       };
     }
+    const { photos } = isDtProduct?._doc;
+    const dlPhoto = photos.map(
+      async (item) => await _photo.deleteMany({ _id: item })
+    );
+    await Promise.all(dlPhoto);
+    await _soldRate.findByIdAndDelete(isDtProduct);
     return {
       status: 200,
       message: "Deleted successfully!",
