@@ -60,7 +60,9 @@ const logoutController = async (req, res) => {
     const { status, message } = await logoutService({
       refreshToken,
     });
-    res.clearCookie("rt");
+    if (status == 200) {
+      res.clearCookie("rt");
+    }
     res.status(status).json({
       message,
     });
