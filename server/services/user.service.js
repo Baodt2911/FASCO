@@ -13,15 +13,12 @@ const generateAccessToken = (payload) => {
     },
     process.env.ACCESSTOKEN_KEY,
     {
-      expiresIn: "1 day",
+      expiresIn: 60,
     }
   );
 };
 const generateRefreshToken = (payload) => {
   try {
-    const currentDate = new Date();
-    const expiresIn =
-      Math.floor(currentDate.getTime() / 1000) + 15 * 24 * 60 * 60;
     const refreshToken = jwt.sign(
       {
         userId: payload._id || payload.userId,
@@ -29,7 +26,7 @@ const generateRefreshToken = (payload) => {
       },
       process.env.REFRESHTOKEN_KEY,
       {
-        expiresIn,
+        expiresIn: "15d",
       }
     );
     return refreshToken;
