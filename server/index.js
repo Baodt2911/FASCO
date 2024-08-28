@@ -41,7 +41,7 @@ app.use(
 );
 app.use(cookieParser());
 app.get("/", (req, res) => {
-  res.send("Wellcome to FASCO");
+  res.redirect("/dashboard");
 });
 app.use("/dashboard", express.static(path.join(__dirname, "views")));
 

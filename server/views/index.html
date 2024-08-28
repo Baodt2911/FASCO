@@ -46,6 +46,21 @@
     .show-notification {
       transform: translateX(0px) !important;
     }
+    .item-change-image-modal {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to top, white, transparent);
+      opacity: 0;
+      visibility: hidden;
+      transition: 0.5s all;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .item-image-modal:hover .item-change-image-modal {
+      opacity: 1;
+      visibility: inherit;
+    }
   </style>
   <body>
     <div class="container-fluid">
@@ -131,7 +146,6 @@
                   <a class="dropdown-item" href="#">Đăng xuất</a>
                 </li>
               </ul>
-              <button class="click-me">Click me</button>
             </div>
           </div>
         </div>

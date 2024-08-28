@@ -4,66 +4,68 @@ import shop from "./shop.js";
 import orders_sell from "./orders-sell.js";
 import comments from "./comment.js";
 import promotion from "./promotion.js";
-import { io } from "https://cdn.socket.io/4.7.5/socket.io.esm.min.js";
-utils.isLoggedIn();
-const currentUrl = utils.getCurrentUrl();
-const socket = io(currentUrl, {
-  auth: {
-    token: utils.getAccessToken(),
-  },
-});
-
-socket.on("connect", () => {
-  console.log("Connected to server");
-  socket.on("get-cart", (data) => {
-    console.log("data:", data);
-  });
-  socket.emit("get-cart");
-  socket.on("message", ({ message }) => {
-    console.log("message:", message);
-  });
-});
-const click = document.querySelector(".click-me");
-click.addEventListener("click", () => {
-  const carts = {
-    product: "665f6a2fd2901d3d9c1cb79a",
-    color: "665f6a2fd2901d3d9c1cb79d",
-    size: "S",
-    quantity: 1,
-  };
-  socket.emit("add-to-cart", carts);
-});
+// import { io } from "https://cdn.socket.io/4.7.5/socket.io.esm.min.js";
+await utils.isLoggedIn();
+// const currentUrl = utils.getCurrentUrl();
+// const socket = io(currentUrl, {
+//   auth: {
+//     token: utils.getAccessToken(),
+//   },
+// });
+// click.addEventListener("click", () => {
+//   const carts = {
+//     product: "665f6a2fd2901d3d9c1cb79a",
+//     color: "665f6a2fd2901d3d9c1cb79d",
+//     size: "S",
+//     quantity: 1,
+//   };
+//   socket.emit("add-to-cart", carts);
+// });
 const btnLogout = document.getElementById("btn-logout");
 const navItems = document.querySelectorAll(".nav-item");
 const content = document.getElementById("content");
-utils.setComponent(content, "./components/home.html");
+let url = new URL(window.location.href);
+const queryString = location.search;
+let params = new URLSearchParams(queryString);
+let pageActive = params.get("page") || "home";
+const urls = {
+  shop: "./components/shop.html",
+  home: "./components/home.html",
+  orders_sell: "./components/orders-sell.html",
+  comments: "./components/comments.html",
+  promotion: "./components/promotion.html",
+};
+utils.setComponent(content, urls[pageActive]);
+const activeItemNav = (page) => {
+  navItems.forEach((item) => {
+    item.querySelector("a").classList.remove("active");
+    const pageActive = item.dataset.page;
+    if (page == pageActive) {
+      item.querySelector("a").classList.add("active");
+    }
+  });
+};
+activeItemNav(pageActive);
 btnLogout.addEventListener("click", async () => {
   try {
     await utils.logout();
-    utils.isLoggedIn();
-    window.localStorage.removeItem("at");
   } catch (error) {
     console.log(error);
   }
 });
-let pageActive = "home";
 const changePage = (e) => {
   e.preventDefault();
   const page = e.target.closest(".nav-item").dataset.page;
-  socket.emit("chat", page);
+  if (!pageActive) {
+    url.searchParams.append("page", page);
+    window.history.pushState({}, "", url);
+  }
+  url.searchParams.set("page", page);
+  window.history.pushState({}, "", url);
+
   pageActive = page;
-  const urls = {
-    shop: "./components/shop.html",
-    home: "./components/home.html",
-    orders_sell: "./components/orders-sell.html",
-    comments: "./components/comments.html",
-    promotion: "./components/promotion.html",
-  };
   utils.setComponent(content, urls[page]);
-  navItems.forEach((item) => {
-    item.querySelector("a").classList.remove("active");
-  });
-  e.target.closest("a").classList.add("active");
+  activeItemNav(page);
 };
 navItems.forEach((item) => {
   item.addEventListener("click", changePage);
@@ -78,10 +80,10 @@ const mutationContent = (mutation) => {
       shop();
       break;
     case "orders_sell":
-      orders_sell;
+      orders_sell();
       break;
     case "comments":
-      comments;
+      comments();
       break;
     case "promotion":
       promotion();
