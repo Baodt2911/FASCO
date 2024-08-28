@@ -5,8 +5,23 @@ import {
   resetPasswordService,
   logoutService,
   updateUserService,
+  isLoginService,
 } from "../services/user.service.js";
-
+const isLoginController = async (req, res) => {
+  try {
+    const { authorization } = req.headers;
+    const token = authorization.split(" ")[1];
+    const { status, element } = await isLoginService(token);
+    if (!element) {
+      res.clearCookie("rt");
+    }
+    res.status(status).json({
+      isLogin: element,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
 const loginController = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -129,6 +144,7 @@ const resetPasswordController = async (req, res) => {
 };
 
 export {
+  isLoginController,
   loginController,
   registerController,
   logoutController,

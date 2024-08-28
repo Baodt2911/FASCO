@@ -56,6 +56,23 @@ const saveRefreshToken = async ({ refreshToken, payload }) => {
     console.log(error);
   }
 };
+const isLoginService = async (refreshToken) => {
+  try {
+    const isLogin = await _refreshToken.findOne({ refreshToken });
+    if (!isLogin) {
+      return {
+        status: 404,
+        element: false,
+      };
+    }
+    return {
+      status: 200,
+      element: true,
+    };
+  } catch (error) {
+    console.log(error);
+  }
+};
 const loginService = async ({ email, password }) => {
   try {
     const isUser = await _user.findOne({ email });
@@ -236,6 +253,7 @@ const resetPasswordService = async ({ email, password, otp }) => {
 };
 
 export {
+  isLoginService,
   loginService,
   registerService,
   logoutService,
