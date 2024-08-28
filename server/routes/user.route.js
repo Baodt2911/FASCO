@@ -6,6 +6,7 @@ import {
   refreshTokenController,
   resetPasswordController,
   updateUserController,
+  isLoginController,
 } from "../controllers/user.controller.js";
 import {
   verfifyAccessToken,
@@ -15,6 +16,7 @@ import {
 const router = express.Router();
 router.post("/login", loginController);
 router.post("/register", registerController);
+router.get("/is-login", verfifyRefreshToken, isLoginController);
 router.post("/logout", verfifyRefreshToken, logoutController);
 router.post("/reset-password", verfifyAccessToken, resetPasswordController);
 router.post("/refresh-token", verfifyRefreshToken, refreshTokenController);
