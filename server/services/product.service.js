@@ -2,11 +2,31 @@ import _product from "../models/product.model.js";
 import _photo from "../models/photo.model.js";
 import _soldRate from "../models/sold_rate.model.js";
 import { checkId } from "../utils/check_id.js";
-const getAllProductService = async ({ page, pageSize }) => {
+const getAllProductService = async ({
+  page,
+  pageSize,
+  type,
+  sex,
+  min_price,
+  max_price,
+}) => {
   try {
     const skip = (page - 1) * pageSize;
+    let query = {};
+    if (type) {
+      query.type = type;
+    }
+    if (sex) {
+      query.sex = sex;
+    }
+    if (min_price && max_price) {
+      query.$and = [
+        { price: { $gte: min_price } },
+        { price: { $lte: max_price } },
+      ];
+    }
     const products = await _product
-      .find({})
+      .find(query)
       .skip(skip)
       .limit(pageSize)
       .sort({ createdAt: -1 })

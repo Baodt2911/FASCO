@@ -8,10 +8,21 @@ import {
 } from "../services/product.service.js";
 const getAllProductController = async (req, res) => {
   try {
-    const { page = 1, pageSize = 50 } = req.query;
+    const {
+      page = 1,
+      pageSize = 50,
+      type,
+      sex,
+      min_price,
+      max_price,
+    } = req.query;
     const { status, message, element } = await getAllProductService({
       page: +page,
       pageSize: +pageSize,
+      type,
+      sex,
+      min_price,
+      max_price,
     });
     res.status(status).json({
       products: element,
@@ -41,8 +52,8 @@ const searchProductController = async (req, res) => {
       order,
     });
     res.status(status).json({
+      products: element,
       message,
-      element,
     });
   } catch (error) {
     console.log(error);
