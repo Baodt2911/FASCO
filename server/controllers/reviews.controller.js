@@ -24,6 +24,7 @@ const createNewReviewController = async (req, res) => {
   try {
     const { userId } = req.user;
     const { idProduct, id_list_order, orderId, rate, content } = req.body;
+    // "id_list_order" is _id in list from _orders
     const { status, message, element } = await createNewReviewService({
       userId,
       idProduct,
