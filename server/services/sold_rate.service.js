@@ -37,7 +37,6 @@ const addSoldService = async ({ idProduct }) => {
     if (!isSoldRate) {
       await _soldRate.create({
         idProduct,
-        sold: 1,
       });
     } else {
       await isSoldRate.updateOne({ $inc: { sold: 1 } });
@@ -88,4 +87,26 @@ const addRateService = async ({ idProduct }) => {
     console.log(error);
   }
 };
-export { addSoldService, addRateService, getSoldRateService };
+const deleteSoldRateService = async (_id) => {
+  try {
+    const isSoldRate = await _soldRate.findByIdAndDelete(_id);
+    if (!isSoldRate) {
+      return {
+        status: 404,
+        message: "sold rate not found",
+      };
+    }
+    return {
+      status: 200,
+      message: "deleted sold rate successfully",
+    };
+  } catch (error) {
+    console.log(error);
+  }
+};
+export {
+  addSoldService,
+  addRateService,
+  getSoldRateService,
+  deleteSoldRateService,
+};
