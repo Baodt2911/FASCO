@@ -1,7 +1,11 @@
 import _product from "../models/product.model.js";
-import _photo from "../models/photo.model.js";
-import _soldRate from "../models/sold_rate.model.js";
 import { checkId } from "../utils/check_id.js";
+import { deletePhotoService } from "./photo.service.js";
+import {
+  addSoldService,
+  getSoldRateService,
+  deleteSoldRateService,
+} from "./sold_rate.service.js";
 const getAllProductService = async ({
   page,
   pageSize,
@@ -116,6 +120,8 @@ const addProductService = async ({
       description,
     });
     if (isProduct) {
+      const { _id: idProduct } = isProduct._doc;
+      await addSoldService({ idProduct });
       return {
         status: 200,
         message: "Added successfully!",
@@ -180,19 +186,35 @@ const deleteProductService = async ({ _id }) => {
         message: "_id product invalid",
       };
     }
-    const isDtProduct = await _product.findByIdAndDelete(_id);
-    if (!isDtProduct) {
+    const isProduct = await _product.findById(_id);
+    if (!isProduct) {
       return {
         status: 404,
         message: "Product not found!",
       };
     }
-    const { photos } = isDtProduct?._doc;
-    const dlPhoto = photos.map(
-      async (item) => await _photo.deleteMany({ _id: item })
+    const { photos, _id: idProduct } = isProduct?._doc;
+    const isSoldRate = await getSoldRateService({ idProduct });
+    if (!isSoldRate) {
+      const { status, message } = isSoldRate;
+      return {
+        status,
+        message,
+      };
+    }
+    const isDeletePhotos = photos.map((item) => deletePhotoService(item));
+    const deleteAllPhotos = await Promise.all(isDeletePhotos);
+    const isDeleteAllPhoto = deleteAllPhotos.every(
+      (item) => item.status === 200
     );
-    await Promise.all(dlPhoto);
-    await _soldRate.findByIdAndDelete(isDtProduct);
+    if (!isDeleteAllPhoto) {
+      return {
+        status: 500,
+        message: "Internal Server Error",
+      };
+    }
+    await isProduct.deleteOne();
+    await deleteSoldRateService(isSoldRate?.element?._id);
     return {
       status: 200,
       message: "Deleted successfully!",

@@ -232,16 +232,16 @@ const shop = () => {
         (product) => `
         <tr data-id=${product._id} >
               <td>
-                <img src=${product.photos[0].url} 
-                alt=${product.photos[0].color} 
+                <img src=${product.photos[0]?.url} 
+                alt=${product.photos[0]?.color} 
                 width="100%" height="50%" 
                 style="object-fit:contain"/>
               </td>
-              <td style="font-weight:600">${product.name}</td>
-              <td style="font-style: italic">${product.brand}</td>
-              <td>${product.price}</td>
-              <td>${sex[product.sex]}</td>
-              <td>${types[product.type]}</td>
+              <td style="font-weight:600">${product?.name}</td>
+              <td style="font-style: italic">${product?.brand}</td>
+              <td>${product?.price}</td>
+              <td>${sex[product?.sex]}</td>
+              <td>${types[product?.type]}</td>
               <td>
                 <div class="d-flex justify-content-end column-gap-3">
                 <button class="rounded border item-btn-remove-product bg-danger text-white px-2" data-bs-toggle="modal"
@@ -369,7 +369,7 @@ const shop = () => {
         status: "success",
       });
       document.getElementById("form-product").reset(); //reset form
-      handleRenderProduct();
+      await handleRenderProduct("/all", null);
       cleanUpURLsAndCardImage();
     } catch (error) {
       console.log(error);
@@ -526,7 +526,7 @@ const shop = () => {
         message: "Đã xóa sản phẩm",
         status: "success",
       });
-      handleRenderProduct();
+      await handleRenderProduct("/all", null);
     } catch (error) {
       console.log(error);
     }
