@@ -1,4 +1,7 @@
-import { uploadService } from "../services/photo.service.js";
+import {
+  deletePhotoService,
+  uploadService,
+} from "../services/photo.service.js";
 
 const uploadController = async (req, res) => {
   try {
@@ -24,4 +27,13 @@ const uploadController = async (req, res) => {
     console.log(error);
   }
 };
-export { uploadController };
+const deletePhotoController = async (req, res) => {
+  try {
+    const _id = req.params._id;
+    const { status, message, element } = await deletePhotoService(_id);
+    res.status(status).json({ message });
+  } catch (error) {
+    console.log(error);
+  }
+};
+export { uploadController, deletePhotoController };
