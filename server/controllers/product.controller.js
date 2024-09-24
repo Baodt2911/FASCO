@@ -81,10 +81,13 @@ const addProductController = async (req, res) => {
 };
 const updateProductController = async (req, res) => {
   try {
-    const { _id, ...data } = req.body;
+    const _id = req.params._id;
+    const data = req.body;
+    const { is_delete_photo = false } = req.query;
     const { status, element, message } = await updateProductService({
       _id,
       data,
+      is_delete_photo,
     });
     res.status(status).json({
       message,
@@ -96,7 +99,7 @@ const updateProductController = async (req, res) => {
 };
 const deleteProductController = async (req, res) => {
   try {
-    const { _id } = req.body;
+    const _id = req.params._id;
     const { status, element, message } = await deleteProductService({
       _id,
     });

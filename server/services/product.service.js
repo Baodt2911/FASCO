@@ -136,8 +136,9 @@ const addProductService = async ({
     console.log(error);
   }
 };
-const updateProductService = async ({ _id, data }) => {
+const updateProductService = async ({ _id, data, is_delete_photo }) => {
   try {
+    const { photo, ...other } = data;
     // Check id invalid
     if (checkId(_id)) {
       return {
@@ -152,22 +153,22 @@ const updateProductService = async ({ _id, data }) => {
         message: "Product not found!",
       };
     }
-    if (!!data.photos) {
-      // Check id invalid
-      if (checkId(data.photos[0])) {
-        return {
-          status: 500,
-          message: "_id photo invalid",
-        };
+    if (!!photo) {
+      if (is_delete_photo) {
+        await product.updateOne({
+          $pull: { photos: Array.isArray(photo) ? { $in: photo } : photo },
+        });
+        if (Array.isArray(photo)) {
+          const listPhoto = photo.map((id) => deletePhotoService(id));
+          await Promise.all(listPhoto);
+        } else {
+          await deletePhotoService(photo);
+        }
+      } else {
+        await product.updateOne({ $push: { photos: photo } });
       }
-      await product.updateOne({ $addToSet: { photos: data.photos } });
-      return {
-        status: 200,
-        message: "Updated successfully!",
-        element: data,
-      };
     }
-    await product.updateOne({ $set: data });
+    await product.updateOne({ $set: other });
     return {
       status: 200,
       message: "Updated successfully!",

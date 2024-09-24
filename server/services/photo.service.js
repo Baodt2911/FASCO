@@ -3,22 +3,35 @@ import _product from "../models/product.model.js";
 import _photo from "../models/photo.model.js";
 import { updateProductService } from "./product.service.js";
 import { checkId } from "../utils/check_id.js";
-const addPhotoService = async ({ url, color, sizes }) => {
+const uploadPhotoService = async (file) => {
   try {
-    const isPhoto = await _photo.create({
-      url,
-      color,
-      sizes,
+    const blob = bucket.file("photos/" + file.originalname);
+    await blob.save(file.buffer, {
+      metadata: {
+        contentType: file.mimetype,
+      },
     });
     return {
-      idPhoto: isPhoto._doc._id,
+      status: 200,
+      url: `https://firebasestorage.googleapis.com/v0/b/fasco-a5db7.appspot.com/o/photos%2F${file.originalname}?alt=media`,
     };
   } catch (error) {
     console.log(error);
+    return {
+      status: 500,
+      message: error.message,
+    };
   }
 };
-const uploadService = async ({ _id, files, metadatas }) => {
+const addPhotoService = async ({ _id, file, metadatas }) => {
   try {
+    // Check id invalid
+    if (checkId(_id)) {
+      return {
+        status: 500,
+        message: "_id product invalid",
+      };
+    }
     const isProduct = await _product.findById(_id);
     if (!isProduct) {
       return {
@@ -26,37 +39,61 @@ const uploadService = async ({ _id, files, metadatas }) => {
         message: "Product not found!",
       };
     }
-    const upload = async (file, index) => {
-      const blob = bucket.file("photos/" + file.originalname);
-      const isUpload = blob.save(file.buffer, {
-        metadata: {
-          contentType: file.mimetype,
-        },
+    const { status, url, message } = await uploadPhotoService(file);
+    if (!url) {
+      return {
+        status,
+        message,
+      };
+    }
+    const createListPhoto = async (color, sizes) => {
+      const isPhoto = await _photo.create({
+        color,
+        url,
+        sizes,
       });
-      if (isUpload) {
-        const { color, sizes } = metadatas[index];
-        const { idPhoto } = await addPhotoService({
-          color,
-          url: `https://firebasestorage.googleapis.com/v0/b/fasco-a5db7.appspot.com/o/photos%2F${file.originalname}?alt=media`,
-          sizes,
+      if (isPhoto) {
+        await updateProductService({
+          _id,
+          data: {
+            photo: isPhoto._id,
+          },
         });
-        if (idPhoto) {
-          await updateProductService({
-            _id,
-            data: {
-              photos: [idPhoto],
-            },
-          });
-        }
       }
     };
-    const uploadPromises = files.map(
-      async (file, index) => await upload(file, index)
+    const listPhoto = metadatas.map(({ color, sizes }) =>
+      createListPhoto(color, sizes)
     );
-    await Promise.all(uploadPromises);
+    await Promise.all(listPhoto);
     return {
       status: 200,
       message: "Upload photo successfully",
+    };
+  } catch (error) {
+    console.log(error);
+  }
+};
+const updatePhotoService = async ({ _id, data }) => {
+  try {
+    // Check id invalid
+    if (checkId(_id)) {
+      return {
+        status: 500,
+        message: "_id photo invalid",
+      };
+    }
+    const photo = await _photo.findById(_id);
+    if (!photo) {
+      return {
+        status: 404,
+        message: "Photo not found!",
+      };
+    }
+    await photo.updateOne({ $set: data });
+    return {
+      status: 200,
+      message: "Updated successfully!",
+      element: data,
     };
   } catch (error) {
     console.log(error);
@@ -96,4 +133,9 @@ const deletePhotoService = async (_id) => {
     };
   }
 };
-export { uploadService, deletePhotoService };
+export {
+  addPhotoService,
+  uploadPhotoService,
+  updatePhotoService,
+  deletePhotoService,
+};

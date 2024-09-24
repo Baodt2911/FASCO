@@ -1,1 +1,88 @@
-<h1>orders-sell</h1>
+<div class="container rounded-2 mt-4 shadow p-5">
+  <h4>Sản phẩm đã bán</h4>
+  <div class="row gap-4 mt-5">
+    <div class="input-group col">
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Nhập mã đơn hàng"
+        aria-label="Nhập mã đơn hàng"
+        id="orderId-input"
+      />
+    </div>
+    <select class="form-select col" id="status-select">
+      <option selected value="">Tất cả</option>
+      <option value="pending">Đang chờ</option>
+      <option value="confirmed">Đã xác nhận</option>
+      <option value="processing">Đang xử lý</option>
+      <option value="delivered">Đã giao hàng</option>
+      <option value="canceled">Đã hủy</option>
+      <option value="completed">Đã hoàn thành</option>
+    </select>
+    <button type="button" class="btn btn-primary col btn-search-orders">
+      Tìm kiếm
+    </button>
+  </div>
+  <div class="card-order mt-5">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col" class="col-1">Mã đơn hàng</th>
+          <th scope="col" class="col-1">Ngày bán</th>
+          <th scope="col" class="col-3">Thông tin người mua</th>
+          <th scope="col" class="col-3">Danh sách sản phẩm</th>
+          <th scope="col" class="col-1">Tổng tiền</th>
+          <th scope="col" class="col-1">Đã giảm</th>
+          <th scope="col" class="col-2">Trạng thái</th>
+        </tr>
+      </thead>
+      <tbody class="card-orders">
+        <tr class="text-left">
+          <td class="text-primary fw-medium">0FT65371LJ245043R</td>
+          <td>
+            <div class="row">
+              <span>13/09/2024</span>
+              <span>21:18</span>
+            </div>
+          </td>
+          <td>
+            <div class="row">
+              <span>Họ và tên: Đỗ Trọng Bảo</span>
+              <span>Email: example123@gmail.com</span>
+              <span>SĐT: 0123456789</span>
+              <span>Địa chỉ: 433 Bạch Mai, Hai Bà Trưng, Hà Nội</span>
+            </div>
+          </td>
+          <td>
+            <div class="row row-cols-2 d-flex align-items-start">
+              <div class="col-4">
+                <img
+                  src="https://firebasestorage.googleapis.com/v0/b/fasco-a5db7.appspot.com/o/photos%2Fa0f93014732d49f5a6210dd61c3b44b0.webp?alt=media"
+                  alt=""
+                  width="100%"
+                  height="100%"
+                  style="object-fit: contain"
+                />
+              </div>
+              <div class="col-8 lh-1">
+                <h6 style="font-size: 14px">Hoodie</h6>
+                <h6 style="font-size: 14px">Màu: Đỏ</h6>
+                <h6 style="font-size: 14px">Kích thước: S</h6>
+                <h6 style="font-size: 14px">Số lượng: 100</h6>
+              </div>
+            </div>
+          </td>
+          <td>100.000đ</td>
+          <td>100.000đ</td>
+          <td>
+            <div class="row gap-2">
+              <p>Đang giao hàng</p>
+              <button type="button" class="btn btn-primary">.</button
+              ><button type="button" class="btn btn-danger">Hủy</button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

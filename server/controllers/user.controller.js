@@ -33,9 +33,11 @@ const loginController = async (req, res) => {
     if (status == 200) {
       //Save refreshtoken to cookie
       res.cookie("rt", element?.refreshToken, {
-        HttpOny: true,
-        Secure: false,
-        SameSite: "strict",
+        // domain: "",
+        path: "/",
+        sameSite: "Strict",
+        secure: true,
+        httpOnly: false,
         expires: new Date(
           Math.floor(currentDate.getTime()) + 15 * 24 * 60 * 60 * 1000
         ),
