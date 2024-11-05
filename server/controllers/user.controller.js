@@ -10,7 +10,8 @@ import {
 const isLoginController = async (req, res) => {
   try {
     const { authorization } = req.headers;
-    const token = authorization.split(" ")[1];
+    const { rt } = req.cookies;
+    const token = !!authorization ? authorization.split(" ")[1] : rt;
     const { status, element } = await isLoginService(token);
     if (!element) {
       res.clearCookie("rt");
@@ -105,7 +106,9 @@ const updateUserController = async (req, res) => {
 const refreshTokenController = async (req, res) => {
   try {
     const user = req.user;
-    const refreshToken = req.headers.authorization.split(" ")[1];
+    const { authorization } = req.headers;
+    const { rt } = req.cookies;
+    const refreshToken = !!authorization ? authorization.split(" ")[1] : rt;
     const { status, element, message } = await refreshTokenService({
       refreshToken,
       user,

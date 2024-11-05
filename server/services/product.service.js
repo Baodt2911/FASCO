@@ -11,11 +11,14 @@ const getAllProductService = async ({
   pageSize,
   type,
   sex,
+  brand,
   min_price,
   max_price,
 }) => {
   try {
     const skip = (page - 1) * pageSize;
+    const totalItem = await _product.countDocuments();
+    const totalPage = Math.ceil(totalItem / pageSize);
     let query = {};
     if (type) {
       query.type = type;
@@ -23,12 +26,16 @@ const getAllProductService = async ({
     if (sex) {
       query.sex = sex;
     }
+    if (brand) {
+      query.brand = brand;
+    }
     if (min_price && max_price) {
       query.$and = [
         { price: { $gte: min_price } },
         { price: { $lte: max_price } },
       ];
     }
+
     const products = await _product
       .find(query)
       .skip(skip)
@@ -38,7 +45,7 @@ const getAllProductService = async ({
     return {
       status: 200,
       message: "Geted list product",
-      element: products,
+      element: { products, totalItem, totalPage, currentPage: page },
     };
   } catch (error) {
     console.log(error);

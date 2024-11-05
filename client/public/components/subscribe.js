@@ -1,4 +1,6 @@
-<!-- image left -->
+const Subcribe = () => {
+  return `
+  <!-- image left -->
 <div class="flex justify-start">
   <img src="../../src/images/img16.png" alt="" />
 </div>
@@ -36,3 +38,6 @@
 <div class="flex justify-end">
   <img src="../../src/images/img17.png" alt="" />
 </div>
+  `;
+};
+export default Subcribe;

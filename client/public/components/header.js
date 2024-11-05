@@ -1,3 +1,5 @@
+const Header = (isLogin) => {
+  return `
 <a href="../pages/index.html" class="logo font-volkhov text-5xl text-[#484848]"
   >FASCO</a
 >
@@ -13,37 +15,45 @@
     </li>
     <li>
       <a
-        href=""
+        href="../pages/shop.html"
         class="hover:text-[#FF4646] font-poppins text-sm text-[#484848]"
-        >Deals</a
+        >Fashion</a
       >
     </li>
     <li>
       <a
         href=""
         class="hover:text-[#FF4646] font-poppins text-sm text-[#484848]"
-        >New Arrivals</a
+        >Men</a
       >
     </li>
     <li>
       <a
         href=""
         class="hover:text-[#FF4646] font-poppins text-sm text-[#484848]"
-        >Packages</a
+        >Women</a
       >
     </li>
-    <li>
+    <li class="${isLogin ? "hidden" : "block"}">
       <a
-        href=""
+        href="../pages/signIn.html"
         class="hover:text-[#FF4646] font-poppins text-sm text-[#484848]"
         >Sign in</a
       >
     </li>
   </ul>
-  <!-- Sign Up -->
-  <a
-    href=""
+  ${
+    isLogin
+      ? `<a href="#"  class="hover:text-[#FF4646] font-poppins shadow-xl ">
+      <i class="fa-regular fa-user"></i>
+      </a>`
+      : `<a
+    href="../pages/Signup.html"
     class="bg-black rounded-xl w-36 h-14 flex items-center justify-center hover:text-[#FF4646] font-poppins text-sm text-white shadow-xl shadow-[#bbbbbbcc]"
     >Sign Up</a
-  >
+  >`
+  }
 </nav>
+  `;
+};
+export default Header;

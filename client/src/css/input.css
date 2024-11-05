@@ -31,11 +31,26 @@
   @apply w-52 h-14 bg-[#fafafa] rounded-xl text-[#8A8A8A] font-poppins;
 }
 .bdt-active-category {
-  @apply w-52 h-14  rounded-xl font-poppins bg-black text-white;
+  @apply bg-black text-white;
 }
 .item-card-testimonial {
   @apply w-[500px] h-[300px] rounded-xl flex items-center pr-5 blur-sm shadow-xl transition-all duration-500;
 }
 .active-card-testimonial {
   @apply blur-none;
+}
+.hidden-notification {
+  @apply opacity-0 invisible;
+}
+.item-size {
+  @apply font-poppins size-9 flex items-center justify-center cursor-pointer rounded-md text-black text-lg border;
+}
+.item-color {
+  @apply border font-poppins px-3 py-2 flex items-center justify-center cursor-pointer rounded-md text-xs;
+}
+.active-item-photo {
+  @apply border p-1 border-[#DA3F3F];
+}
+.item-pagination {
+  @apply w-10 h-10 rounded-full flex items-center justify-center font-jost hover:text-red-500;
 }

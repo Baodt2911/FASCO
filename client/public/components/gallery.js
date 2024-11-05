@@ -1,4 +1,6 @@
-<!-- title  -->
+const Gallery = () => {
+  return `
+  <!-- title  -->
 <div class="flex flex-col justify-center items-center gap-y-5 mb-20">
   <h1 class="font-volkhov text-[#484848] text-5xl">Follow Us On Instagram</h1>
   <p class="font-poppins text-[#8A8A8A] w-1/3 text-center">
@@ -16,3 +18,6 @@
   <div class=""><img src="../../src/images/img11.png" alt="" /></div>
   <div class=""><img src="../../src/images/img9.png" alt="" /></div>
 </div>
+`;
+};
+export default Gallery;

@@ -10,9 +10,10 @@ const getAllProductController = async (req, res) => {
   try {
     const {
       page = 1,
-      pageSize = 50,
+      pageSize = 10,
       type,
       sex,
+      brand,
       min_price,
       max_price,
     } = req.query;
@@ -21,11 +22,12 @@ const getAllProductController = async (req, res) => {
       pageSize: +pageSize,
       type,
       sex,
+      brand,
       min_price,
       max_price,
     });
     res.status(status).json({
-      products: element,
+      datas: element,
       message,
     });
   } catch (error) {

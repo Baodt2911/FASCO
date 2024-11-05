@@ -20,12 +20,13 @@ const verfifyAccessToken = (req, res, next) => {
 };
 const verfifyRefreshToken = (req, res, next) => {
   const { authorization } = req.headers;
-  if (!authorization) {
+  const { rt } = req.cookies;
+  if (!(authorization || rt)) {
     return res.status(401).json({
       message: "You're not authenticated!",
     });
   }
-  const token = authorization.split(" ")[1];
+  const token = !!authorization ? authorization.split(" ")[1] : rt;
   jwt.verify(token, process.env.REFRESHTOKEN_KEY, (err, decoded) => {
     if (err) {
       return res.status(403).json({

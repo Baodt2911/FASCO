@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import _cart from "../models/cart.model.js";
 import { checkId } from "../utils/check_id.js";
 const getCartService = async ({ userId }) => {
@@ -98,9 +99,7 @@ const removeFromCartService = async ({ userId, carts }) => {
       {
         $pull: {
           carts: {
-            product: carts.product,
-            color: carts.color,
-            size: carts.size,
+            _id: new mongoose.Types.ObjectId(carts.id),
           },
         },
       }

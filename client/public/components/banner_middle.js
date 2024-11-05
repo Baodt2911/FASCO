@@ -1,4 +1,5 @@
-<div class="flex relative">
+const BannerMiddle = () => {
+  return `<div class="flex relative">
   <div class="flex-1 bg-[#DADADA]">
     <img
       class="w-full h-full object-contain"
@@ -68,3 +69,6 @@
     </div>
   </div>
 </div>
+`;
+};
+export default BannerMiddle;
