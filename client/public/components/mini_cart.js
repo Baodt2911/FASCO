@@ -1,4 +1,6 @@
-<div class="overlay-mini-cart w-3/5 h-full bg-[#787878CC]"></div>
+const MiniCart = () => {
+  return `
+  <div class="overlay-mini-cart w-3/5 h-full bg-[#787878CC]"></div>
 <div
   class="relative w-2/5 h-full bg-white py-5 px-10 flex flex-col justify-between"
 >
@@ -18,44 +20,6 @@
     class="mini-cart-products flex flex-1 flex-col gap-y-10 mt-10 pb-10 overflow-y-scroll"
   >
     <!-- item product  -->
-    <div class="flex gap-x-5">
-      <div class="w-40 h-56">
-        <img
-          class="w-full h-full object-cover"
-          src="https://didongviet.vn/dchannel/wp-content/uploads/2022/01/cute-didongviet.jpg"
-          alt=""
-        />
-      </div>
-      <div class="flex-1 flex flex-col gap-y-3">
-        <!-- name product  -->
-        <p class="font-volkhov text-xl font-bold">Denim Jacket</p>
-        <!-- color  -->
-        <p class="font-poppins text-lg text-[#8A8A8A]">Color: Red</p>
-        <!-- size  -->
-        <p class="font-poppins text-lg text-[#8A8A8A]">Size: M</p>
-        <!-- price  -->
-        <p class="font-poppins text-lg">$14.80</p>
-        <!-- quantity & remove -->
-        <div class="w-full flex items-center justify-between pr-10">
-          <!-- quantity  -->
-          <div
-            class="flex items-center w-40 h-12 border border-[#EEEEE] justify-around p-x-5 rounded-sm"
-          >
-            <button class="btn-reduce w-5 h-full text-xl">-</button>
-            <input
-              type="number"
-              class="quantity w-10 h-full outline-none font-jost text-center"
-              value="1"
-            />
-            <button class="btn-increase w-5 h-full text-xl">+</button>
-          </div>
-          <!-- remove  -->
-          <button class="font-poppins text-md text-[#DA3F3F] hover:underline">
-            Remove
-          </button>
-        </div>
-      </div>
-    </div>
   </div>
   <div class="w-full">
     <div class="flex items-center border-b-2 border-[#f5f5f5] py-3 gap-x-3">
@@ -82,3 +46,6 @@
     </div>
   </div>
 </div>
+  `;
+};
+export default MiniCart;

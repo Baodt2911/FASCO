@@ -3,6 +3,7 @@ import {
   createOrderService,
   getDetailOrderService,
   getOrderService,
+  updateOrderService,
 } from "../services/order.service.js";
 const getOrderController = async (req, res) => {
   try {
@@ -51,9 +52,26 @@ const createOrderController = async (req, res) => {
     console.log(error);
   }
 };
+const updateOrderController = async (req, res) => {
+  try {
+    const { orderId } = req.params;
+    const { id_list_order, orderStatus } = req.body;
+    const { status, element, message } = await updateOrderService({
+      orderId,
+      id_list_order,
+      status: orderStatus,
+    });
+    res.status(status).json({
+      message,
+      element,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
 const completeOrderController = async (req, res) => {
   try {
-    const { orderId } = req.body;
+    const { orderId } = req.params;
     const { status, element, message } = await completeOrderService(orderId);
     res.status(status).json({
       message,
@@ -67,5 +85,6 @@ export {
   createOrderController,
   completeOrderController,
   getOrderController,
+  updateOrderController,
   getDetailOrderController,
 };

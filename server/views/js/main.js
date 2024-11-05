@@ -5,7 +5,7 @@ import orders_sell from "./orders-sell.js";
 import comments from "./comment.js";
 import promotion from "./promotion.js";
 // import { io } from "https://cdn.socket.io/4.7.5/socket.io.esm.min.js";
-await utils.isLoggedIn();
+// await utils.isLoggedIn();
 // const currentUrl = utils.getCurrentUrl();
 // const socket = io(currentUrl, {
 //   auth: {

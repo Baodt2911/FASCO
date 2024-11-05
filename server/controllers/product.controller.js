@@ -10,9 +10,10 @@ const getAllProductController = async (req, res) => {
   try {
     const {
       page = 1,
-      pageSize = 50,
+      pageSize = 10,
       type,
       sex,
+      brand,
       min_price,
       max_price,
     } = req.query;
@@ -21,11 +22,12 @@ const getAllProductController = async (req, res) => {
       pageSize: +pageSize,
       type,
       sex,
+      brand,
       min_price,
       max_price,
     });
     res.status(status).json({
-      products: element,
+      datas: element,
       message,
     });
   } catch (error) {
@@ -81,10 +83,13 @@ const addProductController = async (req, res) => {
 };
 const updateProductController = async (req, res) => {
   try {
-    const { _id, ...data } = req.body;
+    const _id = req.params._id;
+    const data = req.body;
+    const { is_delete_photo = false } = req.query;
     const { status, element, message } = await updateProductService({
       _id,
       data,
+      is_delete_photo,
     });
     res.status(status).json({
       message,
@@ -96,7 +101,7 @@ const updateProductController = async (req, res) => {
 };
 const deleteProductController = async (req, res) => {
   try {
-    const { _id } = req.body;
+    const _id = req.params._id;
     const { status, element, message } = await deleteProductService({
       _id,
     });

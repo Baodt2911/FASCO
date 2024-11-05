@@ -1,5 +1,6 @@
 import _soldRate from "../models/sold_rate.model.js";
 import _review from "../models/review.model.js";
+import _product from "../models/product.model.js";
 import { checkId } from "../utils/check_id.js";
 
 const getSoldRateService = async ({ idProduct }) => {
@@ -11,7 +12,8 @@ const getSoldRateService = async ({ idProduct }) => {
       };
     }
     const soldRate = await _soldRate.findOne({ idProduct });
-    if (!soldRate) {
+    const isProduct = await _product.findById(idProduct);
+    if (!soldRate && !isProduct) {
       return {
         status: 404,
         message: "sold rate not found",
@@ -19,7 +21,13 @@ const getSoldRateService = async ({ idProduct }) => {
     }
     return {
       status: 200,
-      element: soldRate,
+      element: soldRate
+        ? soldRate
+        : {
+            idProduct: isProduct._id,
+            rate: 0,
+            sold: 0,
+          },
     };
   } catch (error) {
     console.log(error);

@@ -10,7 +10,8 @@ import {
 const isLoginController = async (req, res) => {
   try {
     const { authorization } = req.headers;
-    const token = authorization.split(" ")[1];
+    const { rt } = req.cookies;
+    const token = !!authorization ? authorization.split(" ")[1] : rt;
     const { status, element } = await isLoginService(token);
     if (!element) {
       res.clearCookie("rt");
@@ -33,9 +34,11 @@ const loginController = async (req, res) => {
     if (status == 200) {
       //Save refreshtoken to cookie
       res.cookie("rt", element?.refreshToken, {
-        HttpOny: true,
-        Secure: false,
-        SameSite: "strict",
+        // domain: "",
+        path: "/",
+        sameSite: "Strict",
+        secure: true,
+        httpOnly: false,
         expires: new Date(
           Math.floor(currentDate.getTime()) + 15 * 24 * 60 * 60 * 1000
         ),
@@ -103,7 +106,9 @@ const updateUserController = async (req, res) => {
 const refreshTokenController = async (req, res) => {
   try {
     const user = req.user;
-    const refreshToken = req.headers.authorization.split(" ")[1];
+    const { authorization } = req.headers;
+    const { rt } = req.cookies;
+    const refreshToken = !!authorization ? authorization.split(" ")[1] : rt;
     const { status, element, message } = await refreshTokenService({
       refreshToken,
       user,

@@ -260,63 +260,41 @@
           </p>
           <!-- categories -->
           <div class="flex items-center justify-evenly mt-14">
-            <button class="bdt-item-category" data-catagory="">
+            <button
+              class="bdt-item-category"
+              data-sex="men"
+              data-category="clothes"
+            >
               Men's Fashion
             </button>
-            <button class="bdt-active-category">Women’s Fashion</button>
-            <button class="bdt-item-category" data-catagory="">
-              Women Accessories
+            <button
+              class="bdt-active-category bdt-item-category"
+              data-sex="women"
+              data-category="clothes"
+            >
+              Women’s Fashion
             </button>
-            <button class="bdt-item-category" data-catagory="">
-              Men Accessories
+            <button
+              class="bdt-item-category"
+              data-sex="women"
+              data-category="shoe"
+            >
+              Women Shoe
             </button>
-            <button class="bdt-item-category" data-catagory="">
-              Discount Deals
+            <button
+              class="bdt-item-category"
+              data-sex="men"
+              data-category="shoe"
+            >
+              Men Shoe
             </button>
+            <button class="bdt-item-category">Discount Deals</button>
           </div>
           <!-- products -->
-          <div class="grid grid-cols-3 grid-rows-2 mt-14 gap-20">
-            <a
-              href="#"
-              style="box-shadow: 0 5px 30px 0 #cfcfcfcc"
-              class="h-[440px] rounded-xl shadow-xl flex flex-col px-10 py-5"
-            >
-              <div class="h-2/3 mx-auto">
-                <img
-                  class="w-full h-full object-cover rounded-xl"
-                  src="https://data.webnhiepanh.com/wp-content/uploads/2020/11/21105453/phong-canh-1.jpg"
-                  alt=""
-                />
-              </div>
-              <div class="mt-3 mb-6 flex items-center justify-between">
-                <div class="title">
-                  <!-- name -->
-                  <p class="text-[#484848] text-xl font-poppins">Shiny Dress</p>
-                  <!-- branch -->
-                  <p class="text-[#8A8A8A] text-xs font-poppins">AI Karam</p>
-                </div>
-                <div class="rate flex items-center gap-x-1">
-                  <i class="fa-solid fa-star text-yellow-400"></i>
-                  <i class="fa-solid fa-star text-yellow-400"></i>
-                  <i class="fa-solid fa-star text-yellow-400"></i>
-                  <i class="fa-solid fa-star text-yellow-400"></i>
-                  <i class="fa-solid fa-star text-yellow-400"></i>
-                </div>
-              </div>
-              <!-- customer reviewer -->
-              <p class="reviewer mb-6 text-[#484848] text-xs font-poppins">
-                (4.1k) Customer Reviews
-              </p>
-              <div class="flex items-center justify-between">
-                <div class="price font-poppins text-2xl font-medium">
-                  $95.50
-                </div>
-                <span class="font-poppins text-[#FF4646] text-xs"
-                  >Almost Sold Out</span
-                >
-              </div>
-            </a>
-          </div>
+          <div
+            class="grid grid-cols-4 mt-14 gap-20"
+            id="product-new-arrivals"
+          ></div>
           <!-- button view more -->
           <a
             href=""
@@ -570,6 +548,16 @@
       <button
         class="btn-show-mini-cart fixed right-5 top-1/2 size-12 bg-black flex items-center justify-center rounded-xl"
       >
+        <span class="absolute -top-1 -left-2 flex size-5">
+          <span
+            class="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"
+          ></span>
+          <span
+            class="relative inline-flex rounded-full size-5 bg-sky-500 text-[12px] text-white items-center justify-center"
+            id="cart-length"
+            >10</span
+          >
+        </span>
         <img src="../../src/icons/cart.png" alt="" />
       </button>
       <!-- Mini cart  -->
@@ -580,109 +568,10 @@
         class="fixed right-5 bottom-20 size-12 rounded-full border bg-white shadow-md flex items-center justify-center"
         ><i class="fa-solid fa-arrow-up"></i
       ></a>
-
       <footer class="footer"></footer>
+      <div id="notification" class="fixed top-10 right-5 transition-all"></div>
     </main>
   </body>
-  <script>
-    const slideElement = document.querySelector(".slider");
-    const slideActive = document.querySelector(".slide-active");
-    const slideTestimonial = document.querySelector(".slide-testimonial");
-    const testimonialActive = document.querySelector(
-      ".active-card-testimonial"
-    );
-    const itemsTestimonial = document.querySelectorAll(
-      ".item-card-testimonial"
-    );
-    const itemsSilde = document.querySelectorAll(".bdt-item-slide");
-    const listItemSilde = document.querySelectorAll(".bdt-item-slide");
-    const nextSlide = document.querySelector(".btn-next-slide");
-    const prevSlide = document.querySelector(".btn-prev-slide");
-    const saleOffElement = document.querySelector(".sale-off");
-    const itemsDot = document.querySelectorAll(".dots li");
-    const btnPrevSlideTestimonial = document.querySelector(
-      ".btn-prev-slide-testimonial"
-    );
-    const btnNextSlideTestimonial = document.querySelector(
-      ".btn-next-slide-testimonial"
-    );
-    let lenghtItems = itemsSilde.length - 1;
-    let active_slider = 0;
-    const showSaleOff = () => {
-      saleOffElement.style = "opacity: 0;";
-      setTimeout(() => {
-        saleOffElement.style = "opacity: 1;";
-      }, 500);
-    };
-    const nextDot = () => {
-      itemsSilde.forEach((item) => {
-        if (item.classList.contains("slide-active")) {
-          itemsDot.forEach((dot) => {
-            dot.classList.remove("bdt-active-dot");
-            if (dot.dataset.id == item.dataset.id) {
-              dot.classList.add("bdt-active-dot");
-            }
-          });
-        }
-      });
-    };
-    const nextSlider = () => {
-      const firstSlide = slideElement.firstElementChild;
-      slideElement.appendChild(firstSlide);
-      itemsSilde[
-        active_slider == 0 ? lenghtItems : active_slider - 1
-      ].classList.remove("slide-active");
-      itemsSilde[active_slider].classList.add("slide-active");
-    };
-    const prevSlider = () => {
-      const lastSlide = slideElement.lastElementChild;
-      slideElement.prepend(lastSlide);
-      itemsSilde[
-        active_slider == lenghtItems ? 0 : active_slider + 1
-      ].classList.remove("slide-active");
-      itemsSilde[active_slider].classList.add("slide-active");
-    };
-    nextSlide.addEventListener("click", () => {
-      active_slider = active_slider < lenghtItems ? active_slider + 1 : 0;
-      nextSlider();
-      showSaleOff();
-      nextDot();
-    });
-    prevSlide.addEventListener("click", () => {
-      active_slider = active_slider > 0 ? active_slider - 1 : lenghtItems;
-      prevSlider();
-      showSaleOff();
-      nextDot();
-    });
-    let activeTestimonial = 0;
-    let lenghtTestimonial = itemsTestimonial.length;
-    btnNextSlideTestimonial.addEventListener("click", () => {
-      activeTestimonial =
-        activeTestimonial >= lenghtTestimonial - 1
-          ? lenghtTestimonial - 1
-          : activeTestimonial + 1;
-      if (activeTestimonial >= 3) {
-        slideTestimonial.scrollLeft += slideTestimonial.offsetWidth;
-      }
-      itemsTestimonial[activeTestimonial - 1].classList.remove(
-        "active-card-testimonial"
-      );
-      itemsTestimonial[activeTestimonial].classList.add(
-        "active-card-testimonial"
-      );
-    });
-    btnPrevSlideTestimonial.addEventListener("click", () => {
-      activeTestimonial = activeTestimonial <= 0 ? 0 : activeTestimonial - 1;
-      if (activeTestimonial < 3) {
-        slideTestimonial.scrollLeft -= slideTestimonial.offsetWidth;
-      }
-      itemsTestimonial[activeTestimonial + 1].classList.remove(
-        "active-card-testimonial"
-      );
-      itemsTestimonial[activeTestimonial].classList.add(
-        "active-card-testimonial"
-      );
-    });
-  </script>
-  <script src="../../src/js/main.js"></script>
+  <script src="../../src/js/main.js" type="module"></script>
+  <script src="../../src/js/home.js" type="module"></script>
 </html>

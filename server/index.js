@@ -28,14 +28,19 @@ const server = http.createServer(app);
 const PORT = process.env.PORT || 5000;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-const io = new Server(server);
+const io = new Server(server, {
+  cors: {
+    origin: [`http://localhost:${PORT}`, "http://localhost:5500"],
+    credentials: true,
+  },
+});
 socketServer(io);
 app.use(morgan("combined"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(
   cors({
-    origin: [`http://localhost:${PORT}`, "http://127.0.0.1:5500"],
+    origin: [`http://localhost:${PORT}`, "http://localhost:5500"],
     credentials: true,
   })
 );

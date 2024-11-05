@@ -57,7 +57,6 @@ const ItemProductElement = (url) => {
             <ol
               class="d-flex flex-column flex-fill  list-size-quantity"
             >
-
             </ol>
             <!-- add -->
             <div class="d-flex align-items-end gap-2">
@@ -85,38 +84,33 @@ const ItemProductElement = (url) => {
 const ItemPhotoProduct = ({ _id, url, color, sizes }) => {
   const sizeQuantityHtmls = sizes.map(({ _id, size, quantity }) => {
     return `
-      <div class="input-group col-2">
-          <span class="input-group-text" style="width:50px">${size}</span>
-          <input type="text" class="form-control" value="${quantity}"/>
+      <div class="input-group col-2 size_quantity-edit" data-id_size="${_id}">
+          <span class="input-group-text size-edit" style="width:50px">${size}</span>
+          <input type="number" class="form-control quantity-edit" value="${quantity}"/>
         </div>
     `;
   });
   return `
-    <div class="d-flex align-items-start gap-3" data-id-photo="${_id}">
+    <div class=" d-flex align-items-start gap-3 item-product-edit" data-id_photo="${_id}">
       <div class="col-4 shadow-sm rounded">
-        <div style="width: 100%; height: 200px" class="item-image-modal position-relative">
+        <div style="width: 100%; height: 200px" class="photo-edit">
           <img
             src=${url}
-            alt=${color}
             width="100%"
             height="100%"
             style="object-fit: contain"
           />
-          <div class="z-2 position-absolute bottom-0" style="width:100%;height:100%">
-            <label for="changeImage" 
-            class="item-change-image-modal form-label" style="cursor:pointer"><i class="fs-2 bi bi-card-image"></i></label>
-            <input class="form-control d-none" type="file" id="changeImage">
-          </div>
         </div>
         <div class="input-group shadow-sm mt-1">
           <span class="input-group-text border-0 shadow-sm">Màu</span>
-          <input type="text" class="form-control border-0 fw-semibold" value="${color}"/>
+          <input type="text" class="form-control border-0 fw-semibold color-edit" value="${color}"/>
         </div>
       </div>
       <!-- Card left  -->
       <div class="col-6 d-flex flex-wrap gap-2">
       ${sizeQuantityHtmls.join("")}
       </div>
+      <button type="button" class="btn border btn-remove-photo-product-edit"><i class="bi bi-x-lg text-danger"></i></button>
     </div>
 `;
 };
@@ -149,6 +143,8 @@ const shop = () => {
   const descriptionProductModalEdit = document.getElementById(
     "description-product-modal-edit"
   );
+  const uploadNewPhotosFile = document.getElementById("upload-new-photos-file");
+
   const btnAddNew = document.getElementById("btn-add-new-product");
   const listProducts = document.getElementById("list-products");
   const btnConfirmDelete = document.getElementById("btn-confirm-delete");
@@ -162,6 +158,7 @@ const shop = () => {
   const btnSearch = document.getElementById("btn-search-product");
   const objectURLs = [];
   const dataImageProduct = [];
+  const dataImageProductEdit = [];
   const query = {};
   const pageSize = 10;
   const currentPage = 1;
@@ -296,36 +293,36 @@ const shop = () => {
       console.log(error);
     }
   });
-  const uploadPhoto = async (_id) => {
-    const formData = new FormData();
-    for (const data of dataImageProduct) {
+  const uploadPhotoProduct = async (_id) => {
+    const upload = async (data) => {
+      const formData = new FormData();
       formData.append("files", data.file);
       formData.append("metadata", JSON.stringify(data.metadata));
-    }
-    try {
-      const accessToken = await utils.getAccessToken();
-      const response = await fetch(
-        utils.getCurrentUrl() + `/photo/upload/${_id}`,
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-          body: formData,
+      try {
+        const accessToken = await utils.getAccessToken();
+        const response = await fetch(
+          utils.getCurrentUrl() + `/photo/add/${_id}`,
+          {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+            body: formData,
+          }
+        );
+        if (response.ok) {
+          console.log("Files uploaded successfully!");
+          const data = await response.json();
+          console.log(data);
+        } else {
+          console.log("File upload failed!");
         }
-      );
-
-      if (response.ok) {
-        console.log("Files uploaded successfully!");
-        const data = await response.json();
-        console.log(data);
-      } else {
-        console.log("File upload failed!");
+      } catch (error) {
+        console.error("Error uploading files:", error);
       }
-    } catch (error) {
-      console.error("Error uploading files:", error);
-      console.log("Error uploading files!");
-    }
+    };
+    const uploadAllPhoto = dataImageProduct.map((data) => upload(data));
+    await Promise.all(uploadAllPhoto);
   };
   const onAddNewProduct = async (e) => {
     if (!(name.value || price.value || brand.value)) {
@@ -363,7 +360,7 @@ const shop = () => {
         return;
       }
       const data = await res.json();
-      await uploadPhoto(data.element._id);
+      await uploadPhotoProduct(data.element._id);
       utils.showNotification({
         message: "Thêm thành công",
         status: "success",
@@ -376,8 +373,30 @@ const shop = () => {
     }
   };
   btnAddNew.addEventListener("click", onAddNewProduct);
-  const onRenderPhotos = (item) => {
-    const files = item.target.files;
+  const onRenderPhotos = (e) => {
+    const sizes = [
+      {
+        size: "S",
+        quantity: 0,
+      },
+      {
+        size: "M",
+        quantity: 0,
+      },
+      {
+        size: "L",
+        quantity: 0,
+      },
+      {
+        size: "XL",
+        quantity: 0,
+      },
+      {
+        size: "XXL",
+        quantity: 0,
+      },
+    ];
+    const files = e.target.files;
     if (!(files && files[0])) {
       return;
     }
@@ -387,16 +406,81 @@ const shop = () => {
     div.classList.add("d-flex", "items-start", "gap-3", "item-image-product");
     div.setAttribute("data-name", files[0].name);
     div.innerHTML = ItemProductElement(url);
+    console.log(sizes);
+
     dataImageProduct.push({
       metadata: {
-        sizes: [],
+        sizes,
       },
       file: files[0],
     });
     cardPhotos.appendChild(div);
   };
   uploadPhotosFile.addEventListener("change", onRenderPhotos);
-
+  uploadNewPhotosFile.addEventListener("change", (e) => {
+    const sizes = [
+      {
+        size: "S",
+        quantity: 0,
+      },
+      {
+        size: "M",
+        quantity: 0,
+      },
+      {
+        size: "L",
+        quantity: 0,
+      },
+      {
+        size: "XL",
+        quantity: 0,
+      },
+      {
+        size: "XXL",
+        quantity: 0,
+      },
+    ];
+    const files = e.target.files;
+    if (!(files && files[0])) {
+      return;
+    }
+    const url = URL.createObjectURL(files[0]);
+    objectURLs.push(url);
+    const div = document.createElement("div");
+    div.innerHTML = ItemPhotoProduct({ url, sizes, color: "" });
+    dataImageProductEdit.push({
+      metadata: {
+        sizes,
+      },
+      file: files[0],
+    });
+    cardPhotosModalEdit.prepend(div);
+    console.log(dataImageProductEdit);
+  });
+  btnConfirmDelete.onclick = async () => {
+    try {
+      const { id } = btnConfirmDelete.dataset;
+      const accessToken = await utils.getAccessToken();
+      const res = await fetch(utils.getCurrentUrl() + `/product/delete/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      if (!res.ok) {
+        console.error(res.statusText);
+        return;
+      }
+      utils.showNotification({
+        message: "Đã xóa sản phẩm",
+        status: "success",
+      });
+      await handleRenderProduct("/all", null);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const mutationCardPhotosProduct = () => {
     const itemBtnCloseImages = document.querySelectorAll(".btn-close-image");
     const itemBtnAddSizeQuantity = document.querySelectorAll(
@@ -417,7 +501,7 @@ const shop = () => {
                 size.textContent == ItemSize.size &&
                 quantity.textContent == ItemSize.quantity
               ) {
-                data.metadata.sizes.splice(index, 1); //remove item in dataImageProduct
+                data.metadata.sizes[index].quantity = 0;
                 item.parentElement.remove(); //remove item in list size quantity
               }
             });
@@ -467,17 +551,21 @@ const shop = () => {
               item.metadata.color = color.value;
               let isSize = false;
               //check size in dataImageProduct already exists
-              isSize = item.metadata.sizes.some((s) => s.size == size.value);
+              isSize = item.metadata.sizes.some(
+                (s) => s.size == size.value && s.quantity != 0
+              );
               if (isSize) {
                 return utils.showNotification({
                   message: "Bạn không thể thêm trùng kích thước",
                   status: "warning",
                 });
               }
-              item.metadata.sizes.push({
-                size: size.value,
-                quantity: quantity.value,
-              });
+              const index = item.metadata.sizes.findIndex(
+                (item) => item.size == size.value
+              );
+              console.log(index, item.metadata.sizes[index]);
+
+              item.metadata.sizes[index].quantity = parseInt(quantity.value);
               listSizeQuantity.appendChild(li);
             }
           });
@@ -491,12 +579,6 @@ const shop = () => {
         }
       };
     });
-    btnSaveChanges.addEventListener("click", () => {
-      utils.showNotification({
-        message: "Đã thay đổi",
-        status: "success",
-      });
-    });
     itemBtnCloseImages.forEach((item) => {
       item.onclick = () => {
         item.parentElement.parentElement.remove();
@@ -505,31 +587,6 @@ const shop = () => {
         URL.revokeObjectURL(imgUrl);
       };
     });
-  };
-  btnConfirmDelete.onclick = async () => {
-    try {
-      const { id } = btnConfirmDelete.dataset;
-      const accessToken = await utils.getAccessToken();
-      const res = await fetch(utils.getCurrentUrl() + "/product/delete", {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
-        },
-        body: JSON.stringify({ _id: id }),
-      });
-      if (!res.ok) {
-        console.error(res.statusText);
-        return;
-      }
-      utils.showNotification({
-        message: "Đã xóa sản phẩm",
-        status: "success",
-      });
-      await handleRenderProduct("/all", null);
-    } catch (error) {
-      console.log(error);
-    }
   };
   const mutationListProduct = () => {
     const itemBtnEditProducts = document.querySelectorAll(
@@ -551,6 +608,7 @@ const shop = () => {
           return ItemPhotoProduct({ _id, url, color, sizes });
         });
         cardPhotosModalEdit.innerHTML = htmls.join("");
+        cardPhotosModalEdit.setAttribute("data-id", id);
       };
     });
     const itemBtnRemoveProducts = document.querySelectorAll(
@@ -563,6 +621,151 @@ const shop = () => {
       };
     });
   };
+  const mutationCardEditProduct = () => {
+    const itemProductsEdit = document.querySelectorAll(".item-product-edit");
+    const btnRemovePhotoProductEdit = document.querySelectorAll(
+      ".btn-remove-photo-product-edit"
+    );
+    const newColorPhoto = document.querySelectorAll(".color-edit");
+    const dataProductEdit = [];
+    const listPhotosRemove = [];
+    const getDataProductElement = () => {
+      itemProductsEdit.forEach((item) => {
+        const { id_photo: _id } = item.dataset;
+        const color = item.querySelector(".color-edit").value;
+        const url = item.querySelector("img").src;
+        const sizesElement = item.querySelectorAll(".size_quantity-edit");
+        const sizes = [];
+        sizesElement.forEach((item_size) => {
+          const { id_size } = item_size.dataset;
+          const size = item_size.querySelector(".size-edit").textContent;
+          const quantity = item_size.querySelector(".quantity-edit").value;
+          sizes.push({ _id: id_size, size, quantity });
+        });
+        dataProductEdit.push({
+          _id,
+          url,
+          color,
+          sizes,
+        });
+      });
+    };
+    newColorPhoto.forEach((item) => {
+      item.addEventListener("input", (e) => {
+        console.log(e.target.closest(".item-product-edit"));
+      });
+    });
+    btnRemovePhotoProductEdit.forEach((item) => {
+      item.addEventListener("click", (e) => {
+        const { id_photo } = e.currentTarget.parentElement.dataset;
+        const index = dataProductEdit.findIndex((item) => item._id == id_photo);
+        dataProductEdit.splice(index, 1);
+        listPhotosRemove.push(id_photo);
+        e.currentTarget.parentElement.remove();
+        console.log(dataProductEdit);
+      });
+    });
+    const handleUpdateSizeQuantity = async (data) => {
+      try {
+        const accessToken = await utils.getAccessToken();
+        const res = await fetch(
+          utils.getCurrentUrl() + `/photo/update/${data._id}`,
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${accessToken}`,
+            },
+            body: JSON.stringify(data),
+          }
+        );
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    const handleUpdateInfoProduct = async (id) => {
+      try {
+        const accessToken = await utils.getAccessToken();
+        const res = await fetch(
+          utils.getCurrentUrl() + `/product/update/${id}?is_delete_photo=true`,
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${accessToken}`,
+            },
+            body: JSON.stringify({
+              name: nameProductModalEdit.value,
+              brand: brandProductModalEdit.value,
+              type: typeProductModalEdit.value,
+              price: priceProductModalEdit.value,
+              sex: sexProductModalEdit.value,
+              description: descriptionProductModalEdit.value,
+              photo: listPhotosRemove,
+            }),
+          }
+        );
+        const data = await res.json();
+        console.log(data);
+        if (res.ok) {
+          utils.showNotification({
+            message: "Đã cập nhật",
+            status: "success",
+          });
+          await handleRenderProduct("/all", null);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    const handleAddNewPhoto = async (id) => {
+      const uploadNewPhoto = async (data) => {
+        const formData = new FormData();
+        formData.append("files", data.file);
+        formData.append("metadata", JSON.stringify(data.metadata));
+        try {
+          const accessToken = await utils.getAccessToken();
+          const response = await fetch(
+            utils.getCurrentUrl() + `/photo/add/${id}`,
+            {
+              method: "POST",
+              headers: {
+                Authorization: `Bearer ${accessToken}`,
+              },
+              body: formData,
+            }
+          );
+          if (response.ok) {
+            console.log("Files uploaded successfully!");
+            const data = await response.json();
+            console.log(data);
+          } else {
+            console.log("File upload failed!");
+          }
+        } catch (error) {
+          console.error("Error uploading files:", error);
+        }
+      };
+      const uploadAllPhoto = dataImageProductEdit.map((data) =>
+        uploadNewPhoto(data)
+      );
+      await Promise.all(uploadAllPhoto);
+    };
+    btnSaveChanges.addEventListener("click", async () => {
+      try {
+        getDataProductElement();
+        const id = cardPhotosModalEdit.dataset.id;
+        await handleUpdateInfoProduct(id);
+        await handleAddNewPhoto(id);
+        const listUpadteSizeQuantity = dataProductEdit.map(
+          async (data) => await handleUpdateSizeQuantity(data)
+        );
+        await Promise.all(listUpadteSizeQuantity);
+      } catch (error) {
+        console.log(error);
+      }
+    });
+  };
   utils.mutationObserverElement(listProducts, mutationListProduct, {
     attributes: true,
     childList: true,
@@ -571,6 +774,13 @@ const shop = () => {
     characterDataOldValue: true,
   });
   utils.mutationObserverElement(cardPhotos, mutationCardPhotosProduct, {
+    attributes: true,
+    childList: true,
+    subtree: true,
+    attributeOldValue: true,
+    characterDataOldValue: true,
+  });
+  utils.mutationObserverElement(cardPhotosModalEdit, mutationCardEditProduct, {
     attributes: true,
     childList: true,
     subtree: true,

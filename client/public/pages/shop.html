@@ -19,8 +19,12 @@
     .active-color {
       border: 2px solid #505050;
     }
-    .acive-page {
+    .active-page {
       background: #f3f3f3;
+    }
+    .input-name-product:focus ~ .card-suggest {
+      opacity: 1;
+      visibility: inherit;
     }
   </style>
   <body>
@@ -42,41 +46,6 @@
             <!-- filter  -->
             <div class="w-1/5 flex flex-col gap-y-5">
               <h3 class="font-volkhov text-3xl mb-5">Filters</h3>
-              <!-- size  -->
-              <div>
-                <p class="font-poppins text-lg mb-3">Size</p>
-                <div class="flex flex-wrap gap-5">
-                  <button
-                    data-size="S"
-                    class="font-jost text-2xl text-[#8A8A8A] border border-[#8A8A8A] w-11 h-11 rounded-md hover:text-red-500 hover:border-red-500"
-                  >
-                    S
-                  </button>
-                  <button
-                    data-size="S"
-                    class="font-jost text-2xl text-[#8A8A8A] border border-[#8A8A8A] w-11 h-11 rounded-md hover:text-red-500 hover:border-red-500"
-                  >
-                    M
-                  </button>
-                  <button
-                    data-size="S"
-                    class="font-jost text-2xl text-[#8A8A8A] border border-[#8A8A8A] w-11 h-11 rounded-md hover:text-red-500 hover:border-red-500"
-                  >
-                    L
-                  </button>
-                  <button
-                    data-size="S"
-                    class="font-jost text-2xl text-[#8A8A8A] border border-[#8A8A8A] w-11 h-11 rounded-md hover:text-red-500 hover:border-red-500"
-                  >
-                    XL
-                  </button>
-                </div>
-              </div>
-              <!-- color -->
-              <div>
-                <p class="font-poppins text-lg mb-3">Color</p>
-                <div class=""></div>
-              </div>
               <!-- price  -->
               <div>
                 <p class="font-poppins text-lg mb-3">Price</p>
@@ -84,27 +53,47 @@
                   <li
                     class="text-[#8A8A8A] font-poppins hover:text-red-500 tracking-widest"
                   >
-                    <a href="">$0-$50</a>
+                    <a
+                      href="#"
+                      onclick="addQueryParams({min_price:0,max_price:50})"
+                      >$0-$50</a
+                    >
                   </li>
                   <li
                     class="text-[#8A8A8A] font-poppins hover:text-red-500 tracking-widest"
                   >
-                    <a href="">$50-$100</a>
+                    <a
+                      href="#"
+                      onclick="addQueryParams({min_price:50,max_price:100})"
+                      >$50-$100</a
+                    >
                   </li>
                   <li
                     class="text-[#8A8A8A] font-poppins hover:text-red-500 tracking-widest"
                   >
-                    <a href="">$100-$150</a>
+                    <a
+                      href="#"
+                      onclick="addQueryParams({min_price:100,max_price:150})"
+                      >$100-$150</a
+                    >
                   </li>
                   <li
                     class="text-[#8A8A8A] font-poppins hover:text-red-500 tracking-widest"
                   >
-                    <a href="">$150-$200</a>
+                    <a
+                      href="#"
+                      onclick="addQueryParams({min_price:150,max_price:200})"
+                      >$150-$200</a
+                    >
                   </li>
                   <li
                     class="text-[#8A8A8A] font-poppins hover:text-red-500 tracking-widest"
                   >
-                    <a href="">$300-$400</a>
+                    <a
+                      href="#"
+                      onclick="addQueryParams({min_price:300,max_price:400})"
+                      >$300-$400</a
+                    >
                   </li>
                 </ul>
               </div>
@@ -118,22 +107,34 @@
                 </div>
                 <ul class="flex flex-wrap gap-x-4 gap-y-2 pr-10">
                   <li class="text-[#8A8A8A] font-poppins hover:text-red-500">
-                    <a href="">Minimong</a>
+                    <a href="#" onclick="addQueryParams({brand:'Minimong'})"
+                      >Minimong</a
+                    >
                   </li>
                   <li class="text-[#8A8A8A] font-poppins hover:text-red-500">
-                    <a href="">Retrolie</a>
+                    <a href="#" onclick="addQueryParams({brand:'Retrolie'})"
+                      >Retrolie</a
+                    >
                   </li>
                   <li class="text-[#8A8A8A] font-poppins hover:text-red-500">
-                    <a href="">Brook</a>
+                    <a href="#" onclick="addQueryParams({brand:'Brook'})"
+                      >Brook</a
+                    >
                   </li>
                   <li class="text-[#8A8A8A] font-poppins hover:text-red-500">
-                    <a href="">Learts</a>
+                    <a href="#" onclick="addQueryParams({brand:'Learts'})"
+                      >Learts</a
+                    >
                   </li>
                   <li class="text-[#8A8A8A] font-poppins hover:text-red-500">
-                    <a href="">Vagabond</a>
+                    <a href="#" onclick="addQueryParams({brand:'Vagabond'})"
+                      >Vagabond</a
+                    >
                   </li>
                   <li class="text-[#8A8A8A] font-poppins hover:text-red-500">
-                    <a href="">Abby</a>
+                    <a href="#" onclick="addQueryParams({brand:'Abby'})"
+                      >Abby</a
+                    >
                   </li>
                 </ul>
               </div>
@@ -150,10 +151,10 @@
                     <a href="">All product</a>
                   </li>
                   <li class="text-[#8A8A8A] font-poppins hover:text-red-500">
-                    <a href="">Best seller</a>
+                    <a href="">Men</a>
                   </li>
                   <li class="text-[#8A8A8A] font-poppins hover:text-red-500">
-                    <a href="">New arrivals</a>
+                    <a href="">Women</a>
                   </li>
                   <li class="text-[#8A8A8A] font-poppins hover:text-red-500">
                     <a href="">Accessories</a>
@@ -165,34 +166,41 @@
                 <p class="font-poppins text-lg mb-3">Tags</p>
                 <ul class="flex flex-wrap gap-x-4 gap-y-2">
                   <li class="text-[#8A8A8A] font-poppins hover:text-red-500">
-                    <a href="">Fashion</a>
+                    <a href="#" onclick="addQueryParams({type:'clothes'})"
+                      >Fashion</a
+                    >
                   </li>
                   <li class="text-[#8A8A8A] font-poppins hover:text-red-500">
-                    <a href="">Hats</a>
+                    <a href="#" onclick="addQueryParams({type:'hats'})">Hats</a>
                   </li>
                   <li class="text-[#8A8A8A] font-poppins hover:text-red-500">
-                    <a href="">Sandal</a>
+                    <a href="#" onclick="addQueryParams({type:'sandal'})"
+                      >Sandal</a
+                    >
                   </li>
                   <li class="text-[#8A8A8A] font-poppins hover:text-red-500">
-                    <a href="">Belt</a>
+                    <a href="#" onclick="addQueryParams({type:'belt'})">Belt</a>
                   </li>
                   <li class="text-[#8A8A8A] font-poppins hover:text-red-500">
-                    <a href="">Bags</a>
+                    <a href="#" onclick="addQueryParams({type:'bags'})">Bags</a>
                   </li>
                   <li class="text-[#8A8A8A] font-poppins hover:text-red-500">
-                    <a href="">Snacker</a>
+                    <a href="#" onclick="addQueryParams({type:'snacker'})"
+                      >Snacker</a
+                    >
                   </li>
                   <li class="text-[#8A8A8A] font-poppins hover:text-red-500">
-                    <a href="">Minimong</a>
+                    <a href="#" onclick="addQueryParams({type:'shoe'})">Shoe</a>
                   </li>
                   <li class="text-[#8A8A8A] font-poppins hover:text-red-500">
-                    <a href="">Vagabond</a>
+                    <a href="#" onclick="addQueryParams({type:'sunglasses'})"
+                      >Sunglasses</a
+                    >
                   </li>
                   <li class="text-[#8A8A8A] font-poppins hover:text-red-500">
-                    <a href="">Sunglasses</a>
-                  </li>
-                  <li class="text-[#8A8A8A] font-poppins hover:text-red-500">
-                    <a href="">Beachwear</a>
+                    <a href="#" onclick="addQueryParams({type:'beachwear'})"
+                      >Beachwear</a
+                    >
                   </li>
                 </ul>
               </div>
@@ -208,100 +216,136 @@
                 <!-- view style  -->
                 <div class="flex items-center gap-x-5">
                   <button
-                    class="w-9 h-9 rounded-md bg-[#f2f2f2] flex items-center justify-center"
-                  >
-                    <img src="../../src/icons/icon-5.svg" alt="" />
-                  </button>
-                  <button
-                    class="w-9 h-9 rounded-md bg-[#f2f2f2] flex items-center justify-center"
+                    data-col="2"
+                    class="w-9 h-9 rounded-md bg-[#f2f2f2] flex items-center justify-center btn-view-style"
                   >
                     <img src="../../src/icons/icon-6.svg" alt="" />
                   </button>
                   <button
-                    class="w-9 h-9 rounded-md bg-[#f2f2f2] flex items-center justify-center"
+                    data-col="3"
+                    class="w-9 h-9 rounded-md bg-[#f2f2f2] flex items-center justify-center btn-view-style"
                   >
                     <img src="../../src/icons/icon-7.svg" alt="" />
                   </button>
                   <button
-                    class="w-9 h-9 rounded-md bg-[#f2f2f2] flex items-center justify-center"
+                    data-col="4"
+                    class="w-9 h-9 rounded-md bg-[#f2f2f2] flex items-center justify-center btn-view-style"
                   >
                     <img src="../../src/icons/icon-8.svg" alt="" />
                   </button>
                   <button
-                    class="w-9 h-9 rounded-md bg-[#f2f2f2] flex items-center justify-center"
+                    data-col="5"
+                    class="w-9 h-9 rounded-md bg-[#f2f2f2] flex items-center justify-center btn-view-style"
                   >
                     <img src="../../src/icons/icon-9.svg" alt="" />
                   </button>
                 </div>
+                <!-- search  -->
+                <div class="relative flex items-center">
+                  <label for="simple-search" class="sr-only">Search</label>
+                  <div class="relative w-full">
+                    <div
+                      class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none"
+                    >
+                      <svg
+                        class="w-4 h-4 text-gray-500 dark:text-gray-400"
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 18 20"
+                      >
+                        <path
+                          stroke="currentColor"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M3 5v10M3 5a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm0 10a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm12 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm0 0V6a3 3 0 0 0-3-3H9m1.5-2-2 2 2 2"
+                        />
+                      </svg>
+                    </div>
+                    <input
+                      type="text"
+                      class="input-name-product bg-gray-50 border border-gray-300 text-sm rounded-lg block w-full ps-10 p-2.5 outline-none"
+                      placeholder="Enter name..."
+                    />
+                    <!-- suggest  -->
+                    <div
+                      class="absolute bg-white w-full top-11 shadow-md rounded-lg opacity-0 visible transition-all card-suggest"
+                    >
+                      <ul class="suggest">
+                        <li>
+                          <a
+                            class="block shadow-sm px-5 py-2 hover:text-red-500 rounded-lg hover:bg-gray-50"
+                            href=""
+                            >Nothing found...</a
+                          >
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                  <button
+                    type="submit"
+                    class="btn-search-product p-2.5 ms-2 font-medium bg-black rounded-md flex items-center justify-center hover:text-[#FF4646] font-poppins text-sm text-white shadow-xl shadow-[#bbbbbbcc]"
+                  >
+                    <svg
+                      class="w-4 h-4"
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        stroke="currentColor"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+                      />
+                    </svg>
+                    <span class="sr-only">Search</span>
+                  </button>
+                </div>
               </div>
               <!-- list product  -->
-              <div class="flex flex-wrap mt-10 justify-between gap-y-10">
-                <!-- item product  -->
-                <div class="item-product w-80 h-[500px]">
-                  <a href="" class="block w-full h-3/4">
-                    <img
-                      class="w-full h-full object-cover rounded-md"
-                      src="https://photo.znews.vn/w660/Uploaded/mdf_eioxrd/2021_07_06/2.jpg"
-                      alt=""
+              <!-- loading -->
+              <div class="text-center loading mx-auto mt-20">
+                <div role="status">
+                  <svg
+                    aria-hidden="true"
+                    class="inline size-10 text-gray-200 animate-spin fill-blue-600"
+                    viewBox="0 0 100 101"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                      fill="currentColor"
                     />
-                  </a>
-                  <div class="mt-5 flex flex-col gap-y-3 h-1/4">
-                    <!-- name  -->
-                    <p class="font-volkhov">Rounded Red Hat</p>
-                    <!-- price & size -->
-                    <div class="flex items-center justify-between">
-                      <p class="font-volkhov tracking-wider">$8.00</p>
-                      <select name="size" class="font-volkhov outline-none">
-                        <option value="S">S</option>
-                        <option value="M">M</option>
-                        <option value="L">L</option>
-                        <option value="XL">XL</option>
-                      </select>
-                    </div>
-                    <!-- color  -->
-                    <ul class="flex items-center gap-x-2">
-                      <li
-                        class="active-color size-6 rounded-full flex items-center justify-center cursor-pointer"
-                        data-color="black"
-                      >
-                        <p
-                          class="size-5 rounded-full bg-black border border-white"
-                        ></p>
-                      </li>
-                      <li
-                        class="size-6 rounded-full flex items-center justify-center cursor-pointer"
-                        data-color="blue"
-                      >
-                        <p
-                          class="size-5 rounded-full bg-[blue] border border-white"
-                        ></p>
-                      </li>
-                    </ul>
-                  </div>
+                    <path
+                      d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                      fill="currentFill"
+                    />
+                  </svg>
+                  <span class="sr-only">Loading...</span>
                 </div>
+              </div>
+              <div
+                class="grid grid-cols-4 place-items-center mt-10 gap-y-20 gap-x-10"
+                id="list-products"
+              >
+                <!-- item product  -->
               </div>
               <!-- pagination -->
               <div class="w-full flex justify-center">
-                <div class="mx-auto mt-10 flex items-center gap-x-3">
-                  <ul class="flex items-center gap-x-3">
-                    <li
-                      class="acive-page w-10 h-10 rounded-full flex items-center justify-center font-jost hover:text-red-500"
-                    >
-                      <a href="">1</a>
-                    </li>
-                    <li
-                      class="w-10 h-10 rounded-full flex items-center justify-center font-jost hover:text-red-500"
-                    >
-                      <a href="">2</a>
-                    </li>
-                    <li
-                      class="w-10 h-10 rounded-full flex items-center justify-center font-jost hover:text-red-500"
-                    >
-                      <a href="">3</a>
-                    </li>
-                  </ul>
+                <div class="mx-auto mt-10 flex items-center gap-x-5">
+                  <!-- prev  -->
+                  <a href="" class="hover:text-red-500 prev-page">
+                    <i class="fa-solid fa-chevron-left size-1"></i>
+                    <i class="fa-solid fa-chevron-left size-1"></i>
+                  </a>
+                  <ul class="flex items-center justify-evenly pagination"></ul>
                   <!-- next  -->
-                  <a href="" class="hover:text-red-500">
+                  <a href="" class="hover:text-red-500 next-page">
                     <i class="fa-solid fa-chevron-right size-1"></i>
                     <i class="fa-solid fa-chevron-right size-1"></i>
                   </a>
@@ -321,6 +365,16 @@
       <button
         class="btn-show-mini-cart fixed right-5 top-1/2 size-12 bg-black flex items-center justify-center rounded-xl"
       >
+        <span class="absolute -top-1 -left-2 flex size-5">
+          <span
+            class="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"
+          ></span>
+          <span
+            class="relative inline-flex rounded-full size-5 bg-sky-500 text-[12px] text-white items-center justify-center"
+            id="cart-length"
+            >10</span
+          >
+        </span>
         <img src="../../src/icons/cart.png" alt="" />
       </button>
       <!-- Mini cart  -->
@@ -329,30 +383,16 @@
     </main>
   </body>
   <script>
-    const btnCollapseBrand = document.querySelector(".btn-collapse-brands");
-    const brandsElement = document.querySelector(".brands ul");
-    btnCollapseBrand.addEventListener("click", () => {
-      brandsElement.classList.toggle("hidden");
-      if (brandsElement.classList.contains("hidden")) {
-        btnCollapseBrand.innerHTML = ' <i class="fa-solid fa-angle-down"></i>';
-      } else {
-        btnCollapseBrand.innerHTML = ' <i class="fa-solid fa-angle-up"></i>';
+    function addQueryParams(params) {
+      const url = new URL(window.location.href); // Lấy URL hiện tại
+      for (const key in params) {
+        if (params.hasOwnProperty(key)) {
+          url.searchParams.set(key, params[key]); // Thêm hoặc cập nhật từng key-value
+        }
       }
-    });
-    const btnCollapseCollection = document.querySelector(
-      ".btn-collapse-collections"
-    );
-    const collectionsElement = document.querySelector(".collections ul");
-    btnCollapseCollection.addEventListener("click", () => {
-      collectionsElement.classList.toggle("hidden");
-      if (collectionsElement.classList.contains("hidden")) {
-        btnCollapseCollection.innerHTML =
-          ' <i class="fa-solid fa-angle-down"></i>';
-      } else {
-        btnCollapseCollection.innerHTML =
-          ' <i class="fa-solid fa-angle-up"></i>';
-      }
-    });
+      window.location.href = url.toString(); // Điều hướng tới URL mới
+    }
   </script>
-  <script src="../../src/js/main.js"></script>
+  <script src="../../src/js/shop.js" type="module"></script>
+  <script src="../../src/js/main.js" type="module"></script>
 </html>

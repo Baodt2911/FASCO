@@ -6,8 +6,10 @@ import {
 
 const addSoldController = async (req, res) => {
   try {
-    const { idProduct } = req.body;
-    const { message, status, element } = await addSoldService({ idProduct });
+    const { id } = req.query;
+    const { message, status, element } = await addSoldService({
+      idProduct: id,
+    });
     res.status(status).json({
       message,
       element,
@@ -18,8 +20,10 @@ const addSoldController = async (req, res) => {
 };
 const addRateController = async (req, res) => {
   try {
-    const { idProduct } = req.body;
-    const { message, status, element } = await addRateService({ idProduct });
+    const { id } = req.query;
+    const { message, status, element } = await addRateService({
+      idProduct: id,
+    });
     res.status(status).json({
       message,
       element,
@@ -30,11 +34,10 @@ const addRateController = async (req, res) => {
 };
 const getSoldRateController = async (req, res) => {
   try {
-    const { idProduct } = req.body;
+    const { id } = req.query;
     const { message, status, element } = await getSoldRateService({
-      idProduct,
+      idProduct: id,
     });
-
     res.status(status).json({
       message,
       element,

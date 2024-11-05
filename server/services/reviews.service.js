@@ -15,6 +15,16 @@ const getReviewProductService = async ({ id, page, pageSize, rate, to }) => {
         path: "userId",
         model: "user",
         select: ["firstName", "lastName"],
+      })
+      .populate({
+        path: "idProduct",
+        model: "products",
+        select: "photos",
+        populate: {
+          path: "photos",
+          model: "photos",
+          select: ["url"],
+        },
       });
     if (to != "popular") {
       // Check id invalid
@@ -87,6 +97,7 @@ const createNewReviewService = async ({
     }
     await _review.create({
       userId,
+      orderId,
       idProduct,
       rate,
       content,

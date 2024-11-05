@@ -3,6 +3,10 @@ const utils = (function () {
     .toString()
     .split(window.location.pathname)[0];
   return {
+    convertTimeUTC: (time) => {
+      const date = new Date(time).toLocaleString("vi-VN");
+      return date;
+    },
     getCurrentUrl: () => currentUrl,
     getProducts: async (path) => {
       try {

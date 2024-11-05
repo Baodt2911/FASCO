@@ -29,7 +29,7 @@
         <div class="w-full h-full">
           <img
             class="w-full h-full object-cover"
-            src="https://media.baoquangninh.vn/upload/image/202310/medium/2137171_f1207af841cbfc6683b03f4d1fdab7ce.jpg"
+            src="https://images.zen.com.tn/medias/folder_12_12_2023/8_U2_A1395_0597a9a2a3.webp"
             alt=""
           />
         </div>
@@ -81,7 +81,7 @@
               <input
                 type="text"
                 placeholder="First name"
-                class="font-poppins outline-none w-full h-full"
+                class="font-poppins outline-none w-full h-full first_name"
               />
             </div>
             <!-- Last name  -->
@@ -89,7 +89,7 @@
               <input
                 type="text"
                 placeholder="Last name"
-                class="font-poppins outline-none w-full h-full"
+                class="font-poppins outline-none w-full h-full last_name"
               />
             </div>
             <!-- Email  -->
@@ -98,6 +98,7 @@
                 type="text"
                 placeholder="Email address"
                 name="email"
+                id="emailSignUp"
                 class="font-poppins outline-none w-full h-full"
               />
             </div>
@@ -107,7 +108,7 @@
                 type="number"
                 placeholder="Phone Number"
                 name="Phone"
-                class="phone font-poppins outline-none w-full h-full"
+                class="phone font-poppins outline-none w-full h-full phone"
               />
             </div>
             <!-- Password  -->
@@ -155,9 +156,10 @@
           </div>
           <!-- button create -->
           <button
-            class="mt-10 block w-4/5 h-14 mx-auto bg-black text-white font-poppins font-semibold rounded-xl shadow-xl"
+            id="btn-create-account"
+            class="mt-10 block w-full h-14 mx-auto bg-black text-white font-poppins font-semibold rounded-xl shadow-xl"
           >
-            Create Accout
+            Create Account
           </button>
           <p class="font-poppins text-center mt-5">
             Already have an account?
@@ -165,37 +167,14 @@
           </p>
         </div>
         <span class="absolute bottom-0 right-0 font-poppins"
-          >FASCO Terms & Codnitions</span
+          >FASCO Terms & Conditions</span
         >
       </div>
+      <div
+        id="notification"
+        class="absolute top-10 right-5 transition-all"
+      ></div>
     </main>
   </body>
-  <script>
-    const password = document.querySelector(".password");
-    const confirmPassword = document.querySelector(".confirm-password");
-    const btnShowPassword = document.querySelector(".show-password");
-    const btnShowConfirmPassword = document.querySelector(
-      ".show-confirm-password"
-    );
-
-    btnShowPassword.addEventListener("click", () => {
-      if (password.type == "password") {
-        password.type = "text";
-        btnShowPassword.innerHTML = '<i class="fa-regular fa-eye-slash"></i>';
-      } else {
-        password.type = "password";
-        btnShowPassword.innerHTML = '<i class="fa-regular fa-eye"></i>';
-      }
-    });
-    btnShowConfirmPassword.addEventListener("click", () => {
-      if (confirmPassword.type == "password") {
-        confirmPassword.type = "text";
-        btnShowConfirmPassword.innerHTML =
-          '<i class="fa-regular fa-eye-slash"></i>';
-      } else {
-        confirmPassword.type = "password";
-        btnShowConfirmPassword.innerHTML = '<i class="fa-regular fa-eye"></i>';
-      }
-    });
-  </script>
+  <script src="../../src/js/register.js " type="module"></script>
 </html>

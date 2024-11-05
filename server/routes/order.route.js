@@ -4,6 +4,7 @@ import {
   createOrderController,
   getDetailOrderController,
   getOrderController,
+  updateOrderController,
 } from "../controllers/order.controller.js";
 import {
   checkAdmin,
@@ -13,7 +14,12 @@ import {
 const router = express.Router();
 
 router.post("/create-order", verfifyAccessToken, createOrderController);
-router.post("/complete-order", verfifyAccessToken, completeOrderController);
+router.post(
+  "/complete-order/:orderId",
+  verfifyAccessToken,
+  completeOrderController
+);
+router.put("/update-order/:orderId", checkAdmin, updateOrderController);
 router.get("/get", verfifyAccessToken, getOrderController);
 router.get("/get-detail", checkAdmin, getDetailOrderController);
 

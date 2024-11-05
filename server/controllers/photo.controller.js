@@ -1,9 +1,20 @@
 import {
   deletePhotoService,
-  uploadService,
+  addPhotoService,
+  uploadPhotoService,
+  updatePhotoService,
 } from "../services/photo.service.js";
 
-const uploadController = async (req, res) => {
+const uploadPhotoController = async (req, res) => {
+  try {
+    const files = req.files;
+    const { status, url, message } = await uploadPhotoService(files[0]);
+    res.status(status).json({ status, url, message });
+  } catch (error) {
+    console.log(error);
+  }
+};
+const addPhotoController = async (req, res) => {
   try {
     const _id = req.params._id;
     const files = req.files;
@@ -17,10 +28,23 @@ const uploadController = async (req, res) => {
         metadatas.push(JSON.parse(item));
       });
     }
-    const { status, message, element } = await uploadService({
+    const { status, message, element } = await addPhotoService({
       _id,
-      files,
+      file: files[0],
       metadatas,
+    });
+    res.status(status).json({ message });
+  } catch (error) {
+    console.log(error);
+  }
+};
+const updatePhotoController = async (req, res) => {
+  try {
+    const _id = req.params._id;
+    const data = req.body;
+    const { status, message, element } = await updatePhotoService({
+      _id,
+      data,
     });
     res.status(status).json({ message });
   } catch (error) {
@@ -36,4 +60,9 @@ const deletePhotoController = async (req, res) => {
     console.log(error);
   }
 };
-export { uploadController, deletePhotoController };
+export {
+  addPhotoController,
+  deletePhotoController,
+  updatePhotoController,
+  uploadPhotoController,
+};

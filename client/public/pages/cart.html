@@ -47,57 +47,16 @@
             <table
               class="w-full font-volkhov text-lg font-normal border-b-2 pb-10"
             >
-              <tr class="border-b">
-                <th class="text-left w-1/2">Product</th>
-                <th>Price</th>
-                <th>Quantity</th>
-                <th>Total</th>
-              </tr>
+              <thead>
+                <tr class="border-b">
+                  <th class="text-left w-1/2">Product</th>
+                  <th>Price</th>
+                  <th>Quantity</th>
+                  <th>Total</th>
+                </tr>
+              </thead>
               <!-- item product -->
-              <tr class="">
-                <!-- product  -->
-                <td class="flex gap-x-5">
-                  <div class="w-40 h-56">
-                    <img
-                      class="w-full h-full object-cover"
-                      src="https://vcdn1-dulich.vnecdn.net/2022/07/04/11-5977-1656858349-1656932044-3356-1656932377.jpg?w=1200&h=0&q=100&dpr=1&fit=crop&s=wlMP_C-PBfELkksQF0D3kQ"
-                      alt=""
-                    />
-                  </div>
-                  <div>
-                    <!-- name product  -->
-                    <p>Mini dress with ruffled straps</p>
-                    <!-- Color  -->
-                    <p class="font-poppins text-[#8A8A8A]">Color: Red</p>
-                    <!-- size  -->
-                    <p class="font-poppins text-[#8A8A8A]">Size: M</p>
-                    <!-- remove  -->
-                    <button
-                      class="font-poppins text-[#DA3F3F] text-sm underline"
-                    >
-                      Remove
-                    </button>
-                  </div>
-                </td>
-                <!-- price  -->
-                <td class="text-center">$14.90</td>
-                <!-- quantity  -->
-                <td class="">
-                  <div
-                    class="flex items-center w-32 h-12 mx-auto border border-[#EEEEE] justify-around p-x-5 rounded-sm"
-                  >
-                    <button class="btn-reduce w-5 h-full text-xl">-</button>
-                    <input
-                      type="number"
-                      class="quantity w-10 h-full outline-none font-jost text-center"
-                      value="1"
-                    />
-                    <button class="btn-increase w-5 h-full text-xl">+</button>
-                  </div>
-                </td>
-                <!-- total  -->
-                <td class="text-center">$14.90</td>
-              </tr>
+              <tbody id="carts-product"></tbody>
             </table>
           </div>
           <!-- Check out  -->
@@ -126,8 +85,8 @@
         <div class="subscribe"></div>
       </div>
       <footer class="footer"></footer>
+      <div id="notification" class="fixed top-10 right-5 transition-all"></div>
     </main>
   </body>
-
-  <script src="../../src/js/main.js"></script>
+  <script src="../../src/js/main.js" type="module"></script>
 </html>

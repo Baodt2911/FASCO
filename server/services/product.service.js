@@ -11,11 +11,14 @@ const getAllProductService = async ({
   pageSize,
   type,
   sex,
+  brand,
   min_price,
   max_price,
 }) => {
   try {
     const skip = (page - 1) * pageSize;
+    const totalItem = await _product.countDocuments();
+    const totalPage = Math.ceil(totalItem / pageSize);
     let query = {};
     if (type) {
       query.type = type;
@@ -23,12 +26,16 @@ const getAllProductService = async ({
     if (sex) {
       query.sex = sex;
     }
+    if (brand) {
+      query.brand = brand;
+    }
     if (min_price && max_price) {
       query.$and = [
         { price: { $gte: min_price } },
         { price: { $lte: max_price } },
       ];
     }
+
     const products = await _product
       .find(query)
       .skip(skip)
@@ -38,7 +45,7 @@ const getAllProductService = async ({
     return {
       status: 200,
       message: "Geted list product",
-      element: products,
+      element: { products, totalItem, totalPage, currentPage: page },
     };
   } catch (error) {
     console.log(error);
@@ -136,8 +143,9 @@ const addProductService = async ({
     console.log(error);
   }
 };
-const updateProductService = async ({ _id, data }) => {
+const updateProductService = async ({ _id, data, is_delete_photo }) => {
   try {
+    const { photo, ...other } = data;
     // Check id invalid
     if (checkId(_id)) {
       return {
@@ -152,22 +160,22 @@ const updateProductService = async ({ _id, data }) => {
         message: "Product not found!",
       };
     }
-    if (!!data.photos) {
-      // Check id invalid
-      if (checkId(data.photos[0])) {
-        return {
-          status: 500,
-          message: "_id photo invalid",
-        };
+    if (!!photo) {
+      if (is_delete_photo) {
+        await product.updateOne({
+          $pull: { photos: Array.isArray(photo) ? { $in: photo } : photo },
+        });
+        if (Array.isArray(photo)) {
+          const listPhoto = photo.map((id) => deletePhotoService(id));
+          await Promise.all(listPhoto);
+        } else {
+          await deletePhotoService(photo);
+        }
+      } else {
+        await product.updateOne({ $push: { photos: photo } });
       }
-      await product.updateOne({ $addToSet: { photos: data.photos } });
-      return {
-        status: 200,
-        message: "Updated successfully!",
-        element: data,
-      };
     }
-    await product.updateOne({ $set: data });
+    await product.updateOne({ $set: other });
     return {
       status: 200,
       message: "Updated successfully!",

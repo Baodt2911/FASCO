@@ -1,4 +1,5 @@
-<nav class="mx-56 flex items-center justify-between">
+const Footer = () => {
+  return `<nav class="mx-56 flex items-center justify-between">
   <a
     href="../pages/index.html"
     class="logo font-volkhov text-3xl text-[#484848]"
@@ -54,3 +55,6 @@
 <p class="text-center font-poppins text-xs text-[#484848] mt-14">
   Copyright © 2022 Xpro . All Rights Reseved.
 </p>
+`;
+};
+export default Footer;

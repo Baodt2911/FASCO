@@ -14,6 +14,6 @@ router.get("/all", getAllProductController);
 router.get("/detail", getDetailProductController);
 router.get("/search", searchProductController);
 router.post("/add-new", checkAdmin, addProductController);
-router.put("/update", checkAdmin, updateProductController);
-router.delete("/delete", checkAdmin, deleteProductController);
+router.put("/update/:_id", checkAdmin, updateProductController);
+router.delete("/delete/:_id", checkAdmin, deleteProductController);
 export default router;
