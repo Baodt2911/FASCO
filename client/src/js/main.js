@@ -66,11 +66,10 @@ const removeFromCart = (carts) => {
 };
 
 const { carts } = await getCart();
-console.log(carts);
 
-if (bannerElement) {
-  bannerElement.innerHTML = BannerMiddle();
-}
+// if (bannerElement) {
+//   bannerElement.innerHTML = BannerMiddle();
+// }
 if (galleryElement) {
   galleryElement.innerHTML = Gallery();
 }
@@ -88,6 +87,7 @@ if (miniCartElement) {
           class="w-full h-full object-cover"
           src="${product.color.url}"
           alt=""
+          loading="lazy"
         />
       </div>
       <div class="flex-1 flex flex-col gap-y-3">
@@ -175,6 +175,7 @@ if (cartsProduct) {
                   class="w-full h-full object-cover"
                   src="${product.color.url}"
                   alt=""
+                  loading="lazy"
                 />
               </div>
               <div>

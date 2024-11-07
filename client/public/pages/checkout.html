@@ -76,27 +76,27 @@
             <div>
               <h1 class="font-volkhov text-5xl text-[#484848]">Delivery</h1>
               <div class="flex flex-col w-full gap-y-3">
-                <!-- coutry / region -->
+                <!-- country / region -->
                 <div
                   class="relative w-full h-16 border border-[#8A8A8A] mt-5 placeholder:text-[#8A8A8A]"
                 >
                   <input
                     type="text"
-                    class="coutry-region-input w-full h-full font-poppins placeholder:text-[#8A8A8A] px-5 outline-none"
+                    class="country-region-input w-full h-full font-poppins placeholder:text-[#8A8A8A] px-5 outline-none"
                     placeholder="Country / Region"
                     oninput="searchCoutry(this)"
                   />
                   <!-- btn show coutry / region  -->
-                  <button class="btn-show-coutry-region size-6 cursor-pointer">
+                  <button class="btn-show-country-region size-6 cursor-pointer">
                     <i
                       class="fa-solid fa-angle-down absolute top-1/2 -translate-y-1/2 right-5"
                     ></i>
                   </button>
-                  <!-- card coutry / region -->
+                  <!-- card country / region -->
                   <div
-                    class="card-coutry_region absolute top-16 w-full h-60 border-2 border-gray-200 bg-white hidden-card transition-all shadow-xl flex flex-col overflow-y-scroll gap-y-1"
+                    class="card-country_region absolute top-16 w-full h-60 border-2 border-gray-200 bg-white hidden-card transition-all shadow-xl flex flex-col overflow-y-scroll gap-y-1"
                   >
-                    <!-- item coutry -->
+                    <!-- item country -->
                     <!-- <div
                       class="font-poppins cursor-pointer flex items-center gap-x-2 hover:bg-gray-100 h-12 px-5 py-2"
                     >
@@ -173,7 +173,7 @@
           </div>
           <!-- card product  -->
           <div class="flex-1 bg-[#f5f5f5] pl-20 pt-20 pb-96 pr-56">
-            <div>
+            <div id="list-products-checkout">
               <!-- item product  -->
               <div class="flex items-center gap-x-10">
                 <div class="size-32">
@@ -238,75 +238,23 @@
     </main>
   </body>
   <script>
-    paypal
-      .Buttons({
-        style: {
-          layout: "vertical",
-          color: "white",
-          shape: "rect",
-        },
-        async createOrder() {
-          try {
-            const response = await fetch(
-              "http://localhost:3000/order/create-order",
-              {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                  total: 107.5,
-                  subtotal: 100,
-                  shipping: 10,
-                  discount: 2.5,
-                  cart: [
-                    {
-                      product: "bao",
-                      quantity: 1,
-                      size: "S",
-                      color: "M",
-                      category: "PHYSICAL_GOODS",
-                      unit_amount: {
-                        currency_code: "USD",
-                        value: 100,
-                      },
-                    },
-                  ],
-                }),
-              }
-            );
-
-            const orderData = await response.json();
-            return orderData.message.id;
-          } catch (error) {
-            console.error(error);
-            throw error;
-          }
-        },
-        async onApprove(data) {
-          // Capture the funds from the transaction.
-          const response = await fetch(
-            "http://localhost:3000/order/complete-order",
-            {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                orderId: data.orderID,
-              }),
-            }
-          );
-
-          const details = await response.json();
-          console.log(data, details);
-        },
-      })
-      .render("#paypal-button-container");
-    const cardCoutryRegion = document.querySelector(".card-coutry_region");
+    const cardCoutryRegion = document.querySelector(".card-country_region");
     const btnShowCoutryRegion = document.querySelector(
-      ".btn-show-coutry-region"
+      ".btn-show-country-region"
     );
-    const coutryRegionInput = document.querySelector(".coutry-region-input");
+    const coutryRegionInput = document.querySelector(".country-region-input");
     const API_URL_BASE = "https://restcountries.com/v3.1";
     btnShowCoutryRegion.addEventListener("click", () => {
       cardCoutryRegion.classList.toggle("hidden-card");
+      if (cardCoutryRegion.classList.contains("hidden-card")) {
+        btnShowCoutryRegion.innerHTML = `  <i
+                        class="fa-solid fa-angle-up absolute top-1/2 -translate-y-1/2 right-5"
+                      ></i>`;
+      } else {
+        btnShowCoutryRegion.innerHTML = `  <i
+                        class="fa-solid fa-angle-down absolute top-1/2 -translate-y-1/2 right-5"
+                      ></i>`;
+      }
     });
     const addDataCoutry = (datas) => {
       if (datas.length <= 12) {
@@ -318,7 +266,7 @@
         (data) =>
           `
             <div
-            class="font-poppins cursor-pointer flex items-center gap-x-2 hover:bg-gray-100 h-12 px-5 py-2 flex items-center" onclick="chooseCoutry(this)">
+            class="font-poppins cursor-pointer flex items-center gap-x-2 hover:bg-gray-100 h-12 px-5 py-2" onclick="chooseCoutry(this)">
               <!-- flag coutry  -->
               <div class="size-5">
                 <img class="w-full h-full  object-contain" src=${data.flags.svg} alt="" />
@@ -358,4 +306,5 @@
     getDataCoutry(API_URL_BASE + "/all");
   </script>
   <script src="../../src/js/main.js" type="module"></script>
+  <script src="../../src/js/check_out.js" type="module"></script>
 </html>

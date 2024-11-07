@@ -59,7 +59,21 @@ const htmlsPhoto = product.photos.map((photo) => {
 const htmlsColor = product.photos.map((photo) => {
   return `<li class="item-color" data-color="${photo.color}" data-id="${photo._id}" =>${photo.color}</li>`;
 });
-cardActivePhotos.src = product.photos[0].url;
+cardActivePhotos.querySelector("img").src = product.photos[0].url;
+cardActivePhotos.style.setProperty("--url", `url("${product.photos[0].url}")`);
+
+cardActivePhotos.addEventListener("mousemove", (e) => {
+  cardActivePhotos.style.setProperty("--display", "block");
+  let pointer = {
+    x: (e.offsetX * 100) / cardActivePhotos.offsetWidth,
+    y: (e.offsetY * 100) / cardActivePhotos.offsetHeight,
+  };
+  cardActivePhotos.style.setProperty("--zoom-x", pointer.x + "%");
+  cardActivePhotos.style.setProperty("--zoom-y", pointer.y + "%");
+});
+cardActivePhotos.addEventListener("mouseout", (e) => {
+  cardActivePhotos.style.setProperty("--display", "none");
+});
 cardListPhotos.innerHTML = htmlsPhoto.join("");
 productDetailColor.innerHTML = htmlsColor.join("");
 const itemPhoto = document.querySelectorAll(".item-photo");
@@ -72,7 +86,8 @@ itemPhoto.forEach((item) => {
       item.classList.remove("active-item-photo");
     });
     e.target.classList.add("active-item-photo");
-    cardActivePhotos.src = e.target.src;
+    cardActivePhotos.querySelector("img").src = e.target.src;
+    cardActivePhotos.style.setProperty("--url", `url("${e.target.src}")`);
   });
 });
 itemSize.forEach((item) => {
@@ -99,7 +114,8 @@ itemColor.forEach((item) => {
           item.classList.remove("active-item-photo");
         });
         item.classList.add("active-item-photo");
-        cardActivePhotos.src = item.src;
+        cardActivePhotos.querySelector("img").src = item.src;
+        cardActivePhotos.style.setProperty("--url", `url("${item.src}")`);
       }
     });
   });

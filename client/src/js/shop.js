@@ -133,6 +133,7 @@ const handleRenderProduct = (products) => {
             class="w-full h-full object-contain rounded-md"
             src="${product.photos[0].url}"
             alt="${product.photos[0].color}"
+            loading="lazy"
           />
         </a>
         <div class="mt-5 flex flex-col gap-y-3 h-1/4">

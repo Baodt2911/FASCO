@@ -131,6 +131,7 @@ const renderProduct = async (path) => {
             class="w-full h-full object-cover rounded-xl"
             src="${product.photos[0].url}"
             alt=""
+            loading="lazy"
         />
         </div>
         <div class="mt-3 mb-6 flex items-center justify-between">

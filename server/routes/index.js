@@ -8,6 +8,7 @@ import saleRouter from "./sale.route.js";
 import orderRouter from "./order.route.js";
 import paymentRouter from "./payment.route.js";
 import soldRateRouter from "./sold_rate.route.js";
+import discountRouter from "./discount.route.js";
 export {
   userRouter,
   otpRouter,
@@ -19,4 +20,5 @@ export {
   orderRouter,
   paymentRouter,
   soldRateRouter,
+  discountRouter,
 };
