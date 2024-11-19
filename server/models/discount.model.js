@@ -4,6 +4,7 @@ const discount = new Schema(
     discount_code: {
       type: String,
       required: true,
+      unique: true,
     },
     discount_percent: {
       type: Number,

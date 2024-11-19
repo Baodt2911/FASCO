@@ -1,50 +1,30 @@
 import mongoose, { Schema } from "mongoose";
 const deal = new Schema(
   {
-    idProduct: {
-      type: mongoose.Schema.Types.ObjectId,
-      required: true,
-    },
-    title: {
+    title: { type: String, required: true },
+    description: { type: String },
+    discountType: {
       type: String,
+      enum: ["percentage", "fixedAmount", "freeShipping"],
       required: true,
     },
-    description: {
+    discountValue: { type: Number, required: true },
+    startDate: { type: Date, required: true },
+    endDate: { type: Date, required: true },
+    status: {
       type: String,
-      required: true,
+      enum: ["active", "expired", "inactive"],
+      default: "inactive",
     },
-    discount_percent: {
-      type: Number,
-    },
-    discount_amount: {
-      type: Number,
-    },
-    price: {
-      type: Number,
-    },
-    final_price: {
-      type: Number,
-    },
-    start_date: {
-      type: Date,
-      required: true,
-    },
-    end_date: {
-      type: Date,
-      required: true,
-    },
-    is_active: {
-      type: Boolean,
-      default: true,
-    },
-    quantity: {
-      type: Number,
-      required: true,
-    },
-    image_url: {
-      type: String,
-      required: true,
-    },
+    minimumOrderValue: { type: Number, default: 0 },
+    applicableProducts: [
+      { type: mongoose.Schema.Types.ObjectId, ref: "products" },
+    ],
+    maximumUsagePerUser: { type: Number, default: 1 },
+    maximumUsageOverall: { type: Number },
+    code: { type: String },
+    image: { type: String },
+    priority: { type: Number, default: 1 },
   },
   { timestamps: true }
 );

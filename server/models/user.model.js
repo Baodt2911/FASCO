@@ -1,4 +1,4 @@
-import moongoose, { Schema } from "mongoose";
+import mongoose, { Schema } from "mongoose";
 const user = new Schema(
   {
     firstName: {
@@ -25,9 +25,6 @@ const user = new Schema(
         message: (props) => `${props.value} không đủ 10 chữ số!`,
       },
     },
-    address: {
-      type: String,
-    },
     password: {
       type: String,
     },
@@ -40,4 +37,4 @@ const user = new Schema(
     timestamps: true,
   }
 );
-export default moongoose.model("user", user);
+export default mongoose.model("user", user);

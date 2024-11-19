@@ -21,6 +21,7 @@ import {
   paymentRouter,
   soldRateRouter,
   discountRouter,
+  addressRouter,
 } from "./routes/index.js";
 import socketServer from "./sockets/index.js";
 dotenv.config();
@@ -52,6 +53,7 @@ app.get("/", (req, res) => {
 app.use("/dashboard", express.static(path.join(__dirname, "views")));
 
 app.use("/auth", userRouter);
+app.use("/account/address", addressRouter);
 app.use("/otp", otpRouter);
 app.use("/product", productRouter);
 app.use("/photo", photoRouter);

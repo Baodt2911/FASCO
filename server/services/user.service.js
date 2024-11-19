@@ -5,6 +5,7 @@ import _otp from "../models/otp.model.js";
 import { validOtpService } from "./otp.service.js";
 import jwt from "jsonwebtoken";
 import { createCartService } from "./cart.service.js";
+import { createAddressService } from "./address.service.js";
 const generateAccessToken = (payload) => {
   return jwt.sign(
     {
@@ -106,6 +107,31 @@ const loginService = async ({ email, password }) => {
     console.log(error);
   }
 };
+const loginGoogleService = async ({ firstName, lastName, email }) => {
+  try {
+    let user = await _user.findOne({ email });
+    if (!user) {
+      user = await _user.create({
+        firstName,
+        lastName,
+        email,
+      });
+      await createCartService({ userId: user._doc._id });
+      await createAddressService({ userId: user._doc._id });
+    }
+    const { password, ...other } = user._doc;
+    const accessToken = generateAccessToken(other);
+    const refreshToken = generateRefreshToken(other);
+    await saveRefreshToken({ refreshToken, payload: other });
+    return {
+      status: 200,
+      message: "Login successfully!",
+      element: { user: other, accessToken, refreshToken },
+    };
+  } catch (error) {
+    console.log(error);
+  }
+};
 const registerService = async ({
   firstName,
   lastName,
@@ -141,6 +167,7 @@ const registerService = async ({
         password: hashPassword,
       });
       await createCartService({ userId: user._doc._id });
+      await createAddressService({ userId: user._doc._id });
       if (user) {
         await _otp.deleteMany({ email });
       }
@@ -255,6 +282,7 @@ const resetPasswordService = async ({ email, password, otp }) => {
 export {
   isLoginService,
   loginService,
+  loginGoogleService,
   registerService,
   logoutService,
   refreshTokenService,

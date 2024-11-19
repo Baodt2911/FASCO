@@ -1,5 +1,11 @@
-import { getAccessToken } from "./utils.js";
+import { getAccessToken, url_api } from "./utils.js";
 const listProductsCheckOut = document.getElementById("list-products-checkout");
+const subtotal = document.querySelector(".subtotal");
+const shipping = document.querySelector(".shipping");
+const discount = document.querySelector(".discount");
+const total = document.querySelector(".total");
+const discountCodeInput = document.querySelector(".discount-code-input");
+const btnApplyDiscount = document.querySelector(".btn-apply-discount");
 const getCart = async () => {
   try {
     const accessToken = await getAccessToken();
@@ -18,18 +24,47 @@ const getCart = async () => {
     console.log(error);
   }
 };
+
 const { carts } = await getCart();
 console.log(carts);
+subtotal.textContent = carts.reduce((acc, current) => {
+  return (acc += current.product.price * current.quantity);
+}, 0);
+total.textContent =
+  parseFloat(subtotal.textContent) + parseFloat(shipping.textContent);
+btnApplyDiscount.addEventListener("click", async () => {
+  try {
+    const res = await fetch(
+      url_api + `/discount/get-discount/${discountCodeInput.value}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + (await getAccessToken()),
+        },
+      }
+    );
+    const data = await res.json();
+
+    discount.textContent =
+      parseFloat(total.textContent) * (data.discount.discount_percent / 100);
+    total.textContent =
+      parseFloat(total.textContent) -
+      parseFloat(total.textContent) * (data.discount.discount_percent / 100);
+  } catch (error) {
+    console.log(error);
+  }
+});
 const htms = carts.map((product) => {
-  return `<div class="flex items-center gap-x-10">
-                <div class="size-32">
+  return `<div data-quantity="${product.quantity}" class="after-quantity-product-checkout flex items-center justify-evenly gap-x-10 shadow-md rounded-md p-2 pr-5">
+                <div  class="size-32">
                   <img
-                    class="w-full h-full object-cover"
+                    class="w-full h-full object-contain"
                     src="${product.color.url}"
                     alt=""
                   />
                 </div>
-                <div>
+                <div class="flex-1">
                   <!-- name product  -->
                   <p class="font-volkhov text-lg">
                     ${product.product.name}
@@ -44,6 +79,21 @@ const htms = carts.map((product) => {
               </div>`;
 });
 listProductsCheckOut.innerHTML = htms.join("");
+const convertCartsOrder = carts.reduce((acc, current) => {
+  acc.push({
+    product: current.product._id,
+    name: current.product.name,
+    quantity: current.quantity,
+    size: current.size,
+    color: current.color._id,
+    category: "PHYSICAL_GOODS",
+    unit_amount: {
+      currency_code: "USD",
+      value: current.product.price,
+    },
+  });
+  return acc;
+}, []);
 paypal
   .Buttons({
     style: {
@@ -62,30 +112,17 @@ paypal
               Authorization: `Bearer ${await getAccessToken()}`,
             },
             body: JSON.stringify({
-              total: 107.5,
-              subtotal: 100,
-              shipping: 10,
-              discount: 2.5,
-              cart: [
-                {
-                  product: "bao",
-                  quantity: 1,
-                  size: "S",
-                  color: "M",
-                  category: "PHYSICAL_GOODS",
-                  unit_amount: {
-                    currency_code: "USD",
-                    value: 100,
-                  },
-                },
-              ],
+              total: parseFloat(total.textContent),
+              subtotal: parseFloat(subtotal.textContent),
+              shipping: parseFloat(shipping.textContent),
+              discount: parseFloat(discount.textContent) || 0,
+              cart: convertCartsOrder,
             }),
           }
         );
 
         const orderData = await response.json();
-        console.log(orderData);
-        return orderData.message.id;
+        return orderData?.element.id;
       } catch (error) {
         console.error("Paypal error: ", error);
         throw error;
@@ -94,20 +131,17 @@ paypal
     async onApprove(data) {
       // Capture the funds from the transaction.
       const response = await fetch(
-        "http://localhost:3000/order/complete-order",
+        `http://localhost:3000/order/complete-order/${data.orderID}`,
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${await getAccessToken()}`,
           },
-          body: JSON.stringify({
-            orderId: data.orderID,
-          }),
         }
       );
       const details = await response.json();
-      console.log(data, details);
+      console.log(data, "details: ", details);
     },
   })
   .render("#paypal-button-container");

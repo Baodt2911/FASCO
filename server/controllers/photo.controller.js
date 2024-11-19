@@ -7,8 +7,8 @@ import {
 
 const uploadPhotoController = async (req, res) => {
   try {
-    const files = req.files;
-    const { status, url, message } = await uploadPhotoService(files[0]);
+    const file = req.file;
+    const { status, url, message } = await uploadPhotoService(file);
     res.status(status).json({ status, url, message });
   } catch (error) {
     console.log(error);
@@ -17,7 +17,7 @@ const uploadPhotoController = async (req, res) => {
 const addPhotoController = async (req, res) => {
   try {
     const _id = req.params._id;
-    const files = req.files;
+    const file = req.file;
     const metadata = req.body.metadata;
     const metadatas = [];
     if (typeof metadata == "string") {
@@ -30,7 +30,7 @@ const addPhotoController = async (req, res) => {
     }
     const { status, message, element } = await addPhotoService({
       _id,
-      file: files[0],
+      file: file,
       metadatas,
     });
     res.status(status).json({ message });

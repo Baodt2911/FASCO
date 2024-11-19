@@ -1,4 +1,27 @@
 import { getProducts, url_api } from "./utils.js";
+import Swiper from "https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.mjs";
+
+const swiper = new Swiper(".mySwiper", {
+  // Optional parameters
+  direction: "vertical",
+  loop: true,
+
+  // If we need pagination
+  pagination: {
+    el: ".swiper-pagination",
+  },
+
+  // Navigation arrows
+  navigation: {
+    nextEl: ".swiper-button-next",
+    prevEl: ".swiper-button-prev",
+  },
+
+  // And if we need scrollbar
+  scrollbar: {
+    el: ".swiper-scrollbar",
+  },
+});
 const productNewArrivals = document.getElementById("product-new-arrivals");
 const slideElement = document.querySelector(".slider");
 const slideActive = document.querySelector(".slide-active");

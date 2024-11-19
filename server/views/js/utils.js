@@ -15,8 +15,8 @@ const utils = (function () {
           console.log("Không lấy được danh sách sản phẩm");
           return;
         }
-        const data = await res.json();
-        return data;
+        const datas = await res.json();
+        return datas;
       } catch (error) {
         console.log(error);
       }

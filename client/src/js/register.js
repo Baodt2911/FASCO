@@ -1,3 +1,4 @@
+import { auth, GoogleAuthProvider, signInWithPopup } from "./firebase.js";
 import { notification, isLoggedIn, url_api } from "./utils.js";
 const isLogin = await isLoggedIn();
 const btnSendOtp = document.querySelector(".btn-send_otp");
@@ -11,9 +12,30 @@ const password = document.querySelector(".password");
 const confirmPassword = document.querySelector(".confirm-password");
 const btnShowPassword = document.querySelector(".show-password");
 const btnShowConfirmPassword = document.querySelector(".show-confirm-password");
+const btnGoogle = document.querySelector(".btn-login-google");
 if (isLogin) {
   window.location.assign("/client/public/pages/index.html");
 }
+const GoogleProvider = new GoogleAuthProvider();
+
+btnGoogle.addEventListener("click", async () => {
+  try {
+    const result = await signInWithPopup(auth, GoogleProvider);
+    const token = await result.user.getIdToken();
+    const res = await fetch(url_api + "/auth/login/google", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+      credentials: "include",
+    });
+    const data = await res.json();
+    console.log(data);
+  } catch (error) {
+    console.log(error);
+  }
+});
 btnShowPassword.addEventListener("click", () => {
   if (password.type == "password") {
     password.type = "text";

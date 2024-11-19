@@ -6,8 +6,6 @@ import {
 const getMonthSaleController = async (req, res) => {
   try {
     const { year, month, status_order } = req.query;
-    console.log(year, month);
-
     const { status, message, element } = await getMonthSaleService({
       year,
       month,

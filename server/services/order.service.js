@@ -1,4 +1,5 @@
 import _order from "../models/order.model.js";
+import _cart from "../models/cart.model.js";
 const base = "https://api-m.sandbox.paypal.com";
 import fetch from "node-fetch";
 import { checkId } from "../utils/check_id.js";
@@ -32,11 +33,21 @@ const generateAccessTokenPaypal = async () => {
 };
 const getDetailOrderService = async ({ orderId, status }) => {
   try {
-    let orders = await _order.find().populate({
-      path: "userId",
-      model: "user",
-      select: ["firstName", "lastName", "email", "phone", "address"],
-    });
+    let orders = await _order
+      .find()
+      .populate({
+        path: "userId",
+        model: "user",
+        select: ["firstName", "lastName", "email", "phone", "address"],
+      })
+      .populate({
+        path: "list",
+        populate: {
+          path: "color",
+          model: "photos",
+          select: ["color", "url"],
+        },
+      });
     let query = {};
 
     if (orderId) {
@@ -50,11 +61,21 @@ const getDetailOrderService = async ({ orderId, status }) => {
       query = {};
       query.$and = [{ orderId }, { status }];
     }
-    orders = await _order.find(query).populate({
-      path: "userId",
-      model: "user",
-      select: ["firstName", "lastName", "email", "phone", "address"],
-    });
+    orders = await _order
+      .find(query)
+      .populate({
+        path: "userId",
+        model: "user",
+        select: ["firstName", "lastName", "email", "phone", "address"],
+      })
+      .populate({
+        path: "list",
+        populate: {
+          path: "color",
+          model: "photos",
+          select: ["color", "url"],
+        },
+      });
     if (!orders) {
       return {
         status: 404,
@@ -191,6 +212,7 @@ const createOrderService = async ({
         amount: total,
         method: "paypal",
       });
+      await _cart.updateOne({ userId }, { $set: { carts: [] } });
     }
     return {
       element: jsonRes,

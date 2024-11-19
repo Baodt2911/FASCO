@@ -34,6 +34,9 @@
       opacity: 0;
       visibility: hidden;
     }
+    .after-quantity-product-checkout::after {
+      content: attr(data-quantity);
+    }
   </style>
 
   <script
@@ -51,29 +54,8 @@
         </h1>
         <div class="flex border-y-2">
           <div class="flex-1 flex flex-col gap-y-20 border-r pl-56 pr-10 pb-20">
-            <!-- contact  -->
-            <div class="mt-10">
-              <div class="flex items-center justify-between">
-                <h1 class="font-volkhov text-5xl text-[#484848]">Contact</h1>
-                <p class="font-poppins">
-                  Have an account?<a
-                    href=""
-                    class="text-[#1456FF] hover:underline"
-                  >
-                    Create Account</a
-                  >
-                </p>
-              </div>
-              <div class="w-full h-16 border border-[#8A8A8A] mt-5">
-                <input
-                  type="email"
-                  class="w-full h-full px-5 font-poppins placeholder:placeholder:text-[#8A8A8A]"
-                  placeholder="Email Address"
-                />
-              </div>
-            </div>
             <!-- delivery  -->
-            <div>
+            <div class="mt-10">
               <h1 class="font-volkhov text-5xl text-[#484848]">Delivery</h1>
               <div class="flex flex-col w-full gap-y-3">
                 <!-- country / region -->
@@ -173,9 +155,9 @@
           </div>
           <!-- card product  -->
           <div class="flex-1 bg-[#f5f5f5] pl-20 pt-20 pb-96 pr-56">
-            <div id="list-products-checkout">
+            <div id="list-products-checkout" class="flex flex-col gap-y-5">
               <!-- item product  -->
-              <div class="flex items-center gap-x-10">
+              <div class="flex items-center justify-evenly gap-x-10">
                 <div class="size-32">
                   <img
                     class="w-full h-full object-cover"
@@ -183,7 +165,7 @@
                     alt=""
                   />
                 </div>
-                <div>
+                <div class="flex-1">
                   <!-- name product  -->
                   <p class="font-volkhov text-lg">
                     Mini dress with ruffled straps
@@ -203,12 +185,12 @@
                 <div class="w-3/4 h-16 bg-white rounded-sm">
                   <input
                     type="text"
-                    class="w-full h-full placeholder:text-[#484848] px-5 outline-none font-poppins"
+                    class="discount-code-input w-full h-full placeholder:text-[#484848] px-5 outline-none font-poppins"
                     placeholder="Discount code"
                   />
                 </div>
                 <button
-                  class="w-1/4 h-16 bg-black shadow-lg text-white rounded-lg font-poppins"
+                  class="btn-apply-discount w-1/4 h-16 bg-black shadow-lg text-white rounded-lg font-poppins"
                 >
                   Apply
                 </button>
@@ -216,17 +198,30 @@
               <!-- Subtotal  -->
               <div class="flex items-center justify-between mt-5">
                 <p class="font-poppins text-[#484848]">Subtotal</p>
-                <p class="subtotal font-poppins text-[#484848]">$100.00</p>
+                <p class="font-poppins text-[#484848]">
+                  $<span class="subtotal"></span>.00
+                </p>
               </div>
               <!-- Shipping  -->
               <div class="flex items-center justify-between mt-5">
                 <p class="font-poppins text-[#484848]">Shipping</p>
-                <p class="shipping font-poppins text-[#484848]">$40.00</p>
+                <p class="font-poppins text-[#484848]">
+                  $<span class="shipping">10</span>.00
+                </p>
+              </div>
+              <!-- Discount -->
+              <div class="flex items-center justify-between mt-5">
+                <p class="font-poppins text-[#484848]">Discount</p>
+                <p class="font-poppins text-[#484848]">
+                  - $<span class="discount"></span>.00
+                </p>
               </div>
               <!-- Total  -->
               <div class="flex items-center justify-between mt-5">
-                <p class="font-poppins text-[#484848]">Total</p>
-                <p class="total font-poppins">$140.00</p>
+                <p class="font-poppins text-xl font-medium">Total</p>
+                <p class="font-poppins text-xl font-medium">
+                  $<span class="total"></span>.00
+                </p>
               </div>
             </div>
           </div>

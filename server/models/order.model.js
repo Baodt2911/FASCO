@@ -21,8 +21,8 @@ const order = new Schema(
           required: true,
         },
         color: {
-          type: String,
-          required: true,
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "photos",
         },
         size: {
           type: String,

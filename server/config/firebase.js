@@ -5,4 +5,5 @@ firebase.initializeApp({
   storageBucket: "gs://fasco-a5db7.appspot.com",
 });
 const bucket = firebase.storage().bucket();
-export { bucket };
+const auth = firebase.auth();
+export { bucket, auth };

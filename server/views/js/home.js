@@ -12,7 +12,7 @@ const home = () => {
       const accessToken = await utils.getAccessToken();
       const res = await fetch(
         utils.getCurrentUrl() +
-          `/sale/month-sale?year=2024&month=7&status_order=completed`,
+          `/sale/month-sale?year=2024&month=11&status_order=completed`,
         {
           method: "GET",
           headers: {
@@ -22,6 +22,8 @@ const home = () => {
         }
       );
       const data = await res.json();
+      console.log(data);
+
       if (!res.ok) {
         return console.error(data);
       }
@@ -47,9 +49,9 @@ const home = () => {
         0
       );
       dayTotalOrders.innerHTML = sales[index].totalOrders;
-      dayTotalRevenue.innerHTML = sales[index].totalRevenue;
+      dayTotalRevenue.innerHTML = `${sales[index].totalRevenue} $`;
       monthTotalOrders.innerHTML = totalOrder;
-      monthTotalRevenue.innerHTML = totalRevenue;
+      monthTotalRevenue.innerHTML = `${totalRevenue} $`;
       new Chart(ctx, {
         type: "line",
         data: {

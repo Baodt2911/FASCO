@@ -34,10 +34,7 @@
   @apply bg-black text-white;
 }
 .item-card-testimonial {
-  @apply w-[500px] h-[300px] rounded-xl flex items-center pr-5 blur-sm shadow-xl transition-all duration-500;
-}
-.active-card-testimonial {
-  @apply blur-none;
+  @apply w-[500px] h-[300px] rounded-xl flex items-center pr-5  transition-all duration-500;
 }
 .hidden-notification {
   @apply opacity-0 invisible;
@@ -53,4 +50,7 @@
 }
 .item-pagination {
   @apply w-10 h-10 rounded-full flex items-center justify-center font-jost hover:text-red-500;
+}
+.after-quantity-product-checkout {
+  @apply relative after:absolute after:-top-2 after:-left-2 after:size-5 after:text-center after:text-white after:text-sm after:rounded-full after:bg-red-500;
 }

@@ -6,6 +6,7 @@ import {
   logoutService,
   updateUserService,
   isLoginService,
+  loginGoogleService,
 } from "../services/user.service.js";
 const isLoginController = async (req, res) => {
   try {
@@ -53,6 +54,38 @@ const loginController = async (req, res) => {
     console.log(error);
   }
 };
+const loginGoogleController = async (req, res) => {
+  try {
+    const { name, email } = req.user;
+    const [firstName, lastName] = name.split(" ");
+    const { status, element, message } = await loginGoogleService({
+      firstName,
+      lastName,
+      email,
+    });
+    const currentDate = new Date();
+    if (status == 200) {
+      //Save refreshtoken to cookie
+      res.cookie("rt", element?.refreshToken, {
+        // domain: "",
+        path: "/",
+        sameSite: "Strict",
+        secure: true,
+        httpOnly: false,
+        expires: new Date(
+          Math.floor(currentDate.getTime()) + 15 * 24 * 60 * 60 * 1000
+        ),
+      });
+    }
+    res.status(status).json({
+      message,
+      user: element?.user,
+      accessToken: element?.accessToken,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
 const registerController = async (req, res) => {
   try {
     const { firstName, lastName, email, phone, password, otp } = req.body;
@@ -74,7 +107,8 @@ const registerController = async (req, res) => {
 const logoutController = async (req, res) => {
   try {
     const { authorization } = req.headers;
-    const refreshToken = authorization.split(" ")[1];
+    const { rt } = req.cookies;
+    const refreshToken = !!authorization ? authorization.split(" ")[1] : rt;
     const { status, message } = await logoutService({
       refreshToken,
     });
@@ -147,10 +181,10 @@ const resetPasswordController = async (req, res) => {
     console.log(error);
   }
 };
-
 export {
   isLoginController,
   loginController,
+  loginGoogleController,
   registerController,
   logoutController,
   refreshTokenController,

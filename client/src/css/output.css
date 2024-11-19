@@ -688,12 +688,20 @@ video {
   margin-bottom: 8rem;
 }
 
+.mb-4{
+  margin-bottom: 1rem;
+}
+
 .mb-5{
   margin-bottom: 1.25rem;
 }
 
 .mb-7{
   margin-bottom: 1.75rem;
+}
+
+.ml-5{
+  margin-left: 1.25rem;
 }
 
 .ml-56{
@@ -710,6 +718,10 @@ video {
 
 .mt-14{
   margin-top: 3.5rem;
+}
+
+.mt-2{
+  margin-top: 0.5rem;
 }
 
 .mt-20{
@@ -859,10 +871,6 @@ video {
   height: 200px;
 }
 
-.h-\[400px\]{
-  height: 400px;
-}
-
 .h-\[600px\]{
   height: 600px;
 }
@@ -975,6 +983,14 @@ video {
   width: 13rem;
 }
 
+.w-56{
+  width: 14rem;
+}
+
+.w-64{
+  width: 16rem;
+}
+
 .w-7{
   width: 1.75rem;
 }
@@ -989,10 +1005,6 @@ video {
 
 .w-\[500px\]{
   width: 500px;
-}
-
-.w-\[87\%\]{
-  width: 87%;
 }
 
 .w-full{
@@ -1118,6 +1130,10 @@ video {
   gap: 5rem;
 }
 
+.gap-3{
+  gap: 0.75rem;
+}
+
 .gap-9{
   gap: 2.25rem;
 }
@@ -1204,20 +1220,18 @@ video {
   row-gap: 2.25rem;
 }
 
+.space-y-2 > :not([hidden]) ~ :not([hidden]){
+  --tw-space-y-reverse: 0;
+  margin-top: calc(0.5rem * calc(1 - var(--tw-space-y-reverse)));
+  margin-bottom: calc(0.5rem * var(--tw-space-y-reverse));
+}
+
 .overflow-hidden{
   overflow: hidden;
 }
 
-.overflow-x-hidden{
-  overflow-x: hidden;
-}
-
 .overflow-y-scroll{
   overflow-y: scroll;
-}
-
-.scroll-smooth{
-  scroll-behavior: smooth;
 }
 
 .rounded-2xl{
@@ -1269,6 +1283,10 @@ video {
   border-right-width: 1px;
 }
 
+.border-t{
+  border-top-width: 1px;
+}
+
 .border-\[\#484848\]{
   --tw-border-opacity: 1;
   border-color: rgb(72 72 72 / var(--tw-border-opacity));
@@ -1287,6 +1305,11 @@ video {
 .border-\[\#9D9D9D\]{
   --tw-border-opacity: 1;
   border-color: rgb(157 157 157 / var(--tw-border-opacity));
+}
+
+.border-\[\#DEDFE1\]{
+  --tw-border-opacity: 1;
+  border-color: rgb(222 223 225 / var(--tw-border-opacity));
 }
 
 .border-\[\#EEEEE\]{
@@ -1697,11 +1720,6 @@ video {
   letter-spacing: 0.1em;
 }
 
-.text-\[\#1456FF\]{
-  --tw-text-opacity: 1;
-  color: rgb(20 86 255 / var(--tw-text-opacity));
-}
-
 .text-\[\#484848CC\]{
   color: #484848CC;
 }
@@ -1739,6 +1757,11 @@ video {
 .text-\[\#8a8a8a\]{
   --tw-text-opacity: 1;
   color: rgb(138 138 138 / var(--tw-text-opacity));
+}
+
+.text-\[\#FF4646\]{
+  --tw-text-opacity: 1;
+  color: rgb(255 70 70 / var(--tw-text-opacity));
 }
 
 .text-black{
@@ -1931,19 +1954,9 @@ video {
   align-items: center;
   border-radius: 0.75rem;
   padding-right: 1.25rem;
-  --tw-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-  --tw-shadow-colored: 0 20px 25px -5px var(--tw-shadow-color), 0 8px 10px -6px var(--tw-shadow-color);
-  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
-  --tw-blur: blur(4px);
-  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
   transition-property: all;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 500ms;
-}
-
-.active-card-testimonial{
-  --tw-blur: blur(0);
-  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
 }
 
 .hidden-notification{
@@ -2005,14 +2018,25 @@ video {
   color: rgb(239 68 68 / var(--tw-text-opacity));
 }
 
-.placeholder\:placeholder\:text-\[\#8A8A8A\]::-moz-placeholder::placeholder{
-  --tw-text-opacity: 1;
-  color: rgb(138 138 138 / var(--tw-text-opacity));
+.after-quantity-product-checkout{
+  position: relative;
 }
 
-.placeholder\:placeholder\:text-\[\#8A8A8A\]::placeholder::placeholder{
+.after-quantity-product-checkout::after{
+  position: absolute;
+  top: -0.5rem;
+  left: -0.5rem;
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 9999px;
+  --tw-bg-opacity: 1;
+  background-color: rgb(239 68 68 / var(--tw-bg-opacity));
+  text-align: center;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  content: var(--tw-content);
   --tw-text-opacity: 1;
-  color: rgb(138 138 138 / var(--tw-text-opacity));
+  color: rgb(255 255 255 / var(--tw-text-opacity));
 }
 
 .placeholder\:text-\[\#484848\]::-moz-placeholder{
@@ -2091,6 +2115,11 @@ video {
 .hover\:border-red-400:hover{
   --tw-border-opacity: 1;
   border-color: rgb(248 113 113 / var(--tw-border-opacity));
+}
+
+.hover\:bg-\[\#f5f5f5\]:hover{
+  --tw-bg-opacity: 1;
+  background-color: rgb(245 245 245 / var(--tw-bg-opacity));
 }
 
 .hover\:bg-gray-100:hover{

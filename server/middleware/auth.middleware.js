@@ -1,5 +1,20 @@
 import jwt from "jsonwebtoken";
+import { auth } from "../config/firebase.js";
 
+const verfifyIdToken = async (req, res, next) => {
+  const idToken = req.headers.authorization;
+
+  if (!idToken) {
+    return res.status(401).send("You're not authenticated!");
+  }
+  try {
+    const decodedToken = await auth.verifyIdToken(idToken);
+    req.user = decodedToken;
+    next();
+  } catch (error) {
+    return res.status(401).send("You're not authenticated!");
+  }
+};
 const verfifyAccessToken = (req, res, next) => {
   const { authorization } = req.headers;
   if (!authorization) {
@@ -48,4 +63,4 @@ const checkAdmin = (req, res, next) => {
     }
   });
 };
-export { verfifyAccessToken, verfifyRefreshToken, checkAdmin };
+export { verfifyAccessToken, verfifyRefreshToken, checkAdmin, verfifyIdToken };

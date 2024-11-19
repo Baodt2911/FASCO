@@ -21,6 +21,11 @@
     html {
       scroll-behavior: smooth;
     }
+    swiper-container {
+      width: 100%;
+      padding-top: 50px;
+      padding-bottom: 50px;
+    }
   </style>
   <body>
     <main class="relative">
@@ -320,211 +325,248 @@
               Scelerisque duis
             </p>
           </div>
-          <!-- card -->
-          <div
-            class="slide-testimonial w-[87%] h-[400px] px-10 flex items-center justify-between overflow-x-hidden scroll-smooth"
+          <swiper-container
+            class="mySwiper"
+            effect="coverflow"
+            loop="true"
+            navigation-next-el=".btn-next-slide-testimonial"
+            navigation-prev-el=".btn-prev-slide-testimonial"
+            pagination="true"
+            grab-cursor="true"
+            centered-slides="true"
+            slides-per-view="auto"
+            coverflow-effect-rotate="50"
+            coverflow-effect-stretch="0"
+            coverflow-effect-depth="200"
+            coverflow-effect-modifier="1"
+            coverflow-effect-slide-shadows="true"
+            cl
           >
-            <div class="main-slide-testimonial flex items-center gap-x-10">
-              <!-- item card  -->
-              <div class="item-card-testimonial active-card-testimonial">
-                <div class="flex-1 flex items-center justify-center">
-                  <div class="w-2/3 h-2/5">
-                    <img
-                      class="w-full h-full object-cover"
-                      src="https://nads.1cdn.vn/2023/04/05/W_25-anh-em.jpg"
-                      alt=""
-                    />
-                  </div>
-                </div>
-                <div class="flex-1 flex flex-col justify-evenly">
-                  <p class="font-poppins text-[#484848]">
-                    "You won't regret it. I would like to personally thank you
-                    for your outstanding product. Absolutely wonderful!"
-                  </p>
-                  <!-- rate -->
-                  <div
-                    class="w-1/2 rate flex items-center gap-x-1 pb-10 border-b-2 border-[#484848]"
-                  >
-                    <i class="fa-solid fa-star text-yellow-400"></i>
-                    <i class="fa-solid fa-star text-yellow-400"></i>
-                    <i class="fa-solid fa-star text-yellow-400"></i>
-                    <i class="fa-solid fa-star text-yellow-400"></i>
-                    <i class="fa-solid fa-star text-yellow-400"></i>
-                  </div>
-                  <!-- Name -->
-                  <div>
-                    <h2 class="font-volkhov text-3xl mb-5">James K.</h2>
-                    <p class="font-poppins">Traveler</p>
-                  </div>
+            <swiper-slide class="item-card-testimonial">
+              <div class="flex-1 flex items-center justify-center">
+                <div class="w-2/3 h-2/5">
+                  <img
+                    class="w-full h-full object-cover"
+                    src="https://nads.1cdn.vn/2023/04/05/W_25-anh-em.jpg"
+                    alt=""
+                  />
                 </div>
               </div>
-              <!-- item card  -->
-              <div class="item-card-testimonial">
-                <div class="flex-1 flex items-center justify-center">
-                  <div class="w-2/3 h-2/5">
-                    <img
-                      class="w-full h-full object-cover"
-                      src="https://nads.1cdn.vn/2023/04/05/W_25-anh-em.jpg"
-                      alt=""
-                    />
-                  </div>
+              <div class="flex-1 flex flex-col justify-evenly">
+                <p class="font-poppins text-[#484848]">
+                  "You won't regret it. I would like to personally thank you for
+                  your outstanding product. Absolutely wonderful!"
+                </p>
+                <!-- rate -->
+                <div
+                  class="w-1/2 rate flex items-center gap-x-1 pb-10 border-b-2 border-[#484848]"
+                >
+                  <i class="fa-solid fa-star text-yellow-400"></i>
+                  <i class="fa-solid fa-star text-yellow-400"></i>
+                  <i class="fa-solid fa-star text-yellow-400"></i>
+                  <i class="fa-solid fa-star text-yellow-400"></i>
+                  <i class="fa-solid fa-star text-yellow-400"></i>
                 </div>
-                <div class="flex-1 flex flex-col justify-evenly">
-                  <p class="font-poppins text-[#484848]">
-                    "You won't regret it. I would like to personally thank you
-                    for your outstanding product. Absolutely wonderful!"
-                  </p>
-                  <!-- rate -->
-                  <div
-                    class="w-1/2 rate flex items-center gap-x-1 pb-10 border-b-2 border-[#484848]"
-                  >
-                    <i class="fa-solid fa-star text-yellow-400"></i>
-                    <i class="fa-solid fa-star text-yellow-400"></i>
-                    <i class="fa-solid fa-star text-yellow-400"></i>
-                    <i class="fa-solid fa-star text-yellow-400"></i>
-                    <i class="fa-solid fa-star text-yellow-400"></i>
-                  </div>
-                  <!-- Name -->
-                  <div>
-                    <h2 class="font-volkhov text-3xl mb-5">James K.</h2>
-                    <p class="font-poppins">Traveler</p>
-                  </div>
+                <!-- Name -->
+                <div>
+                  <h2 class="font-volkhov text-3xl mb-5">James K.</h2>
+                  <p class="font-poppins">Traveler</p>
                 </div>
               </div>
-              <!-- item card  -->
-              <div class="item-card-testimonial">
-                <div class="flex-1 flex items-center justify-center">
-                  <div class="w-2/3 h-2/5">
-                    <img
-                      class="w-full h-full object-cover"
-                      src="https://nads.1cdn.vn/2023/04/05/W_25-anh-em.jpg"
-                      alt=""
-                    />
-                  </div>
-                </div>
-                <div class="flex-1 flex flex-col justify-evenly">
-                  <p class="font-poppins text-[#484848]">
-                    "You won't regret it. I would like to personally thank you
-                    for your outstanding product. Absolutely wonderful!"
-                  </p>
-                  <!-- rate -->
-                  <div
-                    class="w-1/2 rate flex items-center gap-x-1 pb-10 border-b-2 border-[#484848]"
-                  >
-                    <i class="fa-solid fa-star text-yellow-400"></i>
-                    <i class="fa-solid fa-star text-yellow-400"></i>
-                    <i class="fa-solid fa-star text-yellow-400"></i>
-                    <i class="fa-solid fa-star text-yellow-400"></i>
-                    <i class="fa-solid fa-star text-yellow-400"></i>
-                  </div>
-                  <!-- Name -->
-                  <div>
-                    <h2 class="font-volkhov text-3xl mb-5">James K.</h2>
-                    <p class="font-poppins">Traveler</p>
-                  </div>
+            </swiper-slide>
+            <swiper-slide class="item-card-testimonial">
+              <div class="flex-1 flex items-center justify-center">
+                <div class="w-2/3 h-2/5">
+                  <img
+                    class="w-full h-full object-cover"
+                    src="https://nads.1cdn.vn/2023/04/05/W_25-anh-em.jpg"
+                    alt=""
+                  />
                 </div>
               </div>
-              <!-- item card  -->
-              <div class="item-card-testimonial">
-                <div class="flex-1 flex items-center justify-center">
-                  <div class="w-2/3 h-2/5">
-                    <img
-                      class="w-full h-full object-cover"
-                      src="https://nads.1cdn.vn/2023/04/05/W_25-anh-em.jpg"
-                      alt=""
-                    />
-                  </div>
+              <div class="flex-1 flex flex-col justify-evenly">
+                <p class="font-poppins text-[#484848]">
+                  "You won't regret it. I would like to personally thank you for
+                  your outstanding product. Absolutely wonderful!"
+                </p>
+                <!-- rate -->
+                <div
+                  class="w-1/2 rate flex items-center gap-x-1 pb-10 border-b-2 border-[#484848]"
+                >
+                  <i class="fa-solid fa-star text-yellow-400"></i>
+                  <i class="fa-solid fa-star text-yellow-400"></i>
+                  <i class="fa-solid fa-star text-yellow-400"></i>
+                  <i class="fa-solid fa-star text-yellow-400"></i>
+                  <i class="fa-solid fa-star text-yellow-400"></i>
                 </div>
-                <div class="flex-1 flex flex-col justify-evenly">
-                  <p class="font-poppins text-[#484848]">
-                    "You won't regret it. I would like to personally thank you
-                    for your outstanding product. Absolutely wonderful!"
-                  </p>
-                  <!-- rate -->
-                  <div
-                    class="w-1/2 rate flex items-center gap-x-1 pb-10 border-b-2 border-[#484848]"
-                  >
-                    <i class="fa-solid fa-star text-yellow-400"></i>
-                    <i class="fa-solid fa-star text-yellow-400"></i>
-                    <i class="fa-solid fa-star text-yellow-400"></i>
-                    <i class="fa-solid fa-star text-yellow-400"></i>
-                    <i class="fa-solid fa-star text-yellow-400"></i>
-                  </div>
-                  <!-- Name -->
-                  <div>
-                    <h2 class="font-volkhov text-3xl mb-5">James K.</h2>
-                    <p class="font-poppins">Traveler</p>
-                  </div>
+                <!-- Name -->
+                <div>
+                  <h2 class="font-volkhov text-3xl mb-5">James K.</h2>
+                  <p class="font-poppins">Traveler</p>
                 </div>
               </div>
-              <!-- item card  -->
-              <div class="item-card-testimonial">
-                <div class="flex-1 flex items-center justify-center">
-                  <div class="w-2/3 h-2/5">
-                    <img
-                      class="w-full h-full object-cover"
-                      src="https://nads.1cdn.vn/2023/04/05/W_25-anh-em.jpg"
-                      alt=""
-                    />
-                  </div>
-                </div>
-                <div class="flex-1 flex flex-col justify-evenly">
-                  <p class="font-poppins text-[#484848]">
-                    "You won't regret it. I would like to personally thank you
-                    for your outstanding product. Absolutely wonderful!"
-                  </p>
-                  <!-- rate -->
-                  <div
-                    class="w-1/2 rate flex items-center gap-x-1 pb-10 border-b-2 border-[#484848]"
-                  >
-                    <i class="fa-solid fa-star text-yellow-400"></i>
-                    <i class="fa-solid fa-star text-yellow-400"></i>
-                    <i class="fa-solid fa-star text-yellow-400"></i>
-                    <i class="fa-solid fa-star text-yellow-400"></i>
-                    <i class="fa-solid fa-star text-yellow-400"></i>
-                  </div>
-                  <!-- Name -->
-                  <div>
-                    <h2 class="font-volkhov text-3xl mb-5">James K.</h2>
-                    <p class="font-poppins">Traveler</p>
-                  </div>
+            </swiper-slide>
+            <swiper-slide class="item-card-testimonial">
+              <div class="flex-1 flex items-center justify-center">
+                <div class="w-2/3 h-2/5">
+                  <img
+                    class="w-full h-full object-cover"
+                    src="https://nads.1cdn.vn/2023/04/05/W_25-anh-em.jpg"
+                    alt=""
+                  />
                 </div>
               </div>
-              <!-- item card  -->
-              <div class="item-card-testimonial">
-                <div class="flex-1 flex items-center justify-center">
-                  <div class="w-2/3 h-2/5">
-                    <img
-                      class="w-full h-full object-cover"
-                      src="https://nads.1cdn.vn/2023/04/05/W_25-anh-em.jpg"
-                      alt=""
-                    />
-                  </div>
+              <div class="flex-1 flex flex-col justify-evenly">
+                <p class="font-poppins text-[#484848]">
+                  "You won't regret it. I would like to personally thank you for
+                  your outstanding product. Absolutely wonderful!"
+                </p>
+                <!-- rate -->
+                <div
+                  class="w-1/2 rate flex items-center gap-x-1 pb-10 border-b-2 border-[#484848]"
+                >
+                  <i class="fa-solid fa-star text-yellow-400"></i>
+                  <i class="fa-solid fa-star text-yellow-400"></i>
+                  <i class="fa-solid fa-star text-yellow-400"></i>
+                  <i class="fa-solid fa-star text-yellow-400"></i>
+                  <i class="fa-solid fa-star text-yellow-400"></i>
                 </div>
-                <div class="flex-1 flex flex-col justify-evenly">
-                  <p class="font-poppins text-[#484848]">
-                    "You won't regret it. I would like to personally thank you
-                    for your outstanding product. Absolutely wonderful!"
-                  </p>
-                  <!-- rate -->
-                  <div
-                    class="w-1/2 rate flex items-center gap-x-1 pb-10 border-b-2 border-[#484848]"
-                  >
-                    <i class="fa-solid fa-star text-yellow-400"></i>
-                    <i class="fa-solid fa-star text-yellow-400"></i>
-                    <i class="fa-solid fa-star text-yellow-400"></i>
-                    <i class="fa-solid fa-star text-yellow-400"></i>
-                    <i class="fa-solid fa-star text-yellow-400"></i>
-                  </div>
-                  <!-- Name -->
-                  <div>
-                    <h2 class="font-volkhov text-3xl mb-5">James K.</h2>
-                    <p class="font-poppins">Traveler</p>
-                  </div>
+                <!-- Name -->
+                <div>
+                  <h2 class="font-volkhov text-3xl mb-5">James K.</h2>
+                  <p class="font-poppins">Traveler</p>
                 </div>
               </div>
-            </div>
-          </div>
+            </swiper-slide>
+            <swiper-slide class="item-card-testimonial">
+              <div class="flex-1 flex items-center justify-center">
+                <div class="w-2/3 h-2/5">
+                  <img
+                    class="w-full h-full object-cover"
+                    src="https://nads.1cdn.vn/2023/04/05/W_25-anh-em.jpg"
+                    alt=""
+                  />
+                </div>
+              </div>
+              <div class="flex-1 flex flex-col justify-evenly">
+                <p class="font-poppins text-[#484848]">
+                  "You won't regret it. I would like to personally thank you for
+                  your outstanding product. Absolutely wonderful!"
+                </p>
+                <!-- rate -->
+                <div
+                  class="w-1/2 rate flex items-center gap-x-1 pb-10 border-b-2 border-[#484848]"
+                >
+                  <i class="fa-solid fa-star text-yellow-400"></i>
+                  <i class="fa-solid fa-star text-yellow-400"></i>
+                  <i class="fa-solid fa-star text-yellow-400"></i>
+                  <i class="fa-solid fa-star text-yellow-400"></i>
+                  <i class="fa-solid fa-star text-yellow-400"></i>
+                </div>
+                <!-- Name -->
+                <div>
+                  <h2 class="font-volkhov text-3xl mb-5">James K.</h2>
+                  <p class="font-poppins">Traveler</p>
+                </div>
+              </div>
+            </swiper-slide>
+            <swiper-slide class="item-card-testimonial">
+              <div class="flex-1 flex items-center justify-center">
+                <div class="w-2/3 h-2/5">
+                  <img
+                    class="w-full h-full object-cover"
+                    src="https://nads.1cdn.vn/2023/04/05/W_25-anh-em.jpg"
+                    alt=""
+                  />
+                </div>
+              </div>
+              <div class="flex-1 flex flex-col justify-evenly">
+                <p class="font-poppins text-[#484848]">
+                  "You won't regret it. I would like to personally thank you for
+                  your outstanding product. Absolutely wonderful!"
+                </p>
+                <!-- rate -->
+                <div
+                  class="w-1/2 rate flex items-center gap-x-1 pb-10 border-b-2 border-[#484848]"
+                >
+                  <i class="fa-solid fa-star text-yellow-400"></i>
+                  <i class="fa-solid fa-star text-yellow-400"></i>
+                  <i class="fa-solid fa-star text-yellow-400"></i>
+                  <i class="fa-solid fa-star text-yellow-400"></i>
+                  <i class="fa-solid fa-star text-yellow-400"></i>
+                </div>
+                <!-- Name -->
+                <div>
+                  <h2 class="font-volkhov text-3xl mb-5">James K.</h2>
+                  <p class="font-poppins">Traveler</p>
+                </div>
+              </div>
+            </swiper-slide>
+            <swiper-slide class="item-card-testimonial">
+              <div class="flex-1 flex items-center justify-center">
+                <div class="w-2/3 h-2/5">
+                  <img
+                    class="w-full h-full object-cover"
+                    src="https://nads.1cdn.vn/2023/04/05/W_25-anh-em.jpg"
+                    alt=""
+                  />
+                </div>
+              </div>
+              <div class="flex-1 flex flex-col justify-evenly">
+                <p class="font-poppins text-[#484848]">
+                  "You won't regret it. I would like to personally thank you for
+                  your outstanding product. Absolutely wonderful!"
+                </p>
+                <!-- rate -->
+                <div
+                  class="w-1/2 rate flex items-center gap-x-1 pb-10 border-b-2 border-[#484848]"
+                >
+                  <i class="fa-solid fa-star text-yellow-400"></i>
+                  <i class="fa-solid fa-star text-yellow-400"></i>
+                  <i class="fa-solid fa-star text-yellow-400"></i>
+                  <i class="fa-solid fa-star text-yellow-400"></i>
+                  <i class="fa-solid fa-star text-yellow-400"></i>
+                </div>
+                <!-- Name -->
+                <div>
+                  <h2 class="font-volkhov text-3xl mb-5">James K.</h2>
+                  <p class="font-poppins">Traveler</p>
+                </div>
+              </div>
+            </swiper-slide>
+            <swiper-slide class="item-card-testimonial">
+              <div class="flex-1 flex items-center justify-center">
+                <div class="w-2/3 h-2/5">
+                  <img
+                    class="w-full h-full object-cover"
+                    src="https://nads.1cdn.vn/2023/04/05/W_25-anh-em.jpg"
+                    alt=""
+                  />
+                </div>
+              </div>
+              <div class="flex-1 flex flex-col justify-evenly">
+                <p class="font-poppins text-[#484848]">
+                  "You won't regret it. I would like to personally thank you for
+                  your outstanding product. Absolutely wonderful!"
+                </p>
+                <!-- rate -->
+                <div
+                  class="w-1/2 rate flex items-center gap-x-1 pb-10 border-b-2 border-[#484848]"
+                >
+                  <i class="fa-solid fa-star text-yellow-400"></i>
+                  <i class="fa-solid fa-star text-yellow-400"></i>
+                  <i class="fa-solid fa-star text-yellow-400"></i>
+                  <i class="fa-solid fa-star text-yellow-400"></i>
+                  <i class="fa-solid fa-star text-yellow-400"></i>
+                </div>
+                <!-- Name -->
+                <div>
+                  <h2 class="font-volkhov text-3xl mb-5">James K.</h2>
+                  <p class="font-poppins">Traveler</p>
+                </div>
+              </div>
+            </swiper-slide>
+          </swiper-container>
           <!-- navigation slide  -->
           <div class="flex w-1/6 h-full items-end justify-center gap-x-5 mt-14">
             <!-- button prev -->
@@ -572,6 +614,7 @@
       <div id="notification" class="fixed top-10 right-5 transition-all"></div>
     </main>
   </body>
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script>
   <script src="../../src/js/main.js" type="module"></script>
   <script src="../../src/js/home.js" type="module"></script>
 </html>

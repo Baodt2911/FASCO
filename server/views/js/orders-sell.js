@@ -3,7 +3,7 @@ const ItemProductOrder = ({ name, color, size, quantity }) => {
   return ` <div class="row row-cols-2 d-flex align-items-start">
               <div class="col-4">
                 <img
-                  src="https://firebasestorage.googleapis.com/v0/b/fasco-a5db7.appspot.com/o/photos%2Fa0f93014732d49f5a6210dd61c3b44b0.webp?alt=media"
+                  src="${color.url}"
                   alt=""
                   width="100%"
                   height="100%"
@@ -12,7 +12,7 @@ const ItemProductOrder = ({ name, color, size, quantity }) => {
               </div>
               <div class="col-8 lh-1">
                 <h6 style="font-size: 14px">${name}</h6>
-                <h6 style="font-size: 14px">Màu: ${color}</h6>
+                <h6 style="font-size: 14px">Màu: ${color.color}</h6>
                 <h6 style="font-size: 14px">Kích thước: ${size}</h6>
                 <h6 style="font-size: 14px">Số lượng: ${quantity}</h6>
               </div>
@@ -56,9 +56,8 @@ const ordersSell = () => {
       );
       const data = await res.json();
       const status = ["completed", "canceled"];
-      const htmls = data.element.map(
-        (item) =>
-          `<tr class="text-left" data-orderId="${item.orderId}">
+      const htmls = data.element.map((item) => {
+        return `<tr class="text-left" data-orderId="${item.orderId}">
           <td class="text-primary fw-medium">${item.orderId}</td>
           <td>
             <div class="row">
@@ -68,8 +67,8 @@ const ordersSell = () => {
           <td>
             <div class="row">
               <span>Họ và tên: ${item.userId.firstName} ${
-            item.userId.lastName
-          }</span>
+          item.userId.lastName
+        }</span>
               <span>Email: ${item.userId.email}</span>
               <span>SĐT: ${item.userId.phone}</span>
               <span>Địa chỉ: ${item.userId?.address}</span>
@@ -95,8 +94,8 @@ const ordersSell = () => {
             </div>
           </td>
         </tr>
-        `
-      );
+        `;
+      });
       cardOrders.innerHTML = htmls.join("");
     } catch (error) {
       console.log(error);

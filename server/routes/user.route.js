@@ -7,14 +7,17 @@ import {
   resetPasswordController,
   updateUserController,
   isLoginController,
+  loginGoogleController,
 } from "../controllers/user.controller.js";
 import {
   verfifyAccessToken,
   verfifyRefreshToken,
   checkAdmin,
+  verfifyIdToken,
 } from "../middleware/auth.middleware.js";
 const router = express.Router();
 router.post("/login", loginController);
+router.post("/login/google", verfifyIdToken, loginGoogleController);
 router.post("/register", registerController);
 router.get("/is-login", verfifyRefreshToken, isLoginController);
 router.post("/logout", verfifyRefreshToken, logoutController);

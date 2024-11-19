@@ -3,6 +3,7 @@ import {
   socket,
   getAccessToken,
   notification,
+  url_api,
 } from "../../src/js/utils.js";
 
 const isLogin = await isLoggedIn();
@@ -19,8 +20,25 @@ import Gallery from "../../public/components/gallery.js";
 import Header from "../../public/components/header.js";
 import MiniCart from "../../public/components/mini_cart.js";
 import Subcribe from "../../public/components/subscribe.js";
+import { auth, onAuthStateChanged } from "./firebase.js";
 headerElement.innerHTML = Header(isLogin);
 footerElement.innerHTML = Footer();
+const iconUser = document.querySelector(".icon-user");
+const cardUser = document.querySelector(".card-user");
+if (isLogin) {
+  iconUser.addEventListener("mousemove", () => {
+    cardUser.classList.remove("opacity-0", "visible");
+  });
+  iconUser.addEventListener("mouseout", () => {
+    cardUser.classList.add("opacity-0", "visible");
+  });
+  cardUser.addEventListener("mousemove", () => {
+    cardUser.classList.remove("opacity-0", "visible");
+  });
+  cardUser.addEventListener("mouseout", () => {
+    cardUser.classList.add("opacity-0", "visible");
+  });
+}
 const getCart = async () => {
   try {
     const accessToken = await getAccessToken();
@@ -228,5 +246,21 @@ if (cartsProduct) {
   socket.on("get-cart", (data) => {
     const { carts } = data;
     renderCart(carts);
+  });
+}
+const btnLogout = document.querySelector(".btn-logout");
+if (isLogin) {
+  btnLogout.onclick = async () => {
+    auth.signOut();
+    const res = await fetch(url_api + "/auth/logout", {
+      method: "POST",
+      credentials: "include",
+    });
+    const jsonRes = await res.json();
+    window.location.reload();
+    console.log(jsonRes);
+  };
+  onAuthStateChanged(auth, (user) => {
+    console.log(user);
   });
 }

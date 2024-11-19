@@ -204,7 +204,9 @@ const shop = () => {
         query?.max_price && "max_price=" + query.max_price
       }`;
       const path_query = path + (query ? convertQuery : "");
-      const { products } = await utils.getProducts(path_query);
+      const {
+        datas: { products },
+      } = await utils.getProducts(path_query);
       const start = (currentPage - 1) * pageSize;
       const end = start + pageSize;
       const dataProduct = products.slice(start, end);
@@ -296,7 +298,7 @@ const shop = () => {
   const uploadPhotoProduct = async (_id) => {
     const upload = async (data) => {
       const formData = new FormData();
-      formData.append("files", data.file);
+      formData.append("file", data.file);
       formData.append("metadata", JSON.stringify(data.metadata));
       try {
         const accessToken = await utils.getAccessToken();
@@ -404,7 +406,7 @@ const shop = () => {
     objectURLs.push(url);
     const div = document.createElement("div");
     div.classList.add("d-flex", "items-start", "gap-3", "item-image-product");
-    div.setAttribute("data-name", files[0].name);
+    div.setAttribute("data-nameFile", files[0].name);
     div.innerHTML = ItemProductElement(url);
     console.log(sizes);
 
@@ -447,6 +449,7 @@ const shop = () => {
     const url = URL.createObjectURL(files[0]);
     objectURLs.push(url);
     const div = document.createElement("div");
+    div.setAttribute("data-nameFile", files[0].name);
     div.innerHTML = ItemPhotoProduct({ url, sizes, color: "" });
     dataImageProductEdit.push({
       metadata: {
@@ -491,7 +494,7 @@ const shop = () => {
     );
     itemBtnRemoveSizeQuantity.forEach((item) => {
       item.onclick = () => {
-        const nameFile = item.closest(".item-image-product").dataset.name;
+        const nameFile = item.closest(".item-image-product").dataset.nameFile;
         const size = item.parentElement.querySelector(".item-size");
         const quantity = item.parentElement.querySelector(".item-quantity");
         dataImageProduct.forEach((data) => {
@@ -595,6 +598,8 @@ const shop = () => {
     itemBtnEditProducts.forEach((item) => {
       item.onclick = async (e) => {
         const { id } = e.target.closest("tr").dataset;
+        console.log(id);
+
         const {
           product: { _id, photos, name, brand, type, description, price, sex },
         } = await utils.getProducts(`/detail?id=${id}`);
@@ -652,7 +657,7 @@ const shop = () => {
     };
     newColorPhoto.forEach((item) => {
       item.addEventListener("input", (e) => {
-        console.log(e.target.closest(".item-product-edit"));
+        console.log(e.currentTarget.parentElement.parentElement.parentElement);
       });
     });
     btnRemovePhotoProductEdit.forEach((item) => {
@@ -721,7 +726,7 @@ const shop = () => {
     const handleAddNewPhoto = async (id) => {
       const uploadNewPhoto = async (data) => {
         const formData = new FormData();
-        formData.append("files", data.file);
+        formData.append("file", data.file);
         formData.append("metadata", JSON.stringify(data.metadata));
         try {
           const accessToken = await utils.getAccessToken();
