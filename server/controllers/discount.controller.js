@@ -21,21 +21,21 @@ const createDiscountController = async (req, res) => {
   try {
     const {
       discount_code,
-      discount_percent,
-      discount_amount,
+      discount_type,
+      discount_value,
       discount_max_amount,
       start_date,
       end_date,
-      quantity,
+      usage_limit,
     } = req.body;
     const { status, message } = await createDiscountService({
       discount_code,
-      discount_percent,
-      discount_amount,
+      discount_type,
+      discount_value,
       discount_max_amount,
       start_date,
       end_date,
-      quantity,
+      usage_limit,
     });
     res.status(status).json({
       message,

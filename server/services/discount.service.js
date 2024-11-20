@@ -29,12 +29,12 @@ const getDiscountService = async ({ code }) => {
 };
 const createDiscountService = async ({
   discount_code,
-  discount_percent,
-  discount_amount,
+  discount_type,
+  discount_value,
   discount_max_amount,
   start_date,
   end_date,
-  quantity,
+  usage_limit,
 }) => {
   try {
     const isDiscount = await _discount.findOne({ discount_code });
@@ -46,17 +46,17 @@ const createDiscountService = async ({
     }
     await _discount.create({
       discount_code,
-      discount_percent,
-      discount_amount,
+      discount_type,
+      discount_value,
       discount_max_amount,
       start_date,
       end_date,
-      quantity,
+      usage_limit,
     });
 
     return {
       status: 200,
-      message: "Added successfully!",
+      message: "Created successfully!",
     };
   } catch (error) {
     console.log(error);
