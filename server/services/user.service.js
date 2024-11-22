@@ -84,6 +84,12 @@ const loginService = async ({ email, password }) => {
       };
     }
     const { password: Password, ...other } = isUser._doc;
+    if (!Password) {
+      return {
+        status: 404,
+        message: "User is not found!",
+      };
+    }
     const isPassword = await brcypt.compare(password, Password);
     if (!isPassword) {
       return {

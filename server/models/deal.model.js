@@ -3,27 +3,22 @@ const deal = new Schema(
   {
     title: { type: String, required: true },
     description: { type: String },
-    discountType: {
-      type: String,
-      enum: ["percentage", "fixedAmount", "freeShipping"],
-      required: true,
-    },
-    discountValue: { type: Number, required: true },
-    startDate: { type: Date, required: true },
-    endDate: { type: Date, required: true },
+    discount_type: { type: String, enum: ["percent", "fixed"], required: true },
+    discount_value: { type: Number, required: true },
+    start_date: { type: Date, required: true },
+    end_date: { type: Date, required: true },
     status: {
       type: String,
       enum: ["active", "expired", "inactive"],
-      default: "inactive",
+      default: "active",
     },
-    minimumOrderValue: { type: Number, default: 0 },
-    applicableProducts: [
+    applied_products: [
       { type: mongoose.Schema.Types.ObjectId, ref: "products" },
     ],
-    maximumUsagePerUser: { type: Number, default: 1 },
-    maximumUsageOverall: { type: Number },
-    code: { type: String },
-    image: { type: String },
+    min_order_value: { type: Number, default: 0 },
+    max_discount: { type: Number },
+    usage_limit: { type: Number },
+    usage_count: { type: Number, default: 0 },
     priority: { type: Number, default: 1 },
   },
   { timestamps: true }

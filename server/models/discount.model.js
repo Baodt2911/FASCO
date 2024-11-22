@@ -8,7 +8,7 @@ const discount = new Schema(
     },
     discount_type: {
       type: String,
-      enum: ["percent", "amount"],
+      enum: ["percent", "fixed"],
       required: true,
     },
     discount_value: {

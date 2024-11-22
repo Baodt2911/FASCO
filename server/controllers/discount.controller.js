@@ -7,7 +7,7 @@ const getDiscountController = async (req, res) => {
   try {
     const code = req.params.code;
     const { status, element, message } = await getDiscountService({
-      code,
+      discount_code: code,
     });
     res.status(status).json({
       message,

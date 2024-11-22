@@ -22,6 +22,7 @@ import {
   soldRateRouter,
   discountRouter,
   addressRouter,
+  dealRouter,
 } from "./routes/index.js";
 import socketServer from "./sockets/index.js";
 dotenv.config();
@@ -64,6 +65,7 @@ app.use("/order", orderRouter);
 app.use("/payment", paymentRouter);
 app.use("/sold_rate", soldRateRouter);
 app.use("/discount", discountRouter);
+app.use("/deal", dealRouter);
 app.use((req, res, next) => {
   next(createHttpError.NotFound("Not Found!"));
 });

@@ -1,5 +1,6 @@
 import _order from "../models/order.model.js";
 import _cart from "../models/cart.model.js";
+import _discount from "../models/discount.model.js";
 const base = "https://api-m.sandbox.paypal.com";
 import fetch from "node-fetch";
 import { checkId } from "../utils/check_id.js";
@@ -7,6 +8,7 @@ import {
   createPaymentService,
   updatePaymentService,
 } from "./payment.service.js";
+import { getDiscountService } from "./discount.service.js";
 //  Generate an OAuth 2.0 access token for authenticating with PayPal REST APIs.
 //  @see https://developer.paypal.com/api/rest/authentication/
 const generateAccessTokenPaypal = async () => {
@@ -151,9 +153,26 @@ const createOrderService = async ({
   subtotal,
   total,
   shipping,
-  discount,
+  discount_code,
 }) => {
   try {
+    let discount = 0;
+    if (discount_code) {
+      const { status, message, element } = await getDiscountService({
+        discount_code,
+      });
+      if (!element) {
+        return {
+          status,
+          message,
+        };
+      }
+      if (element.discount_type === "percent") {
+        discount = total * (element.discount_value / 100);
+      } else {
+        discount = total - element.discount_value;
+      }
+    }
     const accessToken = await generateAccessTokenPaypal();
     const url = `${base}/v2/checkout/orders`;
     const payload = {
@@ -163,7 +182,7 @@ const createOrderService = async ({
           items: cart,
           amount: {
             currency_code: "USD",
-            value: total, //item_total + tax_total + shipping + handling + insurance - shipping_discount - discount.
+            value: total - discount, //item_total + tax_total + shipping + handling + insurance - shipping_discount - discount.
             breakdown: {
               item_total: {
                 currency_code: "USD",
@@ -201,6 +220,10 @@ const createOrderService = async ({
           message: "_id product in carts invalid",
         };
       }
+      await _discount.updateOne(
+        { discount_code },
+        { $inc: { usage_count: 1 } }
+      );
       await _order.create({
         orderId: jsonRes.id,
         userId,
