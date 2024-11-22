@@ -6,15 +6,18 @@ const discount = new Schema(
       required: true,
       unique: true,
     },
-    discount_percent: {
-      type: Number,
+    discount_type: {
+      type: String,
+      enum: ["percent", "fixed"],
+      required: true,
     },
-    discount_amount: {
+    discount_value: {
       type: Number,
+      required: true,
     },
     discount_max_amount: {
       type: Number,
-      required: true,
+      default: null,
     },
     start_date: {
       type: Date,
@@ -24,13 +27,17 @@ const discount = new Schema(
       type: Date,
       required: true,
     },
-    is_active: {
-      type: Boolean,
-      default: true,
+    status: {
+      type: String,
+      enum: ["active", "expired", "inactive"],
+      default: "active",
     },
-    quantity: {
+    usage_limit: {
       type: Number,
-      required: true,
+    },
+    usage_count: {
+      type: Number,
+      default: 0,
     },
   },
   {

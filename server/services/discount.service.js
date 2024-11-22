@@ -1,26 +1,24 @@
 import _discount from "../models/discount.model.js";
-const getDiscountService = async ({ code }) => {
+const getDiscountService = async ({ discount_code }) => {
   try {
-    const discount = await _discount.findOne({ discount_code: code });
+    const discount = await _discount.findOne({
+      discount_code,
+      status: "active",
+      end_date: { $gte: new Date() },
+      $expr: { $gt: ["$usage_limit", "$usage_count"] },
+    });
     if (!discount) {
       return {
-        status: 404,
-        message: "Discount not found!",
+        status: 400,
+        message: "The discount code is invalid or expired.",
       };
     }
-    const {
-      discount_code,
-      discount_percent,
-      discount_amount,
-      discount_max_amount,
-    } = discount._doc;
     return {
       status: 200,
       element: {
-        discount_code,
-        discount_percent,
-        discount_amount,
-        discount_max_amount,
+        discount_type: discount.discount_type,
+        discount_value: discount.discount_value,
+        discount_max_amount: discount.discount_max_amount || null,
       },
     };
   } catch (error) {
@@ -29,12 +27,12 @@ const getDiscountService = async ({ code }) => {
 };
 const createDiscountService = async ({
   discount_code,
-  discount_percent,
-  discount_amount,
+  discount_type,
+  discount_value,
   discount_max_amount,
   start_date,
   end_date,
-  quantity,
+  usage_limit,
 }) => {
   try {
     const isDiscount = await _discount.findOne({ discount_code });
@@ -46,17 +44,17 @@ const createDiscountService = async ({
     }
     await _discount.create({
       discount_code,
-      discount_percent,
-      discount_amount,
+      discount_type,
+      discount_value,
       discount_max_amount,
       start_date,
       end_date,
-      quantity,
+      usage_limit,
     });
 
     return {
-      status: 200,
-      message: "Added successfully!",
+      status: 201,
+      message: "Created successfully!",
     };
   } catch (error) {
     console.log(error);

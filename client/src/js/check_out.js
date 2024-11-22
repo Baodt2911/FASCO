@@ -2,7 +2,7 @@ import { getAccessToken, url_api } from "./utils.js";
 const listProductsCheckOut = document.getElementById("list-products-checkout");
 const subtotal = document.querySelector(".subtotal");
 const shipping = document.querySelector(".shipping");
-const discount = document.querySelector(".discount");
+const discountElement = document.querySelector(".discount");
 const total = document.querySelector(".total");
 const discountCodeInput = document.querySelector(".discount-code-input");
 const btnApplyDiscount = document.querySelector(".btn-apply-discount");
@@ -32,8 +32,14 @@ subtotal.textContent = carts.reduce((acc, current) => {
 }, 0);
 total.textContent =
   parseFloat(subtotal.textContent) + parseFloat(shipping.textContent);
-btnApplyDiscount.addEventListener("click", async () => {
+btnApplyDiscount.addEventListener("click", async (e) => {
   try {
+    if (e.target.value) {
+      return;
+    }
+    if (discountElement.textContent) {
+      return;
+    }
     const res = await fetch(
       url_api + `/discount/get-discount/${discountCodeInput.value}`,
       {
@@ -44,13 +50,21 @@ btnApplyDiscount.addEventListener("click", async () => {
         },
       }
     );
-    const data = await res.json();
-
-    discount.textContent =
-      parseFloat(total.textContent) * (data.discount.discount_percent / 100);
-    total.textContent =
-      parseFloat(total.textContent) -
-      parseFloat(total.textContent) * (data.discount.discount_percent / 100);
+    const { message, discount } = await res.json();
+    if (!discount) {
+      console.log(message);
+      return;
+    }
+    if (discount?.discount_type === "percent") {
+      discountElement.textContent =
+        parseFloat(total.textContent) * (discount.discount_value / 100);
+      total.textContent =
+        parseFloat(total.textContent) - parseFloat(discountElement.textContent);
+    } else {
+      discountElement.textContent = discount.discount_value;
+      total.textContent =
+        parseFloat(total.textContent) - discount.discount_value;
+    }
   } catch (error) {
     console.log(error);
   }
@@ -112,10 +126,12 @@ paypal
               Authorization: `Bearer ${await getAccessToken()}`,
             },
             body: JSON.stringify({
-              total: parseFloat(total.textContent),
+              total:
+                parseFloat(subtotal.textContent) +
+                parseFloat(shipping.textContent),
               subtotal: parseFloat(subtotal.textContent),
               shipping: parseFloat(shipping.textContent),
-              discount: parseFloat(discount.textContent) || 0,
+              discount_code: discountCodeInput.value,
               cart: convertCartsOrder,
             }),
           }

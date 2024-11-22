@@ -35,14 +35,14 @@ const getDetailOrderController = async (req, res) => {
 const createOrderController = async (req, res) => {
   try {
     const { userId } = req.user;
-    const { cart, subtotal, total, shipping, discount } = req.body;
+    const { cart, subtotal, total, shipping, discount_code } = req.body;
     const { status, element, message } = await createOrderService({
       userId,
       cart,
       subtotal,
       total,
       shipping,
-      discount,
+      discount_code,
     });
     res.status(status).json({
       message,
