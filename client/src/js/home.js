@@ -1,46 +1,78 @@
 import { getProducts, url_api } from "./utils.js";
-import Swiper from "https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.mjs";
-
-const swiper = new Swiper(".mySwiper", {
-  // Optional parameters
-  direction: "vertical",
-  loop: true,
-
-  // If we need pagination
-  pagination: {
-    el: ".swiper-pagination",
-  },
-
-  // Navigation arrows
-  navigation: {
-    nextEl: ".swiper-button-next",
-    prevEl: ".swiper-button-prev",
-  },
-
-  // And if we need scrollbar
-  scrollbar: {
-    el: ".swiper-scrollbar",
-  },
-});
 const productNewArrivals = document.getElementById("product-new-arrivals");
 const slideElement = document.querySelector(".slider");
-const slideActive = document.querySelector(".slide-active");
-const slideTestimonial = document.querySelector(".slide-testimonial");
-const testimonialActive = document.querySelector(".active-card-testimonial");
-const itemsTestimonial = document.querySelectorAll(".item-card-testimonial");
-const itemsSilde = document.querySelectorAll(".bdt-item-slide");
-const listItemSilde = document.querySelectorAll(".bdt-item-slide");
 const nextSlide = document.querySelector(".btn-next-slide");
 const prevSlide = document.querySelector(".btn-prev-slide");
 const saleOffElement = document.querySelector(".sale-off");
-const itemsDot = document.querySelectorAll(".dots li");
+const listDots = document.querySelector(".dots");
 const ItemCategory = document.querySelectorAll(".bdt-item-category");
-const btnPrevSlideTestimonial = document.querySelector(
-  ".btn-prev-slide-testimonial"
-);
-const btnNextSlideTestimonial = document.querySelector(
-  ".btn-next-slide-testimonial"
-);
+const title_deal = document.querySelector(".title-deal");
+const description_deal = document.querySelector(".description-deal");
+const days_deal = document.querySelector(".days-deal");
+const hours_deal = document.querySelector(".hours-deal");
+const minutes_deal = document.querySelector(".minutes-deal");
+const seconds_deal = document.querySelector(".seconds-deal");
+const months_deal = document.querySelector(".months-deal");
+const season_deal = document.querySelector(".season-deal");
+const percent_deal = document.querySelector(".percent-deal");
+const renderSlider = async () => {
+  try {
+    const res = await fetch(url_api + "/deal/get");
+    const { message, deals } = await res.json();
+    title_deal.textContent = deals[0].title;
+    description_deal.textContent = deals[0].description;
+    months_deal.textContent = new Date(deals[0].end_date).getMonth();
+    percent_deal.textContent = deals[0].discount_value;
+    const dotHtmls = Array.from(
+      { length: deals[0]?.applied_products.length },
+      (_, i) => {
+        return `<li class="${i === 0 ? "bdt-active-dot" : ""}" data-id="${i}">
+                    <i
+                      class="fa-solid fa-circle text-[#484848] text-[10px]"
+                    ></i>
+                  </li>`;
+      }
+    );
+
+    listDots.innerHTML = dotHtmls.join("");
+    const htmls = deals[0]?.applied_products.map((product, index) => {
+      return `<a href="../pages/productDetail.html?id=${
+        product._id
+      }" class="bdt-item-slide ${
+        index === 0 ? "slide-active" : ""
+      }" data-id="${index}">
+                    <img
+                      class="w-full h-full object-contain"
+                      src="${product.photos[0].url}"
+                      alt=""
+                    />
+                  </a>`;
+    });
+    slideElement.innerHTML = htmls.join("");
+    setInterval(() => {
+      const now = new Date().getTime();
+      const endDate = new Date(deals[0].end_date).getTime();
+      const timeRemaining = endDate - now;
+      const days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
+      const hours = Math.floor(
+        (timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+      );
+      const minutes = Math.floor(
+        (timeRemaining % (1000 * 60 * 60)) / (1000 * 60)
+      );
+      const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+      days_deal.textContent = days.toString().padStart(2, "0");
+      hours_deal.textContent = hours.toString().padStart(2, "0");
+      minutes_deal.textContent = minutes.toString().padStart(2, "0");
+      seconds_deal.textContent = seconds.toString().padStart(2, "0");
+    }, 1000);
+  } catch (error) {
+    console.log(error);
+  }
+};
+await renderSlider();
+const itemsSilde = document.querySelectorAll(".bdt-item-slide");
+const itemsDot = document.querySelectorAll(".dots li");
 let lenghtItems = itemsSilde.length - 1;
 let active_slider = 0;
 const showSaleOff = () => {
@@ -49,7 +81,8 @@ const showSaleOff = () => {
     saleOffElement.style = "opacity: 1;";
   }, 500);
 };
-const nextDot = () => {
+
+const activeDot = () => {
   itemsSilde.forEach((item) => {
     if (item.classList.contains("slide-active")) {
       itemsDot.forEach((dot) => {
@@ -81,40 +114,14 @@ nextSlide.addEventListener("click", () => {
   active_slider = active_slider < lenghtItems ? active_slider + 1 : 0;
   nextSlider();
   showSaleOff();
-  nextDot();
+  activeDot();
 });
 prevSlide.addEventListener("click", () => {
   active_slider = active_slider > 0 ? active_slider - 1 : lenghtItems;
   prevSlider();
   showSaleOff();
-  nextDot();
+  activeDot();
 });
-let activeTestimonial = 0;
-let lenghtTestimonial = itemsTestimonial.length;
-btnNextSlideTestimonial.addEventListener("click", () => {
-  activeTestimonial =
-    activeTestimonial >= lenghtTestimonial - 1
-      ? lenghtTestimonial - 1
-      : activeTestimonial + 1;
-  if (activeTestimonial >= 3) {
-    slideTestimonial.scrollLeft += slideTestimonial.offsetWidth;
-  }
-  itemsTestimonial[activeTestimonial - 1].classList.remove(
-    "active-card-testimonial"
-  );
-  itemsTestimonial[activeTestimonial].classList.add("active-card-testimonial");
-});
-btnPrevSlideTestimonial.addEventListener("click", () => {
-  activeTestimonial = activeTestimonial <= 0 ? 0 : activeTestimonial - 1;
-  if (activeTestimonial < 3) {
-    slideTestimonial.scrollLeft -= slideTestimonial.offsetWidth;
-  }
-  itemsTestimonial[activeTestimonial + 1].classList.remove(
-    "active-card-testimonial"
-  );
-  itemsTestimonial[activeTestimonial].classList.add("active-card-testimonial");
-});
-
 const renderProduct = async (path) => {
   productNewArrivals.innerHTML = Array(4)
     .fill(

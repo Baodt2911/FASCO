@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../../src/css/output.css" type="text/css" />
+    <link rel="stylesheet" href="../../src/css/custom.css" type="text/css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <title>Orders</title>
+  </head>
+  <body>
+    <main>
+      <header class="header"></header>
+      <!-- Content -->
+      <div
+        class="py-10 mx-56 border-t border-[#DEDFE1] flex items-start gap-x-32"
+      >
+        <!-- card left  -->
+        <div class="flex flex-col">
+          <h2 class="text-xl font-semibold mb-4 font-poppins">Your account</h2>
+          <nav class="ml-5">
+            <ul class="space-y-2">
+              <li>
+                <a href="#" class="hover:underline font-poppins"
+                  >Personal details</a
+                >
+              </li>
+              <li>
+                <a href="#" class="text-[#FF4646] hover:underline font-poppins"
+                  >Orders</a
+                >
+              </li>
+              <li>
+                <a href="#" class="hover:underline font-poppins">Addresses</a>
+              </li>
+              <li>
+                <a href="#" class="hover:underline font-poppins">Gift Cards</a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+        <!-- card right  -->
+        <div class="flex-1">
+          <h3 class="font-poppins text-4xl font-semibold">Orders</h3>
+          <p class="font-poppins mt-2">
+            Here are your recent orders and their details.
+          </p>
+          <!-- Orders List -->
+          <section id="orders-list" class="flex-1 mt-10 flex gap-y-10 flex-col">
+            <!-- Order Item -->
+            <div class="bg-white shadow rounded-lg p-6">
+              <!-- Order Header -->
+              <div class="flex justify-between items-center border-b pb-4 mb-4">
+                <div>
+                  <p class="text-gray-700 text-sm">Order ID:</p>
+                  <p class="text-lg font-semibold text-gray-800">#12345</p>
+                </div>
+                <div>
+                  <p class="text-sm text-gray-700">Status:</p>
+                  <span
+                    class="text-sm font-medium px-3 py-1 rounded-full bg-purple-100 text-purple-800"
+                  >
+                    Pending
+                  </span>
+                </div>
+              </div>
+              <!-- Product List -->
+              <div class="flex flex-col items-center">
+                <div
+                  id="order-12345"
+                  class="w-full max-h-72 overflow-hidden space-y-4"
+                >
+                  <!-- Product -->
+                  <div class="flex items-center justify-between">
+                    <img
+                      src="https://via.placeholder.com/80"
+                      alt="Product Image"
+                      class="w-20 h-20 object-cover rounded-md shadow"
+                    />
+                    <div class="flex-1 ml-4">
+                      <p class="font-medium text-gray-800">Smart Watch</p>
+                      <p class="text-sm text-gray-600">
+                        Color: Silver | Size: XL | Quantity: 1
+                      </p>
+                      <!-- Rate button -->
+                      <button
+                        onclick="openModal()"
+                        class="text-sm text-blue-600 hover:underline"
+                      >
+                        Rate product
+                      </button>
+                    </div>
+                    <p class="text-gray-800 font-semibold">$150</p>
+                  </div>
+                  <!-- Product -->
+                  <div class="flex items-center justify-between">
+                    <img
+                      src="https://via.placeholder.com/80"
+                      alt="Product Image"
+                      class="w-20 h-20 object-cover rounded-md shadow"
+                    />
+                    <div class="flex-1 ml-4">
+                      <p class="font-medium text-gray-800">Smart Watch</p>
+                      <p class="text-sm text-gray-600">
+                        Color: Silver | Size: XL | Quantity: 1
+                      </p>
+                      <!-- Rate button -->
+                      <button
+                        onclick="openModal()"
+                        class="text-sm text-blue-600 hover:underline"
+                      >
+                        Rate product
+                      </button>
+                    </div>
+                    <p class="text-gray-800 font-semibold">$150</p>
+                  </div>
+                  <!-- Product -->
+                  <div class="flex items-center justify-between">
+                    <img
+                      src="https://via.placeholder.com/80"
+                      alt="Product Image"
+                      class="w-20 h-20 object-cover rounded-md shadow"
+                    />
+                    <div class="flex-1 ml-4">
+                      <p class="font-medium text-gray-800">Smart Watch</p>
+                      <p class="text-sm text-gray-600">
+                        Color: Silver | Size: XL | Quantity: 1
+                      </p>
+                      <!-- Rate button -->
+                      <button
+                        onclick="openModal()"
+                        class="text-sm text-blue-600 hover:underline"
+                      >
+                        Rate product
+                      </button>
+                    </div>
+                    <p class="text-gray-800 font-semibold">$150</p>
+                  </div>
+                  <!-- Product -->
+                  <div class="flex items-center justify-between">
+                    <img
+                      src="https://via.placeholder.com/80"
+                      alt="Product Image"
+                      class="w-20 h-20 object-cover rounded-md shadow"
+                    />
+                    <div class="flex-1 ml-4">
+                      <p class="font-medium text-gray-800">Smart Watch</p>
+                      <p class="text-sm text-gray-600">
+                        Color: Silver | Size: XL | Quantity: 1
+                      </p>
+                      <!-- Rate button -->
+                      <button
+                        onclick="openModal()"
+                        class="text-sm text-blue-600 hover:underline"
+                      >
+                        Rate product
+                      </button>
+                    </div>
+                    <p class="text-gray-800 font-semibold">$150</p>
+                  </div>
+                  <!-- Product -->
+                  <div class="flex items-center justify-between">
+                    <img
+                      src="https://via.placeholder.com/80"
+                      alt="Product Image"
+                      class="w-20 h-20 object-cover rounded-md shadow"
+                    />
+                    <div class="flex-1 ml-4">
+                      <p class="font-medium text-gray-800">Smart Watch</p>
+                      <p class="text-sm text-gray-600">
+                        Color: Silver | Size: XL | Quantity: 1
+                      </p>
+                      <!-- Rate button -->
+                      <button
+                        onclick="openModal()"
+                        class="text-sm text-blue-600 hover:underline"
+                      >
+                        Rate product
+                      </button>
+                    </div>
+                    <p class="text-gray-800 font-semibold">$150</p>
+                  </div>
+                  <!-- Product -->
+                  <div class="flex items-center justify-between">
+                    <img
+                      src="https://via.placeholder.com/80"
+                      alt="Product Image"
+                      class="w-20 h-20 object-cover rounded-md shadow"
+                    />
+                    <div class="flex-1 ml-4">
+                      <p class="font-medium text-gray-800">Smart Watch</p>
+                      <p class="text-sm text-gray-600">
+                        Color: Silver | Size: XL | Quantity: 1
+                      </p>
+                      <!-- Rate button -->
+                      <button
+                        onclick="openModal()"
+                        class="text-sm text-blue-600 hover:underline"
+                      >
+                        Rate product
+                      </button>
+                    </div>
+                    <p class="text-gray-800 font-semibold">$150</p>
+                  </div>
+                  <!-- Product -->
+                  <div class="flex items-center justify-between">
+                    <img
+                      src="https://via.placeholder.com/80"
+                      alt="Product Image"
+                      class="w-20 h-20 object-cover rounded-md shadow"
+                    />
+                    <div class="flex-1 ml-4">
+                      <p class="font-medium text-gray-800">Smart Watch</p>
+                      <p class="text-sm text-gray-600">
+                        Color: Silver | Size: XL | Quantity: 1
+                      </p>
+                      <!-- Rate button -->
+                      <button
+                        onclick="openModal()"
+                        class="text-sm text-blue-600 hover:underline"
+                      >
+                        Rate product
+                      </button>
+                    </div>
+                    <p class="text-gray-800 font-semibold">$150</p>
+                  </div>
+                </div>
+                <!-- View more button  -->
+                <button
+                  onclick="viewMore(this,'order-12345')"
+                  class="btn-view_more size-10 rounded-full shadow bg-white mt-5"
+                >
+                  <i class="fa-solid fa-chevron-down"></i>
+                </button>
+              </div>
+              <!-- Total and Actions -->
+              <div class="border-t pt-4 mt-4 flex justify-between items-center">
+                <div>
+                  <p class="font-semibold text-gray-800">Total:</p>
+                  <p class="text-lg font-bold text-gray-800">$180</p>
+                </div>
+                <div class="flex space-x-4">
+                  <!-- Cancel Button -->
+                  <button
+                    class="flex items-center space-x-2 px-4 py-2 border rounded-md text-red-600 border-red-600 hover:bg-red-600 hover:text-white"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="h-5 w-5"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-10.707a1 1 0 00-1.414-1.414L10 8.586 7.707 6.293a1 1 0 10-1.414 1.414L8.586 10l-2.293 2.293a1 1 0 001.414 1.414L10 11.414l2.293 2.293a1 1 0 001.414-1.414L11.414 10l2.293-2.293z"
+                        clip-rule="evenodd"
+                      />
+                    </svg>
+                    <span>Cancel</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+        <!-- Modal Structure -->
+        <div
+          id="ratingModal"
+          class="fixed inset-0 bg-gray-500 bg-opacity-75 flex justify-center items-center hidden"
+        >
+          <div class="bg-white rounded-lg p-6 w-96">
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">
+              Rate Your Product
+            </h2>
+            <!-- Product Info -->
+            <div class="flex items-center mb-4">
+              <img
+                id="productImage"
+                src="https://via.placeholder.com/80"
+                alt="Product"
+                class="w-16 h-16 rounded-md object-cover mr-4"
+              />
+              <span id="productName" class="font-poppins text-gray-700"
+                >Wireless Headphones</span
+              >
+            </div>
+            <!-- Star Rating -->
+            <div class="flex mb-4 gap-x-1">
+              <span
+                class="star text-3xl text-gray-500 cursor-pointer"
+                data-value="1"
+                >&#9733;</span
+              >
+              <span
+                class="star text-3xl text-gray-500 cursor-pointer"
+                data-value="2"
+                >&#9733;</span
+              >
+              <span
+                class="star text-3xl text-gray-500 cursor-pointer"
+                data-value="3"
+                >&#9733;</span
+              >
+              <span
+                class="star text-3xl text-gray-500 cursor-pointer"
+                data-value="4"
+                >&#9733;</span
+              >
+              <span
+                class="star text-3xl text-gray-500 cursor-pointer"
+                data-value="5"
+                >&#9733;</span
+              >
+            </div>
+
+            <!-- Rating Comment -->
+            <textarea
+              id="reviewText"
+              class="w-full p-2 border border-gray-300 rounded-md mb-4"
+              rows="4"
+              placeholder="Write your review..."
+            ></textarea>
+
+            <!-- Action Buttons -->
+            <div class="flex justify-end space-x-4">
+              <button
+                onclick="closeModal()"
+                class="px-4 py-2 text-gray-700 border border-gray-300 rounded-md hover:bg-gray-200"
+              >
+                Cancel
+              </button>
+              <button
+                class="btn-submit px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+              >
+                Submit
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <footer class="footer"></footer>
+      <div id="notification" class="fixed top-10 right-5 transition-all"></div>
+    </main>
+    <script>
+      function viewMore(e, orderId) {
+        document.getElementById(orderId).classList.toggle("max-h-72");
+        if (e.querySelector("i").classList.contains("fa-chevron-down")) {
+          e.querySelector("i").classList.remove("fa-chevron-down");
+          e.querySelector("i").classList.add("fa-chevron-up");
+        } else {
+          e.querySelector("i").classList.remove("fa-chevron-up");
+          e.querySelector("i").classList.add("fa-chevron-down");
+        }
+      }
+      // Open Modal
+      function openModal() {
+        document.getElementById("ratingModal").classList.remove("hidden");
+      }
+
+      // Close Modal
+      function closeModal() {
+        document.getElementById("ratingModal").classList.add("hidden");
+      }
+
+      // Handle Star Selection
+      document.querySelectorAll(".star").forEach((star) => {
+        star.addEventListener("click", function () {
+          const rating = this.getAttribute("data-value");
+          document.querySelectorAll(".star").forEach((star) => {
+            if (star.getAttribute("data-value") <= rating) {
+              star.classList.add("text-yellow-400");
+            } else {
+              star.classList.remove("text-yellow-400");
+            }
+          });
+          // Store the rating value for submission
+          window.selectedRating = rating;
+        });
+      });
+    </script>
+  </body>
+  <script src="../../src/js/orders.js" type="module"></script>
+  <script src="../../src/js/main.js" type="module"></script>
+</html>

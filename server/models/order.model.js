@@ -16,10 +16,6 @@ const order = new Schema(
           type: mongoose.Schema.Types.ObjectId,
           ref: "products",
         },
-        name: {
-          type: String,
-          required: true,
-        },
         color: {
           type: mongoose.Schema.Types.ObjectId,
           ref: "photos",

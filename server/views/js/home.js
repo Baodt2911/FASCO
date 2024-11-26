@@ -12,7 +12,7 @@ const home = () => {
       const accessToken = await utils.getAccessToken();
       const res = await fetch(
         utils.getCurrentUrl() +
-          `/sale/month-sale?year=2024&month=11&status_order=completed`,
+          `/sale/month-sale?year=2024&month=11&status_order=confirmed`,
         {
           method: "GET",
           headers: {

@@ -23,8 +23,11 @@ const verfifyAccessToken = (req, res, next) => {
     });
   }
   const token = authorization.split(" ")[1];
+
   jwt.verify(token, process.env.ACCESSTOKEN_KEY, (err, decoded) => {
     if (err) {
+      console.log(err, decoded);
+
       return res.status(403).json({
         message: "Token is'nt valid",
       });

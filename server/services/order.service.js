@@ -73,6 +73,14 @@ const getDetailOrderService = async ({ orderId, status }) => {
       .populate({
         path: "list",
         populate: {
+          path: "product",
+          model: "products",
+          select: ["name", "price"],
+        },
+      })
+      .populate({
+        path: "list",
+        populate: {
           path: "color",
           model: "photos",
           select: ["color", "url"],
@@ -94,7 +102,24 @@ const getDetailOrderService = async ({ orderId, status }) => {
 };
 const getOrderService = async ({ userId }) => {
   try {
-    const orders = await _order.find({ userId });
+    const orders = await _order
+      .find({ userId })
+      .populate({
+        path: "list",
+        populate: {
+          path: "product",
+          model: "products",
+          select: ["name", "price"],
+        },
+      })
+      .populate({
+        path: "list",
+        populate: {
+          path: "color",
+          model: "photos",
+          select: ["color", "url"],
+        },
+      });
     if (!orders) {
       return {
         status: 404,

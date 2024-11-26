@@ -35,16 +35,27 @@ const createDealService = async ({
 };
 const getDealService = async () => {
   try {
-    const deals = await _deal.find({ status: "active" }).populate({
-      path: "applied_products",
-      model: "products",
-      select: ["name", "photos"],
-      populate: {
-        path: "photos",
-        model: "photos",
-        select: ["url"],
-      },
-    });
+    const deals = await _deal
+      .find({ status: "active" })
+      .populate({
+        path: "applied_products",
+        model: "products",
+        select: ["name", "photos"],
+        populate: {
+          path: "photos",
+          model: "photos",
+          select: ["url"],
+        },
+      })
+      .select([
+        "title",
+        "description",
+        "discount_type",
+        "discount_value",
+        "start_date",
+        "end_date",
+        "applied_products",
+      ]);
 
     return {
       status: 200,

@@ -92,14 +92,10 @@
           <div class="w-full flex">
             <!-- title  -->
             <div class="w-2/5 flex flex-col ml-56">
-              <p class="font-volkhov text-[#484848] text-5xl">
-                Deals Of The Month
-              </p>
-              <p class="font-poppins text-[#8a8a8a] mt-5 mb-10">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Scelerisque duis ultrices sollicitudin aliquam sem. Scelerisque
-                duis ultrices sollicitudin
-              </p>
+              <p class="title-deal font-volkhov text-[#484848] text-5xl"></p>
+              <p
+                class="description-deal font-poppins text-[#8a8a8a] mt-5 mb-10"
+              ></p>
               <a
                 href=""
                 class="bg-black rounded-xl w-52 h-14 flex items-center justify-center hover:text-[#FF4646] font-poppins text-white shadow-xl shadow-[#bbbbbbcc]"
@@ -116,36 +112,36 @@
                   <!-- days -->
                   <div class="flex flex-col items-center gap-y-4">
                     <p
-                      class="font-digital_numbers text-4xl text-[#484848] w-20 h-20 rounded-2xl shadow-xl text-center leading-[80px]"
+                      class="days-deal font-digital_numbers text-4xl text-[#484848] w-20 h-20 rounded-2xl shadow-xl text-center leading-[80px]"
                     >
-                      02
+                      00
                     </p>
                     <p class="font-poppins text-2xl text-[#484848]">Days</p>
                   </div>
                   <!-- hours -->
                   <div class="flex flex-col items-center gap-y-4">
                     <p
-                      class="font-digital_numbers text-4xl text-[#484848] w-20 h-20 rounded-2xl shadow-xl text-center leading-[80px]"
+                      class="hours-deal font-digital_numbers text-4xl text-[#484848] w-20 h-20 rounded-2xl shadow-xl text-center leading-[80px]"
                     >
-                      06
+                      00
                     </p>
                     <p class="font-poppins text-2xl text-[#484848]">Hr</p>
                   </div>
                   <!-- mins -->
                   <div class="flex flex-col items-center gap-y-4">
                     <p
-                      class="font-digital_numbers text-4xl text-[#484848] w-20 h-20 rounded-2xl shadow-xl text-center leading-[80px]"
+                      class="minutes-deal font-digital_numbers text-4xl text-[#484848] w-20 h-20 rounded-2xl shadow-xl text-center leading-[80px]"
                     >
-                      05
+                      00
                     </p>
                     <p class="font-poppins text-2xl text-[#484848]">Mins</p>
                   </div>
                   <!-- seconds -->
                   <div class="flex flex-col items-center gap-y-4">
                     <p
-                      class="font-digital_numbers text-4xl text-[#484848] w-20 h-20 rounded-2xl shadow-xl text-center leading-[80px]"
+                      class="seconds-deal font-digital_numbers text-4xl text-[#484848] w-20 h-20 rounded-2xl shadow-xl text-center leading-[80px]"
                     >
-                      30
+                      00
                     </p>
                     <p class="font-poppins text-2xl text-[#484848]">Sec</p>
                   </div>
@@ -173,80 +169,38 @@
                 >
                   <div class="flex items-center gap-x-2">
                     <!-- month -->
-                    <span class="font-poppins text-[#484848]">01</span>
+                    <span class="months-deal font-poppins text-[#484848]"
+                      >01</span
+                    >
                     <p class="w-7 h-[1px] bg-[#484848]"></p>
                     <!-- season  -->
-                    <span class="font-poppins text-[#484848]">Spring Sale</span>
+                    <span class="season-deal font-poppins text-[#484848]"
+                      >Spring Sale</span
+                    >
                   </div>
-                  <p class="font-poppins text-[#484848] text-3xl">30% OFF</p>
+                  <p class="font-poppins text-[#484848] text-3xl">
+                    <span class="percent-deal">30</span>% OFF
+                  </p>
                 </div>
                 <!-- slide  -->
                 <div class="slider flex items-start gap-x-6 overflow-hidden">
-                  <a href="" class="bdt-item-slide slide-active" data-id="0">
+                  <!-- <a href="" class="bdt-item-slide slide-active" data-id="0">
                     <img
                       class="w-full h-full object-cover"
                       src="../../src/images/img5.png"
                       alt=""
                     />
-                  </a>
-                  <a class="bdt-item-slide" data-id="1">
-                    <img
-                      class="w-full h-full object-cover"
-                      src="../../src/images/img6.png"
-                      alt=""
-                    />
-                  </a>
-                  <a class="bdt-item-slide" data-id="2">
-                    <img
-                      class="w-full h-full object-cover"
-                      src="https://dulichviet.com.vn/images/bandidau/danh-sach-nhung-buc-anh-viet-nam-lot-top-anh-dep-the-gioi.jpg"
-                      alt=""
-                    />
-                  </a>
-                  <a class="bdt-item-slide" data-id="3">
-                    <img
-                      class="w-full h-full object-cover"
-                      src="https://d1hjkbq40fs2x4.cloudfront.net/2016-01-31/files/1045.jpg"
-                      alt=""
-                    />
-                  </a>
-                  <a class="bdt-item-slide" data-id="4">
-                    <img
-                      class="w-full h-full object-cover"
-                      src="../../src/images/img6.png"
-                      alt=""
-                    />
-                  </a>
+                  </a> -->
                 </div>
                 <!-- list dot slide  -->
                 <ul
                   class="dots flex items-center gap-x-5 absolute left-[50%] bottom-0"
                 >
-                  <li class="bdt-active-dot" data-id="0">
+                  <!-- <li class="bdt-active-dot" data-id="0">
                     <i
                       class="fa-solid fa-circle text-[#484848] text-[10px]"
                     ></i>
-                  </li>
-                  <li class="" data-id="1">
-                    <i
-                      class="fa-solid fa-circle text-[#484848] text-[10px]"
-                    ></i>
-                  </li>
-                  <li class="" data-id="2">
-                    <i
-                      class="fa-solid fa-circle text-[#484848] text-[10px]"
-                    ></i>
-                  </li>
-                  <li class="" data-id="3">
-                    <i
-                      class="fa-solid fa-circle text-[#484848] text-[10px]"
-                    ></i>
-                  </li>
-                  <li class="" data-id="4">
-                    <i
-                      class="fa-solid fa-circle text-[#484848] text-[10px]"
-                    ></i>
-                  </li>
+                  </li> -->
                 </ul>
               </div>
             </div>

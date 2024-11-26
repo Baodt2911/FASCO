@@ -10,7 +10,7 @@ const getOrderController = async (req, res) => {
     const { userId } = req.user;
     const { status, element, message } = await getOrderService({ userId });
     res.status(status).json({
-      element,
+      orders: element,
       message,
     });
   } catch (error) {
@@ -25,7 +25,7 @@ const getDetailOrderController = async (req, res) => {
       status: search_status,
     });
     res.status(status).json({
-      element,
+      orders: element,
       message,
     });
   } catch (error) {

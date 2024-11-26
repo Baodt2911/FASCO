@@ -260,7 +260,7 @@ if (isLogin) {
     window.location.reload();
     console.log(jsonRes);
   };
-  onAuthStateChanged(auth, (user) => {
-    console.log(user);
-  });
+  // onAuthStateChanged(auth, (user) => {
+  //   console.log(user);
+  // });
 }
