@@ -294,6 +294,7 @@ const completeOrderService = async (orderId) => {
     return {
       element: jsonRes,
       status: res.status,
+      message: "Completed payment",
     };
   } catch (error) {
     console.log(error);

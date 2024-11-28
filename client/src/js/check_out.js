@@ -1,4 +1,4 @@
-import { getAccessToken, url_api } from "./utils.js";
+import { getAccessToken, notification, url_api } from "./utils.js";
 const listProductsCheckOut = document.getElementById("list-products-checkout");
 const subtotal = document.querySelector(".subtotal");
 const shipping = document.querySelector(".shipping");
@@ -156,8 +156,8 @@ paypal
           },
         }
       );
-      const details = await response.json();
-      console.log(data, "details: ", details);
+      const { message, element } = await response.json();
+      notification({ message, status: "success" });
     },
   })
   .render("#paypal-button-container");

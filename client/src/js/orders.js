@@ -1,6 +1,18 @@
-import { getAccessToken, url_api } from "./utils.js";
+import { getAccessToken, notification, url_api } from "./utils.js";
 const orderList = document.getElementById("orders-list");
-const ItemProductOrder = ({ name, url, color, size, quantity, price }) => {
+const ItemProductOrder = ({
+  orderId,
+  _id,
+  idProduct,
+  name,
+  url,
+  color,
+  size,
+  quantity,
+  price,
+  status,
+  isRate,
+}) => {
   return `
         <div class="flex items-center justify-between">
             <div>
@@ -17,8 +29,10 @@ const ItemProductOrder = ({ name, url, color, size, quantity, price }) => {
                 </p>
                 <!-- Rate button -->
                 <button
-                onclick="openModal()"
-                class="text-sm text-blue-600 hover:underline"
+                onclick="openModal('${orderId}','${_id}','${idProduct}','${url}','${name}')"
+                class="btn-rate-product text-sm text-blue-600 hover:underline ${
+                  status === "completed" && !isRate ? "block" : "hidden"
+                }"
                 >
                 Rate product
                 </button>
@@ -35,7 +49,7 @@ const orderStatusColors = {
   canceled: "bg-red-100 text-red-800",
   completed: "bg-purple-100 text-purple-800",
 };
-const getListOrders = async () => {
+(async function () {
   try {
     const res = await fetch(url_api + "/order/get", {
       method: "GET",
@@ -45,6 +59,7 @@ const getListOrders = async () => {
       },
     });
     const { message, orders } = await res.json();
+
     const itemOrder = orders.map((order) => {
       return `
             <div class="bg-white shadow rounded-lg p-6">
@@ -56,16 +71,13 @@ const getListOrders = async () => {
                     order.orderId
                   }</p>
                 </div>
-                <div>
-                  <p class="text-sm text-gray-700">Status:</p>
-                  <span
-                    class="capitalize text-sm font-medium px-3 py-1 rounded-full ${
-                      orderStatusColors[order.status]
-                    }"
-                  >
-                    ${order.status}
-                  </span>
-                </div>
+                <span
+                  class="capitalize text-sm font-medium px-5 py-2 rounded-full ${
+                    orderStatusColors[order.status]
+                  }"
+                >
+                  ${order.status}
+                </span>
               </div>
               <!-- Product List -->
               <div class="flex flex-col items-center">
@@ -76,12 +88,17 @@ const getListOrders = async () => {
                 ${order.list
                   .map((item) =>
                     ItemProductOrder({
+                      orderId: order.orderId,
+                      _id: item._id,
+                      idProduct: item.product._id,
                       name: item.product.name,
                       price: item.product.price,
                       color: item.color.color,
                       url: item.color.url,
                       quantity: item.quantity,
                       size: item.size,
+                      status: order.status,
+                      isRate: item.isRate,
                     })
                   )
                   .join("")}
@@ -89,7 +106,7 @@ const getListOrders = async () => {
                 <!-- View more button  -->
                 <button
                   onclick="viewMore(this,'${order.orderId}')"
-                  class="btn-view_more size-10 rounded-full shadow bg-white mt-5 ${
+                  class="size-10 rounded-full shadow bg-white mt-5 ${
                     order.list.length > 3 ? "block" : "hidden"
                   }"
                 >
@@ -105,7 +122,11 @@ const getListOrders = async () => {
                 <div class="flex space-x-4">
                   <!-- Cancel Button -->
                   <button
-                    class="flex items-center space-x-2 px-4 py-2 border rounded-md text-red-600 border-red-600 hover:bg-red-600 hover:text-white"
+                    class=" ${
+                      ["pending", "confirmed"].includes(order.status)
+                        ? "flex"
+                        : "hidden"
+                    } items-center space-x-2 px-4 py-2 border rounded-md text-red-600 border-red-600 hover:bg-red-600 hover:text-white"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -121,26 +142,63 @@ const getListOrders = async () => {
                     </svg>
                     <span>Cancel</span>
                   </button>
+                  <!-- Pay Now Button -->
+                  <button class="${
+                    ["pending", "canceled"].includes(order.status)
+                      ? "flex"
+                      : "hidden"
+                  } items-center space-x-2 px-4 py-2 border rounded-md text-blue-600 border-blue-600 hover:bg-blue-600 hover:text-white">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M12 1a7 7 0 017 7 7 7 0 01-7 7 7 7 0 01-7-7 7 7 0 017-7zm0 2a5 5 0 100 10 5 5 0 000-10zm7 14h-2v1H7v-1H5v5h14v-5zm-3 3H8v-1h8v1z" />
+                    </svg>
+                    <span>Repayment</span>
+                  </button>
                 </div>
               </div>
             </div>
         `;
     });
     orderList.innerHTML = itemOrder.join("");
-    console.log(orders);
   } catch (error) {
     console.log(error);
   }
-};
-await getListOrders();
+})();
+
 // Submit Review
-function submitReview() {
+async function submitReview(e) {
   const reviewText = document.getElementById("reviewText").value;
-  if (window.selectedRating && reviewText.trim()) {
-    alert(`Rating: ${window.selectedRating} stars\nReview: ${reviewText}`);
-    closeModal(); // Close the modal after submission
+  const orderId = e.target.dataset.order_id;
+  const id_list_order = e.target.dataset.id;
+  const idProduct = e.target.dataset.id_product;
+  if (
+    window.selectedRating &&
+    reviewText.trim() &&
+    orderId &&
+    id_list_order &&
+    idProduct
+  ) {
+    try {
+      const res = await fetch(url_api + "/review/new-review", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${await getAccessToken()}`,
+        },
+        body: JSON.stringify({
+          rate: window.selectedRating,
+          content: reviewText,
+          orderId,
+          idProduct,
+          id_list_order,
+        }),
+      });
+      const { message } = await res.json();
+      notification({ message, status: "success" });
+    } catch (error) {
+      console.log(error);
+    }
+    closeModal();
   } else {
-    alert("Please provide both a rating and a review.");
   }
 }
-document.querySelector(".btn-submit").onclick = submitReview;
+document.querySelector(".btn-submit").addEventListener("click", submitReview);

@@ -59,11 +59,7 @@ const getReviewProductService = async ({ id, page, pageSize, rate, to }) => {
     console.log(error);
   }
 };
-const checkIsRate = ({ id_list_order, list }) => {
-  // "id_list_order" is _id in list from _orders
-  const isRate = list.some((item) => item._id == id_list_order && item.isRate);
-  return isRate;
-};
+
 const createNewReviewService = async ({
   userId,
   orderId,
@@ -73,6 +69,13 @@ const createNewReviewService = async ({
   content,
 }) => {
   try {
+    const checkIsRate = ({ id_list_order, list }) => {
+      // "id_list_order" is _id in list from _orders
+      const isRate = list.some(
+        (item) => item._id == id_list_order && item.isRate
+      );
+      return isRate;
+    };
     // "id_list_order" is _id in list from _orders
     // Check id invalid
     if (checkId(idProduct) && checkId(id_list_order)) {

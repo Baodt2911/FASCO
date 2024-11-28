@@ -12,7 +12,7 @@ const notification = ({ message, status }) => {
     warning: '<i class="fa-solid fa-exclamation"></i>',
   };
   notification.classList.remove("hidden-notification");
-  notification.innerHTML = `<div class="${bg[status]} z-[1000] text-white p-4 rounded-lg shadow-md flex items-center justify-between">
+  notification.innerHTML = `<div class="${bg[status]} z-[1000] text-white p-5 rounded-lg shadow-md flex items-center justify-between">
             <!-- Icon -->
             <span class="mr-3">
               ${icon[status]}

@@ -52,7 +52,7 @@ const getCart = async () => {
     if (message) {
       console.log(message);
     }
-    return carts;
+    return carts || { carts: [] };
   } catch (error) {
     console.log(error);
   }
