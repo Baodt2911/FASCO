@@ -52,9 +52,8 @@ app.get("/", (req, res) => {
   res.redirect("/dashboard");
 });
 app.use("/dashboard", express.static(path.join(__dirname, "views")));
-
 app.use("/auth", userRouter);
-app.use("/account/address", addressRouter);
+app.use("/address", addressRouter);
 app.use("/otp", otpRouter);
 app.use("/product", productRouter);
 app.use("/photo", photoRouter);

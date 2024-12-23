@@ -160,16 +160,13 @@ const shop = () => {
   const dataImageProduct = [];
   const dataImageProductEdit = [];
   const query = {};
-  const pageSize = 10;
-  const currentPage = 1;
   const cleanUpURLsAndCardImage = () => {
     cardPhotos.innerHTML = "";
     objectURLs.forEach((url) => {
       URL.revokeObjectURL(url);
     });
   };
-  const handleRenderPagination = (pageCount) => {
-    const count = Math.ceil(pageCount / pageSize);
+  const handleRenderPagination = ({ currentPage, totalPage }) => {
     pagination.innerHTML = "";
     const li_prev = document.createElement("li");
     const a_prev = document.createElement("p");
@@ -178,10 +175,12 @@ const shop = () => {
     a_prev.innerHTML = '<i class="bi bi-arrow-left"></i>';
     li_prev.appendChild(a_prev);
     pagination.appendChild(li_prev);
-    for (let i = 1; i <= count; i++) {
+    for (let i = 1; i <= totalPage; i++) {
       const li = document.createElement("li");
       const a = document.createElement("p");
-      li.classList.add("page-item");
+      if (i === currentPage) {
+        li.classList.add("page-item", "active");
+      }
       a.classList.add("page-link");
       a.textContent = i;
       li.appendChild(a);
@@ -194,24 +193,33 @@ const shop = () => {
     a_next.innerHTML = '<i class="bi bi-arrow-right"></i>';
     li_next.appendChild(a_next);
     pagination.appendChild(li_next);
+    li_next.addEventListener("click", () => {
+      if (currentPage === totalPage) {
+        return;
+      }
+      query.page = currentPage + 1;
+      handleRenderProduct("/all", query);
+    });
+    li_prev.addEventListener("click", () => {
+      if (currentPage === 1) {
+        return;
+      }
+      query.page = currentPage - 1;
+      handleRenderProduct("/all", query);
+    });
   };
 
   const handleRenderProduct = async (path, query) => {
     try {
-      const convertQuery = `?${query?.sex && "sex=" + query.sex}&${
-        query?.type && "type=" + query.type
-      }&${query?.min_price && "min_price=" + query.min_price}&${
-        query?.max_price && "max_price=" + query.max_price
-      }`;
-      const path_query = path + (query ? convertQuery : "");
-      const {
-        datas: { products },
-      } = await utils.getProducts(path_query);
-      const start = (currentPage - 1) * pageSize;
-      const end = start + pageSize;
-      const dataProduct = products.slice(start, end);
-      countProducts.innerHTML = products.length;
-      handleRenderPagination(dataProduct.length);
+      const params = new URLSearchParams(query || {}).toString();
+      const path_query = path + (params ? `?${params}` : "");
+      const { datas } = await utils.getProducts(path_query);
+      if (!datas) {
+        return;
+      }
+      const { products, totalItem, currentPage, totalPage } = datas;
+      countProducts.innerHTML = totalItem;
+      handleRenderPagination({ currentPage, totalPage });
       const sex = {
         men: "Nam",
         women: "Nữ",
@@ -227,7 +235,8 @@ const shop = () => {
         beachwear: "Đồ bơi",
         other: "Khác",
       };
-      const htmls = dataProduct.map(
+
+      const htmls = products.map(
         (product) => `
         <tr data-id=${product._id} >
               <td>

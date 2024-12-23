@@ -6,14 +6,12 @@ import {
   onAuthStateChanged,
 } from "./firebase.js";
 const isLogin = await isLoggedIn();
-console.log(isLogin);
-
 const email = document.getElementById("emailSignIn");
 const password = document.getElementById("passwordSignIn");
 const btnSignIn = document.getElementById("btn-signIn");
 const btnGoogle = document.querySelector(".btn-login-google");
 if (isLogin) {
-  window.location.assign("/client/public/pages/index.html");
+  window.location.href = "index.html";
 }
 const GoogleProvider = new GoogleAuthProvider();
 
@@ -29,8 +27,20 @@ btnGoogle.addEventListener("click", async () => {
       },
       credentials: "include",
     });
-    const data = await res.json();
-    console.log(data);
+    const { message, accessToken } = await res.json();
+    let status = "success";
+    if (!accessToken) {
+      status = "warning";
+      notification({
+        message: message,
+        status,
+      });
+      return;
+    }
+    localStorage.setItem("at", accessToken);
+    if (status == "success") {
+      window.location.assign("/client/public/pages/index.html");
+    }
   } catch (error) {
     console.log(error);
   }
@@ -45,9 +55,9 @@ const SignIn = () => {
     body: JSON.stringify({ email: email.value, password: password.value }),
   })
     .then((res) => res.json())
-    .then(({ user, message, accessToken }) => {
+    .then(({ message, accessToken }) => {
       let status = "success";
-      if (!user) {
+      if (!accessToken) {
         status = "warning";
         notification({
           message: message,
@@ -56,7 +66,6 @@ const SignIn = () => {
         return;
       }
       localStorage.setItem("at", accessToken);
-      localStorage.setItem("user", JSON.stringify(user));
       if (status == "success") {
         window.location.assign("/client/public/pages/index.html");
       }

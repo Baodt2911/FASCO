@@ -1,6 +1,8 @@
 import {
+  changeStatusDiscountService,
   createDiscountService,
   deleteDiscountService,
+  getAllDiscountService,
   getDiscountService,
 } from "../services/discount.service.js";
 const getDiscountController = async (req, res) => {
@@ -12,6 +14,17 @@ const getDiscountController = async (req, res) => {
     res.status(status).json({
       message,
       discount: element,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+const getAllDiscountController = async (req, res) => {
+  try {
+    const { status, element, message } = await getAllDiscountService();
+    res.status(status).json({
+      message,
+      discounts: element,
     });
   } catch (error) {
     console.log(error);
@@ -44,6 +57,19 @@ const createDiscountController = async (req, res) => {
     console.log(error);
   }
 };
+const changeStatusDiscountController = async (req, res) => {
+  try {
+    const _id = req.params._id;
+    const { status, message, element } = await changeStatusDiscountService({
+      _id,
+    });
+    res.status(status).json({
+      message,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
 const deleteDiscountController = async (req, res) => {
   try {
     const _id = req.params._id;
@@ -59,4 +85,6 @@ export {
   getDiscountController,
   createDiscountController,
   deleteDiscountController,
+  getAllDiscountController,
+  changeStatusDiscountController,
 };

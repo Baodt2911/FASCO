@@ -3,7 +3,6 @@ import { auth } from "../config/firebase.js";
 
 const verfifyIdToken = async (req, res, next) => {
   const idToken = req.headers.authorization;
-
   if (!idToken) {
     return res.status(401).send("You're not authenticated!");
   }
@@ -23,11 +22,8 @@ const verfifyAccessToken = (req, res, next) => {
     });
   }
   const token = authorization.split(" ")[1];
-
   jwt.verify(token, process.env.ACCESSTOKEN_KEY, (err, decoded) => {
     if (err) {
-      console.log(err, decoded);
-
       return res.status(403).json({
         message: "Token is'nt valid",
       });

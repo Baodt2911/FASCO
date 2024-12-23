@@ -24,15 +24,21 @@
           <nav class="ml-5">
             <ul class="space-y-2">
               <li>
-                <a href="#" class="text-[#FF4646] hover:underline font-poppins"
+                <a
+                  href="./account.html"
+                  class="text-[#FF4646] hover:underline font-poppins"
                   >Personal details</a
                 >
               </li>
               <li>
-                <a href="#" class="hover:underline font-poppins">Orders</a>
+                <a href="./orders.html" class="hover:underline font-poppins"
+                  >Orders</a
+                >
               </li>
               <li>
-                <a href="#" class="hover:underline font-poppins">Addresses</a>
+                <a href="./address.html" class="hover:underline font-poppins"
+                  >Addresses</a
+                >
               </li>
               <li>
                 <a href="#" class="hover:underline font-poppins">Gift Cards</a>
@@ -69,19 +75,20 @@
                 <div class="grid grid-cols-2 gap-3">
                   <div>
                     <h3 class="font-poppins font-semibold">Name</h3>
-                    <p class="font-poppins">TRONG BAO</p>
+                    <p class="font-poppins" id="full-name">TRONG BAO</p>
                   </div>
                   <div>
                     <h3 class="font-poppins font-semibold">Email</h3>
-                    <p class="font-poppins">dobao2911bs@gmail.com</p>
+                    <p class="font-poppins" id="email">dobao2911bs@gmail.com</p>
                   </div>
                   <div>
                     <h3 class="font-poppins font-semibold">Phone</h3>
-                    <p class="font-poppins">0987654321</p>
+                    <p class="font-poppins" id="mobile-number">0987654321</p>
                   </div>
                 </div>
                 <!-- btn edit  -->
                 <button
+                  onclick="openModalDetails()"
                   class="w-64 h-12 border-2 border-black hover:bg-[#f5f5f5] flex items-center gap-x-3 justify-center"
                 >
                   <div class="size-6">
@@ -131,6 +138,7 @@
                 </div>
                 <!-- btn edit  -->
                 <button
+                  onclick="openModalPassword()"
                   class="w-64 h-12 border-2 border-black hover:bg-[#f5f5f5] flex items-center gap-x-3 justify-center"
                 >
                   <div class="size-6">
@@ -154,10 +162,243 @@
             </div>
           </div>
         </div>
+        <!-- Modal details  -->
+        <div id="detailsModal" class="modal close-modal">
+          <div class="bg-white rounded-lg shadow-lg w-full max-w-md">
+            <!-- Modal Header -->
+            <div class="flex justify-between items-center border-b p-4">
+              <h2 class="text-xl font-semibold">Profile Information</h2>
+              <button
+                onclick="closeModalDetails()"
+                class="text-gray-500 hover:text-gray-800 text-xl"
+              >
+                &times;
+              </button>
+            </div>
+            <!-- Modal Body -->
+            <div class="p-6 space-y-5">
+              <!-- First Name -->
+              <div>
+                <label
+                  for="first-name-modal-edit"
+                  class="block text-sm font-medium text-gray-700"
+                  >First name *</label
+                >
+                <input
+                  id="first-name-modal-edit"
+                  type="text"
+                  class="mt-2 block w-full border border-gray-300 rounded-lg shadow-sm px-4 py-2"
+                />
+              </div>
+              <!-- Last Name -->
+              <div>
+                <label
+                  for="last-name-modal-edit"
+                  class="block text-sm font-medium text-gray-700"
+                  >Last name *</label
+                >
+                <input
+                  id="last-name-modal-edit"
+                  type="text"
+                  class="mt-2 block w-full border border-gray-300 rounded-lg shadow-sm px-4 py-2"
+                />
+              </div>
+              <!-- Email -->
+              <div>
+                <label
+                  for="email-modal-edit"
+                  class="block text-sm font-medium text-red-700"
+                  >Email (cannot changed)</label
+                >
+                <input
+                  id="email-modal-edit"
+                  value="dobao2911bs@gmail.com"
+                  readonly
+                  class="mt-2 block w-full border border-red-300 rounded-lg shadow-sm outline-none px-4 py-2"
+                />
+              </div>
+              <!-- Mobile Number -->
+              <div>
+                <label
+                  for="mobile-number-modal-edit"
+                  class="block text-sm font-medium text-gray-700"
+                  >Mobile number</label
+                >
+                <div
+                  class="flex mt-2 rounded-lg shadow-sm border border-gray-300 focus-within:ring-2 focus-within:ring-black"
+                >
+                  <!-- Select Country Code -->
+                  <div class="relative">
+                    <select
+                      class="block w-full appearance-none bg-gray-100 border-r border-gray-300 text-gray-800 text-sm rounded-l-lg focus:outline-none focus:ring-2 focus:ring-black px-4 py-2 pr-8"
+                    >
+                      <option value="VN">🇻🇳 +84</option>
+                    </select>
+                    <div
+                      class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-4 w-4 text-gray-600"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 011.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                          clip-rule="evenodd"
+                        />
+                      </svg>
+                    </div>
+                  </div>
+
+                  <!-- Phone Number Input -->
+                  <input
+                    id="mobile-number-modal-edit"
+                    type="text"
+                    placeholder="Enter your number"
+                    class="flex-1 bg-gray-50 text-gray-800 text-sm rounded-r-lg focus:outline-none focus:ring-2 focus:ring-black px-4 py-2"
+                  />
+                </div>
+              </div>
+            </div>
+            <!-- Modal Footer -->
+            <div class="border-t p-6">
+              <button
+                id="btn-save-modal-details"
+                class="w-full bg-black text-white py-2 rounded-md hover:bg-gray-800 font-medium"
+              >
+                Save
+              </button>
+            </div>
+          </div>
+        </div>
+        <!-- Modal Password  -->
+        <div id="passwordModal" class="modal close-modal">
+          <div class="bg-white rounded-lg shadow-lg w-full max-w-md">
+            <!-- Modal Header -->
+            <div class="flex justify-between items-center border-b p-4">
+              <h2 class="text-xl font-semibold">Change your password</h2>
+              <button
+                onclick="closeModalPassword()"
+                class="text-gray-500 hover:text-gray-800 text-xl"
+              >
+                &times;
+              </button>
+            </div>
+            <!-- Modal Body -->
+            <div class="p-6 space-y-5">
+              <p class="text-sm text-gray-600">
+                Feel free to update your password at any time to keep your
+                account extra secure.
+              </p>
+
+              <!-- Current Password -->
+              <div>
+                <label
+                  for="current-password"
+                  class="block text-sm font-medium text-gray-700"
+                  >Password *</label
+                >
+                <div class="relative mt-2">
+                  <input
+                    id="current-password"
+                    type="password"
+                    placeholder="Password"
+                    class="block w-full border border-gray-300 rounded-lg shadow-sm px-4 py-2"
+                  />
+                  <button
+                    class="btn-show-password absolute inset-y-0 right-0 flex items-center px-3 text-gray-500 hover:text-gray-800"
+                  >
+                    <i class="fa-regular fa-eye-slash"></i>
+                  </button>
+                </div>
+                <p class="hidden mt-1 text-xs text-red-500"></p>
+              </div>
+
+              <!-- New Password -->
+              <div>
+                <label
+                  for="new-password"
+                  class="block text-sm font-medium text-gray-700"
+                  >New password *</label
+                >
+                <div class="relative mt-2">
+                  <input
+                    id="new-password"
+                    type="password"
+                    placeholder="New password"
+                    class="block w-full border border-gray-300 rounded-lg shadow-sm px-4 py-2"
+                  />
+                  <button
+                    class="btn-show-password absolute inset-y-0 right-0 flex items-center px-3 text-gray-500 hover:text-gray-800"
+                  >
+                    <i class="fa-regular fa-eye-slash"></i>
+                  </button>
+                </div>
+                <p class="mt-1 text-xs text-gray-500">
+                  Your password needs to be at least 8 characters.
+                </p>
+              </div>
+
+              <!-- Confirm Password -->
+              <div>
+                <label
+                  for="confirm-password"
+                  class="block text-sm font-medium text-gray-700"
+                  >Confirm password *</label
+                >
+                <div class="relative mt-2">
+                  <input
+                    id="confirm-password"
+                    type="password"
+                    placeholder="Confirm password"
+                    class="block w-full border border-gray-300 rounded-lg shadow-sm px-4 py-2"
+                  />
+                  <button
+                    class="btn-show-password absolute inset-y-0 right-0 flex items-center px-3 text-gray-500 hover:text-gray-800"
+                  >
+                    <i class="fa-regular fa-eye-slash"></i>
+                  </button>
+                </div>
+                <p class="hidden mt-1 text-xs text-red-500">
+                  The new passwords you’ve entered don’t match up.
+                </p>
+              </div>
+            </div>
+            <!-- Modal Footer -->
+            <div class="border-t p-6">
+              <button
+                id="btn-save-modal-password"
+                class="w-full bg-black text-white py-2 rounded-md"
+              >
+                Save
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
       <footer class="footer"></footer>
-      <div id="notification" class="fixed top-10 right-5 transition-all"></div>
+      <div id="notification"></div>
     </main>
   </body>
+  <script>
+    const detailsModal = document.getElementById("detailsModal");
+    const passwordModal = document.getElementById("passwordModal");
+
+    function openModalDetails() {
+      detailsModal.classList.remove("close-modal");
+    }
+    function closeModalDetails() {
+      detailsModal.classList.add("close-modal");
+    }
+    function openModalPassword() {
+      passwordModal.classList.remove("close-modal");
+    }
+    function closeModalPassword() {
+      passwordModal.classList.add("close-modal");
+    }
+  </script>
+  <script src="../../src/js/account.js" type="module"></script>
   <script src="../../src/js/main.js" type="module"></script>
 </html>

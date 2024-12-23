@@ -3,23 +3,19 @@ import { auth, onAuthStateChanged } from "./firebase.js";
 export const url_api = "http://localhost:3000";
 const notification = ({ message, status }) => {
   const notification = document.getElementById("notification");
-  const bg = {
-    success: "bg-green-500",
-    warning: "bg-red-500",
-  };
   const icon = {
     success: '<i class="fa-solid fa-check"></i>',
     warning: '<i class="fa-solid fa-exclamation"></i>',
   };
   notification.classList.remove("hidden-notification");
-  notification.innerHTML = `<div class="${bg[status]} z-[1000] text-white p-5 rounded-lg shadow-md flex items-center justify-between">
+  notification.innerHTML = `<div class="${status} z-[1000] text-white p-4 rounded-lg shadow-md flex items-center justify-between">
             <!-- Icon -->
-            <span class="mr-3">
+            <span class="mr-4">
               ${icon[status]}
             </span>
             <!-- Message -->
             <span class="text-sm message text-white"
-              >${message}!</span
+              >${message}</span
             >
         </div>`;
   setTimeout(() => {

@@ -6,13 +6,64 @@ const home = () => {
   const monthTotalOrders = document.querySelector(".month-total-orders");
   const dayTotalRevenue = document.querySelector(".day-total-revenue");
   const monthTotalRevenue = document.querySelector(".month-total-revenue");
+  const dateInput = document.getElementById("date-input");
+  const datepicker = document.getElementById("datepicker");
+  const yearDisplay = document.getElementById("year-display");
+  const prevYearBtn = document.getElementById("prev-year");
+  const nextYearBtn = document.getElementById("next-year");
+  const months = document.querySelectorAll(".month");
+  const titleSale = document.getElementById("title-sale");
+  let selectedYear = new Date().getFullYear();
+  let selectedMonth = new Date().getMonth() + 1;
+  let chartInstance = null;
+  dateInput.value = `${selectedMonth}/${selectedYear}`;
+  // Toggle datepicker visibility
+  dateInput.addEventListener("click", () => {
+    datepicker.classList.toggle("hidden");
+  });
 
-  const getDataSaleMonth = async () => {
+  // Update year display
+  prevYearBtn.addEventListener("click", async () => {
+    selectedYear--;
+    yearDisplay.textContent = selectedYear;
+    await getDataSaleMonth({ year: selectedYear, month: selectedMonth });
+  });
+
+  nextYearBtn.addEventListener("click", async () => {
+    selectedYear++;
+    yearDisplay.textContent = selectedYear;
+    await getDataSaleMonth({ year: selectedYear, month: selectedMonth });
+  });
+
+  // Handle month click
+  months.forEach((month, index) => {
+    month.addEventListener("click", async () => {
+      selectedMonth = index + 1;
+      dateInput.value = `${selectedMonth
+        .toString()
+        .padStart(2, "0")}/${selectedYear}`;
+      await getDataSaleMonth({ year: selectedYear, month: selectedMonth });
+      // Highlight selected month
+      months.forEach((m) => m.classList.remove("selected"));
+      month.classList.add("selected");
+
+      // Hide datepicker
+      datepicker.classList.add("hidden");
+    });
+  });
+
+  // Hide datepicker when clicking outside
+  document.addEventListener("click", (e) => {
+    if (!e.target.closest(".datepicker-container")) {
+      datepicker.classList.add("hidden");
+    }
+  });
+  const getDataSaleMonth = async ({ year, month }) => {
     try {
       const accessToken = await utils.getAccessToken();
       const res = await fetch(
         utils.getCurrentUrl() +
-          `/sale/month-sale?year=2024&month=11&status_order=confirmed`,
+          `/sale/month-sale?year=${year}&month=${month}&status_order=completed`,
         {
           method: "GET",
           headers: {
@@ -22,8 +73,6 @@ const home = () => {
         }
       );
       const data = await res.json();
-      console.log(data);
-
       if (!res.ok) {
         return console.error(data);
       }
@@ -52,7 +101,11 @@ const home = () => {
       dayTotalRevenue.innerHTML = `${sales[index].totalRevenue} $`;
       monthTotalOrders.innerHTML = totalOrder;
       monthTotalRevenue.innerHTML = `${totalRevenue} $`;
-      new Chart(ctx, {
+      titleSale.textContent = `Doanh thu tháng ${selectedMonth}/${selectedYear}`;
+      if (chartInstance) {
+        chartInstance.destroy();
+      }
+      chartInstance = new Chart(ctx, {
         type: "line",
         data: {
           labels: months,
@@ -80,6 +133,6 @@ const home = () => {
       console.log(error);
     }
   };
-  getDataSaleMonth();
+  getDataSaleMonth({ year: selectedYear, month: selectedMonth });
 };
 export default home;

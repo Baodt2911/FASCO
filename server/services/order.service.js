@@ -41,6 +41,10 @@ const getDetailOrderService = async ({ orderId, status }) => {
         path: "userId",
         model: "user",
         select: ["firstName", "lastName", "email", "phone", "address"],
+        populate: {
+          path: "address",
+          model: "address",
+        },
       })
       .populate({
         path: "list",
@@ -69,6 +73,10 @@ const getDetailOrderService = async ({ orderId, status }) => {
         path: "userId",
         model: "user",
         select: ["firstName", "lastName", "email", "phone", "address"],
+        populate: {
+          path: "address",
+          model: "address",
+        },
       })
       .populate({
         path: "list",
@@ -85,6 +93,9 @@ const getDetailOrderService = async ({ orderId, status }) => {
           model: "photos",
           select: ["color", "url"],
         },
+      })
+      .sort({
+        createdAt: -1,
       });
     if (!orders) {
       return {
@@ -119,6 +130,9 @@ const getOrderService = async ({ userId }) => {
           model: "photos",
           select: ["color", "url"],
         },
+      })
+      .sort({
+        createdAt: -1,
       });
     if (!orders) {
       return {
@@ -138,25 +152,26 @@ const updateOrderService = async ({ orderId, id_list_order, status }) => {
   try {
     let filter = { orderId };
     let query = {};
+
     if (id_list_order) {
-      filter.orderId = orderId;
-      filter.list = {
-        $elemMatch: {
-          _id: id_list_order,
-        },
+      filter["list"] = {
+        $elemMatch: { _id: id_list_order },
       };
+      query["list.$.isRate"] = true;
     }
+
     if (status) {
       query.status = status;
     }
-    if (id_list_order) {
-      query.$set = { "list.$.isRate": true };
-    }
-    const order = await _order.findOneAndUpdate(filter, query);
+    const order = await _order.findOneAndUpdate(
+      filter,
+      { $set: query },
+      { new: true }
+    );
     if (!order) {
       return {
         status: 404,
-        message: "order not found",
+        message: "Order not found",
       };
     }
 
@@ -253,9 +268,10 @@ const createOrderService = async ({
         orderId: jsonRes.id,
         userId,
         list: cart,
-        total: subtotal,
+        total: total,
       });
       await createPaymentService({
+        userId,
         orderId: jsonRes.id,
         amount: total,
         method: "paypal",
@@ -270,7 +286,7 @@ const createOrderService = async ({
     console.log(error);
   }
 };
-const completeOrderService = async (orderId) => {
+const completeOrderService = async ({ userId, orderId }) => {
   try {
     const accessToken = await generateAccessTokenPaypal();
     const url = `${base}/v2/checkout/orders/${orderId}/capture`;
@@ -285,11 +301,12 @@ const completeOrderService = async (orderId) => {
     const captureId = jsonRes.purchase_units[0].payments.captures[0].id;
     if (res.ok) {
       await updatePaymentService({
+        userId,
         orderId,
         captureId,
         status: "captured",
       });
-      await updateOrderService({ orderId, status: "confirmed" });
+      await updateOrderService({ userId, orderId, status: "confirmed" });
     }
     return {
       element: jsonRes,

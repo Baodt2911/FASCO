@@ -1,0 +1,371 @@
+<div class="px-2 py-4">
+  <!-- Danh sách Deals -->
+  <div class="card border-0 shadow-sm mb-4">
+    <div class="card-header text-white" style="background-color: #20344c">
+      <h5 class="mb-0">Danh sách Deals</h5>
+    </div>
+    <div class="card-body">
+      <table class="table table-bordered text-center align-middle">
+        <thead class="table-dark">
+          <tr>
+            <th>#</th>
+            <th>Tiêu đề</th>
+            <th>Mô tả</th>
+            <th>Loại</th>
+            <th>Giá trị</th>
+            <th>Thời gian</th>
+            <th>Sản phẩm</th>
+            <th>Min ĐH ($)</th>
+            <th>Giảm tối đa ($)</th>
+            <th>Ưu tiên</th>
+            <th>Giới hạn</th>
+            <th>Đã dùng</th>
+            <th>Hành động</th>
+          </tr>
+        </thead>
+        <tbody id="dealList">
+          <!-- Example Row -->
+          <tr>
+            <td>1</td>
+            <td class="fw-bold">Deals Of The Month</td>
+            <td style="max-width: 250px; text-align: left">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit.Lorem
+              ipsum dolor sit amet, consectetur adipiscing elit.Lorem ipsum
+              dolor sit amet, consectetur adipiscing elit.
+            </td>
+            <td>Phần trăm</td>
+            <td>10%</td>
+            <td>21/11/2024 - 29/11/2024</td>
+            <td>4 sản phẩm</td>
+            <td>1</td>
+            <td>1</td>
+            <td>1</td>
+            <td>1</td>
+            <td>1</td>
+            <td>
+              <div class="d-flex flex-column gap-2">
+                <div
+                  class="form-check form-switch d-flex justify-content-center"
+                >
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    id="changeActive"
+                  />
+                </div>
+                <button
+                  class="btn btn-sm btn-outline-secondary"
+                  data-bs-toggle="modal"
+                  data-bs-target="#createDealModal"
+                >
+                  Sửa
+                </button>
+                <button
+                  class="btn btn-sm btn-outline-danger"
+                  data-bs-toggle="modal"
+                  data-bs-target="#confirmDeleteModal"
+                >
+                  Xóa
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Nút tạo deal -->
+  <div class="text-end">
+    <button
+      id="btn-create-deal-show-modal"
+      class="btn btn-primary btn-lg shadow-sm"
+      data-bs-toggle="modal"
+      data-bs-target="#createDealModal"
+    >
+      + Tạo Deals mới
+    </button>
+  </div>
+
+  <!-- Modal: Tạo Deal -->
+  <div
+    class="modal fade"
+    id="createDealModal"
+    tabindex="-1"
+    aria-labelledby="createDealModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header bg-primary text-white">
+          <h5 class="modal-title" id="createDealModalLabel">
+            Tạo/Chỉnh sửa Deals
+          </h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body bg-light">
+          <form id="createDealForm">
+            <div class="mb-3">
+              <label for="dealTitle" class="form-label">Tiêu đề</label>
+              <input
+                type="text"
+                class="form-control"
+                id="dealTitle"
+                placeholder="Nhập tiêu đề"
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label for="dealDescription" class="form-label">Mô tả</label>
+              <textarea
+                class="form-control"
+                id="dealDescription"
+                rows="3"
+                placeholder="Nhập mô tả"
+                required
+              ></textarea>
+            </div>
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <label for="dealType" class="form-label">Loại giảm giá</label>
+                <select class="form-select" id="dealType" required>
+                  <option value="percent">Phần trăm</option>
+                  <option value="amount">Số tiền</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label for="dealValue" class="form-label"
+                  >Giá trị giảm giá</label
+                >
+                <input
+                  type="number"
+                  min="0"
+                  class="form-control"
+                  id="dealValue"
+                  placeholder="Nhập giá trị"
+                  required
+                />
+              </div>
+            </div>
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <label for="startDate" class="form-label">Ngày bắt đầu</label>
+                <input
+                  type="date"
+                  class="form-control"
+                  id="startDate"
+                  required
+                />
+              </div>
+              <div class="col-md-6">
+                <label for="endDate" class="form-label">Ngày kết thúc</label>
+                <input type="date" class="form-control" id="endDate" required />
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="appliedProducts" class="form-label"
+                >Sản phẩm áp dụng</label
+              >
+              <div class="my-2">
+                <button
+                  type="button"
+                  class="btn btn-outline-primary btn-sm"
+                  data-bs-toggle="modal"
+                  data-bs-target="#selectProductsModal"
+                >
+                  Chọn sản phẩm
+                </button>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <label for="minOrderValue" class="form-label"
+                  >Đơn hàng tối thiểu ($)</label
+                >
+                <input
+                  type="number"
+                  min="0"
+                  class="form-control"
+                  id="minOrderValue"
+                  placeholder="Nhập giá trị"
+                  required
+                />
+              </div>
+              <div class="col-md-6">
+                <label for="maxDiscount" class="form-label"
+                  >Giảm giá tối đa ($)</label
+                >
+                <input
+                  type="number"
+                  min="0"
+                  class="form-control"
+                  id="maxDiscount"
+                  placeholder="Nhập giá trị"
+                  required
+                />
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="usageLimit" class="form-label"
+                >Giới hạn sử dụng</label
+              >
+              <input
+                type="number"
+                min="0"
+                class="form-control"
+                id="usageLimit"
+                placeholder="Nhập số lần sử dụng tối đa"
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label for="priority" class="form-label">Độ ưu tiên</label>
+              <input
+                type="number"
+                min="0"
+                class="form-control"
+                id="priority"
+                placeholder="VD: 1, 2, 3"
+                required
+              />
+            </div>
+            <div class="text-end">
+              <button
+                data-id=""
+                data-create="true"
+                id="btn-save-deal"
+                class="btn btn-primary"
+              >
+                Lưu Deal
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Xác nhận xóa -->
+  <div
+    class="modal fade"
+    id="confirmDeleteModal"
+    tabindex="-1"
+    aria-labelledby="confirmDeleteModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-sm modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header bg-danger text-white">
+          <h5 class="modal-title" id="confirmDeleteModalLabel">Xác nhận xóa</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <p>Bạn có chắc chắn muốn xóa Deal này không?</p>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Hủy
+          </button>
+          <button type="button" class="btn btn-danger btn-confirm-delete">
+            Xóa
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Chọn Sản Phẩm -->
+  <div
+    class="modal fade"
+    id="selectProductsModal"
+    tabindex="-1"
+    aria-labelledby="selectProductsModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header bg-primary text-white">
+          <h5 class="modal-title" id="selectProductsModalLabel">
+            Chọn Sản Phẩm
+          </h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body" style="max-height: 600px; overflow-y: auto">
+          <div class="table-responsive">
+            <table class="table table-hover align-middle">
+              <thead class="table-dark">
+                <tr>
+                  <th>#</th>
+                  <th>Hình ảnh</th>
+                  <th>Tên sản phẩm</th>
+                  <th>Hãng</th>
+                  <th>Giá</th>
+                  <th>Chọn</th>
+                </tr>
+              </thead>
+              <tbody id="productList">
+                <!-- Sản phẩm mẫu -->
+                <tr>
+                  <td>1</td>
+                  <td>
+                    <img
+                      src="https://via.placeholder.com/50"
+                      class="rounded"
+                      alt="Sản phẩm A"
+                      width="50"
+                      height="50"
+                    />
+                  </td>
+                  <td>Sản phẩm A</td>
+                  <td>Fasco</td>
+                  <td>$50</td>
+                  <td>
+                    <input type="checkbox" class="form-check-input" />
+                  </td>
+                </tr>
+
+                <!-- Thêm sản phẩm ở đây -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Hủy
+          </button>
+          <button
+            type="button"
+            class="btn btn-primary"
+            data-bs-toggle="modal"
+            data-bs-target="#createDealModal"
+          >
+            Trở lại
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../../src/css/output.css" type="text/css" />
+    <link rel="stylesheet" href="../../src/css/custom.css" type="text/css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <title>Address</title>
+  </head>
+  <body>
+    <main>
+      <header class="header"></header>
+      <!-- Content -->
+      <div
+        class="h-screen py-10 mx-56 border-t border-[#DEDFE1] flex items-start gap-x-32"
+      >
+        <!-- card left  -->
+        <div class="flex flex-col">
+          <h2 class="text-xl font-semibold mb-4 font-poppins">Your account</h2>
+          <nav class="ml-5">
+            <ul class="space-y-2">
+              <li>
+                <a href="./account.html" class="hover:underline font-poppins"
+                  >Personal details</a
+                >
+              </li>
+              <li>
+                <a href="./orders.html" class="hover:underline font-poppins"
+                  >Orders</a
+                >
+              </li>
+              <li>
+                <a
+                  href="./address.html"
+                  class="text-[#FF4646] hover:underline font-poppins"
+                  >Addresses</a
+                >
+              </li>
+              <li>
+                <a href="#" class="hover:underline font-poppins">Gift Cards</a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+        <!-- card right -->
+        <div class="flex-1">
+          <!-- Title -->
+          <h3 class="font-poppins text-4xl font-semibold">Address</h3>
+          <p class="font-poppins mt-2">
+            Add or manage your addresses right here.
+          </p>
+          <div
+            id="list-address"
+            class="mt-6 grid gap-6 md:grid-cols-2 lg:grid-cols-3"
+          >
+            <div
+              class="bg-white border border-gray-200 rounded-lg shadow-md p-6 w-full max-w-md"
+            >
+              <!-- Card Header -->
+              <div class="flex justify-between items-center mb-4">
+                <h2 class="text-lg font-semibold text-gray-800">
+                  Delivery Address
+                </h2>
+                <span
+                  class="text-sm text-blue-600 bg-blue-100 rounded-full px-2 py-1"
+                  >Default</span
+                >
+              </div>
+              <!-- Address Details -->
+              <div class="text-sm text-gray-700 space-y-2">
+                <p><strong>Name:</strong> John Doe</p>
+                <p><strong>Address1:</strong> 123 Main Street, Apartment 4B</p>
+                <p><strong>Address2:</strong> 123 Main Street, Apartment 4B</p>
+                <p><strong>City:</strong> New York</p>
+                <p><strong>Postal Code:</strong> 10001</p>
+                <p><strong>Country:</strong> USA</p>
+              </div>
+              <!-- Actions -->
+              <div class="flex justify-between mt-4">
+                <button
+                  class="px-4 py-2 text-sm text-blue-700 border border-blue-300 rounded-lg hover:bg-blue-100"
+                  onclick="openModalAddress()"
+                >
+                  Edit
+                </button>
+                <button
+                  class="px-4 py-2 text-sm text-red-700 border border-red-300 rounded-lg hover:bg-red-100"
+                  onclick="deleteAddress()"
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
+          </div>
+          <div id="card-add-address" class="text-center mt-10">
+            <!-- Add Address Button -->
+            <button
+              onclick="openModalAddress()"
+              class="px-5 py-3 bg-black text-white font-medium hover:bg-gray-800"
+            >
+              Add address
+            </button>
+          </div>
+        </div>
+        <!-- Modal edit address -->
+        <div id="addressModal" class="modal close-modal">
+          <div class="bg-white rounded-lg shadow-lg w-full max-w-md">
+            <!-- Modal Header -->
+            <div class="flex justify-between items-center border-b p-4">
+              <h2 class="text-xl font-semibold">Address</h2>
+              <button
+                onclick="closeModalAddress()"
+                class="text-gray-500 hover:text-gray-800 text-xl"
+              >
+                &times;
+              </button>
+            </div>
+            <!-- Modal Body -->
+            <form id="addressForm" class="p-6 space-y-5">
+              <!-- First Name -->
+              <div class="mb-4">
+                <label
+                  for="firstNameAddressForm"
+                  class="block text-sm font-medium text-gray-700"
+                >
+                  First Name
+                </label>
+                <input
+                  type="text"
+                  id="firstNameAddressForm"
+                  name="firstNameAddressForm"
+                  class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 mt-2 focus:ring-black focus:outline-none text-gray-800"
+                  placeholder="Enter first name"
+                />
+              </div>
+
+              <!-- Last Name -->
+              <div class="mb-4">
+                <label
+                  for="lastNameAddressForm"
+                  class="block text-sm font-medium text-gray-700"
+                >
+                  Last Name
+                </label>
+                <input
+                  type="text"
+                  id="lastNameAddressForm"
+                  name="lastNameAddressForm"
+                  class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 mt-2 focus:ring-black focus:outline-none text-gray-800"
+                  placeholder="Enter last name"
+                />
+              </div>
+
+              <!-- Postcode -->
+              <div class="mb-4">
+                <label
+                  for="postcodeAddressForm"
+                  class="block text-sm font-medium text-gray-700"
+                >
+                  Postcode
+                </label>
+                <input
+                  type="text"
+                  id="postcodeAddressForm"
+                  name="postcodeAddressForm"
+                  class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 mt-2 focus:ring-black focus:outline-none text-gray-800"
+                  placeholder="Enter postcode"
+                />
+              </div>
+
+              <!-- Country -->
+              <div class="mb-4">
+                <label
+                  for="countryAddressForm"
+                  class="block text-sm font-medium text-gray-700"
+                >
+                  Country
+                </label>
+                <input
+                  type="text"
+                  id="countryAddressForm"
+                  name="countryAddressForm"
+                  class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 mt-2 focus:ring-black focus:outline-none text-gray-800"
+                  placeholder="Enter country"
+                />
+              </div>
+
+              <!-- Address Line 1 -->
+              <div class="mb-4">
+                <label
+                  for="addressLine1Form"
+                  class="block text-sm font-medium text-gray-700"
+                >
+                  Address Line 1
+                </label>
+                <input
+                  type="text"
+                  id="addressLine1Form"
+                  name="addressLine1Form"
+                  class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 mt-2 focus:ring-black focus:outline-none text-gray-800"
+                  placeholder="Enter address line 1"
+                />
+              </div>
+
+              <!-- Address Line 2 -->
+              <div class="mb-4">
+                <label
+                  for="addressLine2Form"
+                  class="block text-sm font-medium text-gray-700"
+                >
+                  Address Line 2
+                </label>
+                <input
+                  type="text"
+                  id="addressLine2Form"
+                  name="addressLine2Form"
+                  class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 mt-2 focus:ring-black focus:outline-none text-gray-800"
+                  placeholder="Enter address line 2 (optional)"
+                />
+              </div>
+              <!-- City -->
+              <div class="mb-4">
+                <label
+                  for="cityAddressForm"
+                  class="block text-sm font-medium text-gray-700"
+                >
+                  City
+                </label>
+                <input
+                  type="text"
+                  id="cityAddressForm"
+                  name="cityAddressForm"
+                  class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 mt-2 focus:ring-black focus:outline-none text-gray-800"
+                  placeholder="Enter city"
+                />
+              </div>
+              <!-- Is Default -->
+              <div class="flex items-center">
+                <input
+                  type="checkbox"
+                  id="isDefault"
+                  name="isDefault"
+                  class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-black"
+                />
+                <label
+                  for="isDefault"
+                  class="text-sm ml-2 uppercase text-gray-700"
+                >
+                  Default delivery address
+                </label>
+              </div>
+            </form>
+            <!-- Modal Footer -->
+            <div class="border-t p-6">
+              <button
+                data-create="true"
+                data-id=""
+                id="btn-save-modal-address"
+                class="w-full bg-black text-white py-2 rounded-md"
+              >
+                Save
+              </button>
+            </div>
+          </div>
+        </div>
+        <!-- Modal confirm remove  -->
+        <div id="removeAddressModal" class="modal close-modal">
+          <div class="bg-white rounded-lg p-6 w-96 shadow-lg">
+            <!-- Header -->
+            <h1 class="font-semibold text-xl text-gray-800 mb-4 text-center">
+              Confirm Remove Address
+            </h1>
+            <p class="text-sm text-gray-600 text-center mb-6">
+              Are you sure you want to remove this address? This action cannot
+              be undone.
+            </p>
+            <!-- Buttons -->
+            <div class="flex justify-end space-x-4">
+              <button
+                onclick="closeRemoveAddressModal()"
+                class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 border border-gray-300 rounded-md hover:bg-gray-200"
+              >
+                Cancel
+              </button>
+              <button
+                id="btn-confirm-remove"
+                data-id=""
+                class="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-md hover:bg-red-700"
+              >
+                Confirm
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <footer class="footer"></footer>
+      <div id="notification"></div>
+    </main>
+  </body>
+  <script>
+    const addressModal = document.getElementById("addressModal");
+    const removeAddressModal = document.getElementById("removeAddressModal");
+    function openRemoveAddressModal() {
+      removeAddressModal.classList.remove("close-modal");
+    }
+    function closeRemoveAddressModal() {
+      removeAddressModal.classList.add("close-modal");
+    }
+    function openModalAddress() {
+      addressModal.classList.remove("close-modal");
+    }
+    function closeModalAddress() {
+      addressModal.classList.add("close-modal");
+    }
+  </script>
+  <script src="../../src/js/address.js" type="module"></script>
+  <script src="../../src/js/main.js" type="module"></script>
+</html>

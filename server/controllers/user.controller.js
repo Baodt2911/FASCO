@@ -7,6 +7,9 @@ import {
   updateUserService,
   isLoginService,
   loginGoogleService,
+  getUserService,
+  changePasswordService,
+  forgotPasswordService,
 } from "../services/user.service.js";
 const isLoginController = async (req, res) => {
   try {
@@ -19,6 +22,18 @@ const isLoginController = async (req, res) => {
     }
     res.status(status).json({
       isLogin: element,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+const getUserController = async (req, res) => {
+  try {
+    const { userId } = req.user;
+    const { status, element, message } = await getUserService(userId);
+    res.status(status).json({
+      message,
+      user: element,
     });
   } catch (error) {
     console.log(error);
@@ -47,7 +62,6 @@ const loginController = async (req, res) => {
     }
     res.status(status).json({
       message,
-      user: element?.user,
       accessToken: element?.accessToken,
     });
   } catch (error) {
@@ -79,7 +93,6 @@ const loginGoogleController = async (req, res) => {
     }
     res.status(status).json({
       message,
-      user: element?.user,
       accessToken: element?.accessToken,
     });
   } catch (error) {
@@ -124,14 +137,33 @@ const logoutController = async (req, res) => {
 };
 const updateUserController = async (req, res) => {
   try {
-    const { _id, ...data } = req.body;
+    const { userId } = req.user;
+    const { firstName, lastName, phone } = req.body;
     const { status, element, message } = await updateUserService({
-      _id,
-      data,
+      userId,
+      firstName,
+      lastName,
+      phone,
     });
     res.status(status).json({
       message,
-      element,
+      user: element,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+const changePasswordController = async (req, res) => {
+  try {
+    const { userId } = req.user;
+    const { currentPassword, newPassword } = req.body;
+    const { status, element, message } = await changePasswordService({
+      userId,
+      currentPassword,
+      newPassword,
+    });
+    res.status(status).json({
+      message,
     });
   } catch (error) {
     console.log(error);
@@ -165,15 +197,26 @@ const refreshTokenController = async (req, res) => {
     console.log(error);
   }
 };
+const forgotPasswordController = async (req, res) => {
+  try {
+    const { email } = req.body;
+    const { status, message } = await forgotPasswordService({
+      email,
+    });
+    res.status(status).json({
+      message,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
 const resetPasswordController = async (req, res) => {
   try {
-    const { email, password, otp } = req.body;
+    const { token, newPassword } = req.body;
     const { status, message } = await resetPasswordService({
-      email,
-      password,
-      otp,
+      token,
+      newPassword,
     });
-    console.log(email, password, otp);
     res.status(status).json({
       message,
     });
@@ -182,6 +225,7 @@ const resetPasswordController = async (req, res) => {
   }
 };
 export {
+  getUserController,
   isLoginController,
   loginController,
   loginGoogleController,
@@ -190,4 +234,6 @@ export {
   refreshTokenController,
   resetPasswordController,
   updateUserController,
+  changePasswordController,
+  forgotPasswordController,
 };

@@ -71,21 +71,22 @@
             <!-- subtotal -->
             <div class="flex items-center justify-between my-5">
               <p class="font-volkhov text-lg">Subtotal</p>
-              <p class="font-volkhov text-lg">$100.00</p>
+              <p class="font-volkhov text-lg" id="subtotal">$0.00</p>
             </div>
             <!-- checkout  -->
-            <button
+            <a
+              href="../pages/checkout.html"
               class="bg-black rounded-xl w-full h-14 flex items-center justify-center hover:text-[#FF4646] font-poppins text-sm text-white shadow-xl shadow-[#bbbbbbcc] mb-3"
             >
               Check out
-            </button>
+            </a>
           </div>
         </div>
         <!-- Subscribe -->
         <div class="subscribe"></div>
       </div>
       <footer class="footer"></footer>
-      <div id="notification" class="fixed top-10 right-5 transition-all"></div>
+      <div id="notification"></div>
     </main>
   </body>
   <script src="../../src/js/main.js" type="module"></script>

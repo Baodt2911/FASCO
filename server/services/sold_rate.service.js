@@ -2,7 +2,6 @@ import _soldRate from "../models/sold_rate.model.js";
 import _review from "../models/review.model.js";
 import _product from "../models/product.model.js";
 import { checkId } from "../utils/check_id.js";
-
 const getSoldRateService = async ({ idProduct }) => {
   try {
     if (checkId(idProduct)) {
@@ -11,28 +10,30 @@ const getSoldRateService = async ({ idProduct }) => {
         message: "_id product invalid",
       };
     }
+
     const soldRate = await _soldRate.findOne({ idProduct });
-    const isProduct = await _product.findById(idProduct);
+    const isProduct = soldRate ? null : await _product.findById(idProduct);
+
     if (!soldRate && !isProduct) {
       return {
         status: 404,
-        message: "sold rate not found",
+        message: "Sold rate not found",
       };
     }
+
     return {
       status: 200,
-      element: soldRate
-        ? soldRate
-        : {
-            idProduct: isProduct._id,
-            rate: 0,
-            sold: 0,
-          },
+      element: soldRate || {
+        idProduct: isProduct._id,
+        rate: 0,
+        sold: 0,
+      },
     };
   } catch (error) {
     console.log(error);
   }
 };
+
 const addSoldService = async ({ idProduct }) => {
   try {
     if (checkId(idProduct)) {
@@ -41,72 +42,75 @@ const addSoldService = async ({ idProduct }) => {
         message: "_id product invalid",
       };
     }
-    const isSoldRate = await _soldRate.findOne({ idProduct });
-    if (!isSoldRate) {
-      await _soldRate.create({
-        idProduct,
-      });
-    } else {
-      await isSoldRate.updateOne({ $inc: { sold: 1 } });
-    }
+
+    const isSoldRate = await _soldRate.findOneAndUpdate(
+      { idProduct },
+      { $inc: { sold: 1 } },
+      { new: true, upsert: true }
+    );
     return {
       status: 200,
-      message: "add sold successfully",
+      message: "Add sold successfully",
     };
   } catch (error) {
     console.log(error);
   }
 };
+
 const addRateService = async ({ idProduct }) => {
   try {
-    // Check id invalid
     if (checkId(idProduct)) {
       return {
         status: 500,
         message: "_id product invalid",
       };
     }
-    const isSoldRate = await _soldRate.findOne({ idProduct });
-    const totalReviews = await _review.find({ idProduct });
-    const countReviews = await _review.countDocuments({ idProduct });
-    if (!totalReviews) {
+
+    const [isSoldRate, totalReviews] = await Promise.all([
+      _soldRate.findOne({ idProduct }),
+      _review.find({ idProduct }),
+    ]);
+
+    if (!totalReviews.length) {
       return {
         status: 404,
-        message: "review not found",
+        message: "Review not found",
       };
     }
+
     if (!isSoldRate) {
       return {
         status: 404,
-        message: "sold_rate not found",
+        message: "Sold_rate not found",
       };
     }
-    const totalRate = totalReviews.reduce(
-      (acc, current) => acc + current.rate,
-      0
-    );
-    const newAverageRating = totalRate / countReviews;
-    await isSoldRate.updateOne({ rate: newAverageRating });
+
+    const totalRate = totalReviews.reduce((acc, { rate }) => acc + rate, 0);
+    const newAverageRating = totalRate / totalReviews.length;
+
+    await _soldRate.updateOne({ idProduct }, { rate: newAverageRating });
+
     return {
       status: 200,
-      message: "add rate successfully",
+      message: "Add rate successfully",
     };
   } catch (error) {
     console.log(error);
   }
 };
+
 const deleteSoldRateService = async (_id) => {
   try {
     const isSoldRate = await _soldRate.findByIdAndDelete(_id);
     if (!isSoldRate) {
       return {
         status: 404,
-        message: "sold rate not found",
+        message: "Sold rate not found",
       };
     }
     return {
       status: 200,
-      message: "deleted sold rate successfully",
+      message: "Deleted sold rate successfully",
     };
   } catch (error) {
     console.log(error);

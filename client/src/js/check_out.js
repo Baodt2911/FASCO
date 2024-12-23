@@ -1,4 +1,8 @@
-import { getAccessToken, notification, url_api } from "./utils.js";
+import { getAccessToken, isLoggedIn, notification, url_api } from "./utils.js";
+const isLogin = await isLoggedIn();
+if (!isLogin) {
+  window.location.href = "SignIn.html";
+}
 const listProductsCheckOut = document.getElementById("list-products-checkout");
 const subtotal = document.querySelector(".subtotal");
 const shipping = document.querySelector(".shipping");
@@ -52,7 +56,7 @@ btnApplyDiscount.addEventListener("click", async (e) => {
     );
     const { message, discount } = await res.json();
     if (!discount) {
-      console.log(message);
+      notification({ message, status: "warning" });
       return;
     }
     if (discount?.discount_type === "percent") {
@@ -158,6 +162,7 @@ paypal
       );
       const { message, element } = await response.json();
       notification({ message, status: "success" });
+      window.location.href = "orders.html";
     },
   })
   .render("#paypal-button-container");

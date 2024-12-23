@@ -5,7 +5,16 @@ import { addRateService } from "./sold_rate.service.js";
 import { updateOrderService } from "./order.service.js";
 const getReviewProductService = async ({ id, page, pageSize, rate, to }) => {
   try {
+    if (page === 0) {
+      return {
+        status: 404,
+        element: [],
+      };
+    }
+
     const skip = (page - 1) * pageSize;
+    let totalItem = await _review.countDocuments();
+    let totalPage = Math.ceil(totalItem / pageSize);
     let resultReview = await _review
       .find({ rate })
       .skip(skip)
@@ -19,7 +28,7 @@ const getReviewProductService = async ({ id, page, pageSize, rate, to }) => {
       .populate({
         path: "idProduct",
         model: "products",
-        select: "photos",
+        select: ["photos", "name"],
         populate: {
           path: "photos",
           model: "photos",
@@ -43,6 +52,8 @@ const getReviewProductService = async ({ id, page, pageSize, rate, to }) => {
           model: "user",
           select: ["firstName", "lastName"],
         });
+      totalItem = (await _review.find({ idProduct: id, rate })).length;
+      totalPage = Math.ceil(totalItem / pageSize);
     }
 
     if (!resultReview) {
@@ -53,7 +64,12 @@ const getReviewProductService = async ({ id, page, pageSize, rate, to }) => {
     }
     return {
       status: 200,
-      element: resultReview,
+      element: {
+        reviews: resultReview,
+        totalItem,
+        totalPage,
+        currentPage: page,
+      },
     };
   } catch (error) {
     console.log(error);
@@ -107,7 +123,7 @@ const createNewReviewService = async ({
     });
 
     await addRateService({ idProduct });
-    await updateOrderService({ orderId, id_list_order });
+    await updateOrderService({ userId, orderId, id_list_order });
     return {
       status: 200,
       message: "The product has been evaluated",

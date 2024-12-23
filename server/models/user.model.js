@@ -28,6 +28,10 @@ const user = new Schema(
     password: {
       type: String,
     },
+    address: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "address",
+    },
     admin: {
       type: Boolean,
       default: false,

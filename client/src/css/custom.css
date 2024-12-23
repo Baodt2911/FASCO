@@ -30,7 +30,7 @@
   background: #8a8a8acc;
   border-radius: 10px;
 }
-.quantity::-webkit-inner-spin-button,
-.quantity::-webkit-outer-spin-button {
+input::-webkit-inner-spin-button,
+input::-webkit-outer-spin-button {
   display: none;
 }

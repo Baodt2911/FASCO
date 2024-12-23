@@ -14,7 +14,7 @@ const btnShowPassword = document.querySelector(".show-password");
 const btnShowConfirmPassword = document.querySelector(".show-confirm-password");
 const btnGoogle = document.querySelector(".btn-login-google");
 if (isLogin) {
-  window.location.assign("/client/public/pages/index.html");
+  window.location.href = "index.html";
 }
 const GoogleProvider = new GoogleAuthProvider();
 
@@ -30,8 +30,20 @@ btnGoogle.addEventListener("click", async () => {
       },
       credentials: "include",
     });
-    const data = await res.json();
-    console.log(data);
+    const { message, accessToken } = await res.json();
+    let status = "success";
+    if (!user) {
+      status = "warning";
+      notification({
+        message: message,
+        status,
+      });
+      return;
+    }
+    localStorage.setItem("at", accessToken);
+    if (status == "success") {
+      window.location.assign("/client/public/pages/index.html");
+    }
   } catch (error) {
     console.log(error);
   }
@@ -65,6 +77,9 @@ confirmPassword.addEventListener("input", (e) => {
   }
 });
 const sendOtp = () => {
+  if (!email.value) {
+    return;
+  }
   fetch(url_api + "/otp/send-otp", {
     method: "POST",
     headers: {

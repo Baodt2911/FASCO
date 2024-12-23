@@ -32,7 +32,7 @@ const MiniCart = () => {
     <!-- subtotal -->
     <div class="flex items-center justify-between my-5">
       <p class="font-volkhov text-lg">Subtotal</p>
-      <p class="font-volkhov text-lg">$100.00</p>
+      <p class="font-volkhov text-lg" id="subtotal">$0.00</p>
     </div>
     <!-- checkout  -->
     <a href="../pages/checkout.html"

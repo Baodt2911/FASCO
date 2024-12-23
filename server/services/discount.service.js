@@ -25,6 +25,17 @@ const getDiscountService = async ({ discount_code }) => {
     console.log(error);
   }
 };
+const getAllDiscountService = async () => {
+  try {
+    const discounts = await _discount.find();
+    return {
+      status: 200,
+      element: discounts,
+    };
+  } catch (error) {
+    console.log(error);
+  }
+};
 const createDiscountService = async ({
   discount_code,
   discount_type,
@@ -60,6 +71,26 @@ const createDiscountService = async ({
     console.log(error);
   }
 };
+const changeStatusDiscountService = async ({ _id }) => {
+  try {
+    const isDiscount = await _discount.findById(_id);
+    if (!isDiscount) {
+      return {
+        status: 404,
+        message: "Discount is not found",
+      };
+    }
+    await isDiscount.updateOne({
+      $set: { status: isDiscount.status === "active" ? "inactive" : "active" },
+    });
+    return {
+      status: 200,
+      message: "Changed successfully!",
+    };
+  } catch (error) {
+    console.log(error);
+  }
+};
 const deleteDiscountService = async (_id) => {
   try {
     const isDiscount = await _discount.findByIdAndDelete(_id);
@@ -77,4 +108,10 @@ const deleteDiscountService = async (_id) => {
     console.log(error);
   }
 };
-export { createDiscountService, deleteDiscountService, getDiscountService };
+export {
+  createDiscountService,
+  deleteDiscountService,
+  getDiscountService,
+  getAllDiscountService,
+  changeStatusDiscountService,
+};

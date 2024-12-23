@@ -5,8 +5,12 @@ import {
 
 const getPaymentController = async (req, res) => {
   try {
-    const { orderId } = req.body;
-    const { status, message, element } = await getPaymentService({ orderId });
+    const { userId } = req.user;
+    const { orderId } = req.params;
+    const { status, message, element } = await getPaymentService({
+      userId,
+      orderId,
+    });
     res.status(status).json({
       message,
       element,
@@ -17,8 +21,10 @@ const getPaymentController = async (req, res) => {
 };
 const refundPaymentController = async (req, res) => {
   try {
-    const { orderId } = req.body;
+    const { userId } = req.user;
+    const { orderId } = req.params;
     const { status, message, element } = await refundPaymentService({
+      userId,
       orderId,
     });
     res.status(status).json({

@@ -20,10 +20,6 @@
       background: #000;
       color: white;
     }
-    .quantity::-webkit-inner-spin-button,
-    .quantity::-webkit-outer-spin-button {
-      display: none;
-    }
     /* width */
     ::-webkit-scrollbar {
       display: none;
@@ -248,6 +244,146 @@
             </div>
           </div>
         </div>
+
+        <!-- Customer Reviews Section -->
+        <div class="mx-56 my-8 p-6 bg-white shadow-lg rounded-lg">
+          <!-- Average Rating & Sale Info -->
+          <div class="flex justify-between items-center mb-6">
+            <div class="flex items-center">
+              <!-- Star Rating -->
+              <span class="text-yellow-400 text-3xl">★</span>
+              <span class="text-yellow-400 text-3xl">★</span>
+              <span class="text-yellow-400 text-3xl">★</span>
+              <span class="text-yellow-400 text-3xl">★</span>
+              <span class="text-gray-300 text-3xl">★</span>
+              <span class="ml-2 text-gray-800 text-xl"
+                ><span id="average-rate">4.9</span> / 5</span
+              >
+            </div>
+            <!-- Sale Info -->
+            <div class="text-right text-gray-600">
+              <p class="font-semibold">
+                <span id="product-sold">0</span> products sold
+              </p>
+              <p class="text-sm"><span id="count-reviews">0</span> reviews</p>
+            </div>
+          </div>
+
+          <!-- Review Section -->
+          <div class="flex items-center mb-6">
+            <!-- Individual Rating Bars -->
+            <div class="flex space-x-5">
+              <button
+                data-rate="5"
+                class="flex btn-select-rate-number items-center"
+              >
+                <span class="text-yellow-400 text-lg font-semibold">★</span>
+                <span class="ml-1 text-gray-500 text-lg font-semibold">5</span>
+                <div class="w-32 h-2 bg-gray-300 ml-2">
+                  <div class="bg-yellow-400 w-[100]% h-full"></div>
+                </div>
+              </button>
+              <button
+                data-rate="4"
+                class="flex btn-select-rate-number items-center"
+              >
+                <span class="text-yellow-400 text-lg font-semibold">★</span>
+                <span class="ml-1 text-gray-500 text-lg font-semibold">4</span>
+                <div class="w-32 h-2 bg-gray-300 ml-2">
+                  <div class="bg-yellow-400 w-[80%] h-full"></div>
+                </div>
+              </button>
+              <button
+                data-rate="3"
+                class="flex btn-select-rate-number items-center"
+              >
+                <span class="text-yellow-400 text-lg font-semibold">★</span>
+                <span class="ml-1 text-gray-500 text-lg font-semibold">3</span>
+                <div class="w-32 h-2 bg-gray-300 ml-2">
+                  <div class="bg-yellow-400 w-[60%] h-full"></div>
+                </div>
+              </button>
+              <button
+                data-rate="2"
+                class="flex btn-select-rate-number items-center"
+              >
+                <span class="text-yellow-400 text-lg font-semibold">★</span>
+                <span class="ml-1 text-gray-500 text-lg font-semibold">2</span>
+                <div class="w-32 h-2 bg-gray-300 ml-2">
+                  <div class="bg-yellow-400 w-[40%] h-full"></div>
+                </div>
+              </button>
+              <button
+                data-rate="1"
+                class="flex btn-select-rate-number items-center"
+              >
+                <span class="text-yellow-400 text-lg font-semibold">★</span>
+                <span class="ml-1 text-gray-500 text-lg font-semibold">1</span>
+                <div class="w-32 h-2 bg-gray-300 ml-2">
+                  <div class="bg-yellow-400 w-[10%] h-full"></div>
+                </div>
+              </button>
+            </div>
+          </div>
+
+          <!-- Review Example -->
+          <div id="reviews-list" class="border-t pt-4">
+            <div class="flex items-start mb-4">
+              <!-- <div
+                class="w-12 h-12 rounded-full bg-black text-white flex items-center justify-center text-lg font-semibold"
+              >
+                T
+              </div>
+              <div class="ml-4 flex-1">
+                <p class="font-semibold text-gray-800">Thái Nhan</p>
+                <p class="text-gray-500 text-sm mb-2">July 20, 2024</p>
+                <div class="flex items-center mb-2">
+                  <span class="text-yellow-400 text-xl">★</span>
+                  <span class="text-yellow-400 text-xl">★</span>
+                  <span class="text-yellow-400 text-xl">★</span>
+                  <span class="text-gray-300 text-xl">★</span>
+                  <span class="text-gray-300 text-xl">★</span>
+                </div>
+                <p class="text-gray-700 leading-relaxed">
+                  "Con laptop xài sướng lắm, khởi động chỉ có 15s, chơi game
+                  Cossack 3 được. Quá ưng luôn!"
+                </p>
+              </div> -->
+            </div>
+            <!-- Repeat for other reviews... -->
+          </div>
+
+          <!-- Pagination for Reviews -->
+          <div
+            id="pagination-reviews"
+            class="flex justify-end items-center mt-8 space-x-4"
+          >
+            <!-- Previous Button -->
+            <button
+              id="btn-prev-review"
+              class="size-10 bg-black text-white rounded-full text-sm hover:bg-blue-600 transition-all"
+            >
+              <i class="fas fa-chevron-left"></i>
+            </button>
+            <div class="total-page flex justify-end items-center space-x-2">
+              <!-- Page Numbers -->
+              <button
+                class="size-8 bg-gray-200 text-gray-800 rounded-full text-sm hover:bg-gray-300 transition-all"
+              >
+                1
+              </button>
+            </div>
+
+            <!-- Next Button -->
+            <button
+              id="btn-next-review"
+              class="size-10 bg-black text-white rounded-full text-sm hover:bg-blue-600 transition-all"
+            >
+              <i class="fas fa-chevron-right"></i>
+            </button>
+          </div>
+        </div>
+
         <!-- Banner middle -->
         <div class="banner-middle"></div>
         <!-- Gallery -->
@@ -274,7 +410,7 @@
         <div class="mini-cart"></div>
       </div>
       <footer class="footer"></footer>
-      <div id="notification" class="fixed top-10 right-5 transition-all"></div>
+      <div id="notification"></div>
     </main>
   </body>
   <script src="../../src/js/main.js" type="module"></script>

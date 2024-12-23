@@ -35,17 +35,6 @@ const getCartService = async ({ userId }) => {
     console.log(error);
   }
 };
-const createCartService = async ({ userId }) => {
-  try {
-    await _cart.create({ userId });
-    return {
-      status: 200,
-      message: "Created cart successfully!",
-    };
-  } catch (error) {
-    console.log(error);
-  }
-};
 const addToCartService = async ({ userId, carts }) => {
   try {
     // Check id invalid
@@ -55,7 +44,17 @@ const addToCartService = async ({ userId, carts }) => {
         message: "_id products invalid",
       };
     }
-    const cart = await _cart.findOne({ userId });
+    if (checkId(carts.color)) {
+      return {
+        status: 500,
+        message: "_id color invalid",
+      };
+    }
+    await _cart.updateOne(
+      { userId },
+      { $setOnInsert: { userId, carts: [] } },
+      { upsert: true }
+    );
     const incQuantity = await _cart.findOneAndUpdate(
       {
         userId,
@@ -68,23 +67,20 @@ const addToCartService = async ({ userId, carts }) => {
         },
       },
       {
-        $inc: { "carts.$.quantity": carts.quantity || 1 },
+        $inc: { "carts.$.quantity": carts?.quantity || 1 },
         // $inc  increment or decrement
         // $: The positional operator in MongoDB, which represents the matched element in the array based on the previous query condition $elemMatch
       }
     );
-    if (!cart) {
-      return {
-        status: 404,
-        message: "Not found cart!",
-      };
-    }
     if (!incQuantity) {
-      await cart.updateOne({ $push: { carts } });
+      await _cart.updateOne({ userId }, { $push: { carts } });
     }
     return {
       status: 200,
-      message: "Added to cart!",
+      message:
+        carts.quantity === -1
+          ? "The quantity has been reduced successfully!"
+          : "Added to cart!",
     };
   } catch (error) {
     console.log(error);
@@ -118,9 +114,4 @@ const removeFromCartService = async ({ userId, carts }) => {
     console.log(error);
   }
 };
-export {
-  getCartService,
-  createCartService,
-  addToCartService,
-  removeFromCartService,
-};
+export { getCartService, addToCartService, removeFromCartService };

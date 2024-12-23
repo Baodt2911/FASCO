@@ -36,7 +36,7 @@ const createDealService = async ({
 const getDealService = async () => {
   try {
     const deals = await _deal
-      .find({ status: "active" })
+      .find({ status: "active", end_date: { $gt: new Date() } })
       .populate({
         path: "applied_products",
         model: "products",
@@ -55,6 +55,7 @@ const getDealService = async () => {
         "start_date",
         "end_date",
         "applied_products",
+        "priority",
       ]);
 
     return {
@@ -65,15 +66,33 @@ const getDealService = async () => {
     console.log(error);
   }
 };
-const updateDealService = async ({ _id }) => {
+const getAllDealService = async () => {
   try {
-    const isDeal = await _deal.findByIdAndUpdate(_id, {
-      status: "inactive",
+    const deals = await _deal.find().populate({
+      path: "applied_products",
+      model: "products",
+      select: ["name", "photos"],
+      populate: {
+        path: "photos",
+        model: "photos",
+        select: ["url"],
+      },
     });
-    if (!isDeal) {
+    return {
+      status: 200,
+      element: deals,
+    };
+  } catch (error) {
+    console.log(error);
+  }
+};
+const updateDealService = async ({ _id, data }) => {
+  try {
+    const updatedDeal = await _deal.findByIdAndUpdate(_id, data);
+    if (!updatedDeal) {
       return {
         status: 404,
-        message: "Deal is not found",
+        message: "Deal not found!",
       };
     }
     return {
@@ -84,4 +103,50 @@ const updateDealService = async ({ _id }) => {
     console.log(error);
   }
 };
-export { createDealService, getDealService, updateDealService };
+
+const changeStatusDealService = async ({ _id }) => {
+  try {
+    const isDeal = await _deal.findById(_id);
+    if (!isDeal) {
+      return {
+        status: 404,
+        message: "Deal is not found",
+      };
+    }
+    await isDeal.updateOne({
+      $set: { status: isDeal.status === "active" ? "inactive" : "active" },
+    });
+    return {
+      status: 200,
+      message: "Changed successfully!",
+    };
+  } catch (error) {
+    console.log(error);
+  }
+};
+const deleteDealService = async ({ _id }) => {
+  try {
+    const isDeal = await _deal.findByIdAndDelete(_id);
+    if (!isDeal) {
+      return {
+        status: 404,
+        message: "Deal is not found",
+      };
+    }
+
+    return {
+      status: 200,
+      message: "Deleted successfully!",
+    };
+  } catch (error) {
+    console.log(error);
+  }
+};
+export {
+  createDealService,
+  getDealService,
+  getAllDealService,
+  changeStatusDealService,
+  deleteDealService,
+  updateDealService,
+};

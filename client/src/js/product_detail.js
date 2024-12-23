@@ -4,6 +4,7 @@ import {
   notification,
   socket,
   params,
+  url_api,
 } from "./utils.js";
 
 const btnReduce = document.querySelector(".btn-reduce");
@@ -17,11 +18,19 @@ const cardListPhotos = document.getElementById("card-list-photos");
 const cardActivePhotos = document.getElementById("card-active-photo");
 const itemSize = document.querySelectorAll(".item-size");
 const btnAddToCart = document.getElementById("btn-add-to-cart");
+const productSold = document.getElementById("product-sold");
+const countReviews = document.getElementById("count-reviews");
+const reviewsList = document.getElementById("reviews-list");
+const averageRate = document.getElementById("average-rate");
+const paginationReviews = document.getElementById("pagination-reviews");
+const btnSelectRateNumber = document.querySelectorAll(
+  ".btn-select-rate-number"
+);
 const carts = {
   product: "",
   color: "",
   size: "",
-  quantity: 0,
+  quantity: 1,
 };
 bntIncrease.addEventListener("click", () => {
   if (quantity.value >= 0 && quantity.value < 100) {
@@ -39,10 +48,10 @@ quantity.addEventListener("input", (e) => {
   }
 });
 
+// Render Product
 let id = params.id;
 const { product } = await getProducts(`/detail?id=${id}`);
 carts.product = id;
-
 productDetailName.innerText = product.name;
 productDetailPrice.innerText = `${product.price}.00`;
 const htmlsPhoto = product.photos.map((photo) => {
@@ -121,7 +130,17 @@ itemColor.forEach((item) => {
   });
 });
 btnAddToCart.addEventListener("click", async () => {
-  carts.quantity = parseInt(quantity.value);
+  carts.quantity = parseInt(quantity.value) || 1;
+  const isValid = Object.keys(carts).every((key) => {
+    return carts[key] !== "" && carts[key] !== null && carts[key] !== undefined;
+  });
+  if (!isValid) {
+    notification({
+      message: "Please choose color and size",
+      status: "warning",
+    });
+    return;
+  }
   socket.emit("add-to-cart", carts);
   socket.on("message", ({ message }) => {
     notification({
@@ -146,3 +165,124 @@ btnAddToCart.addEventListener("click", async () => {
 
   // }
 });
+
+// Render Reviews
+let query = {
+  id,
+  page: 1,
+  pageSize: 2,
+  rate: 5,
+};
+let totalPageReview;
+let currentPageReview;
+const btnPrevReview = document.getElementById("btn-prev-review");
+const btnNextReview = document.getElementById("btn-next-review");
+const totalPageElement = document.querySelector(".total-page");
+const handleRenderPagination = ({ totalPage, currentPage }) => {
+  const htmls = Array.from({ length: totalPage }, (_, index) => {
+    return `<button class="item-page size-8  
+    ${
+      currentPage === index + 1
+        ? "bg-blue-600 text-white"
+        : "bg-gray-200 text-gray-800"
+    } 
+    rounded-full text-sm transition-all">${index + 1}</button>`;
+  });
+  totalPageElement.innerHTML = htmls.join("");
+};
+
+const renderReviews = async (query) => {
+  const queryString = new URLSearchParams(query).toString();
+  try {
+    const res = await fetch(url_api + `/review/get-review?${queryString}`);
+    const { message, datas } = await res.json();
+    const { totalPage, totalItem, currentPage, reviews } = datas;
+    query.page = currentPage;
+    totalPageReview = totalPage;
+    currentPageReview = currentPage;
+    handleRenderPagination({ totalPage, currentPage });
+    if (message) console.error(message);
+    if (reviews.length === 0) {
+      reviewsList.innerHTML = `<p class="text-gray-500 leading-relaxed text-center font-semibold">No Review</p>`;
+      return;
+    }
+    const htmls = reviews?.map((item) => {
+      return `<div class="flex items-start mb-4">
+              <!-- User Avatar -->
+              <div
+                class="w-12 h-12 rounded-full bg-black text-white flex items-center justify-center text-lg font-semibold"
+              >
+                ${item.userId.firstName.charAt(0).toUpperCase()}
+              </div>
+              <!-- Review Content -->
+              <div class="ml-4 flex-1">
+                <p class="font-semibold text-gray-800 ">
+                ${item.userId.firstName} ${item.userId.lastName}</p>
+                <p class="text-gray-500 text-sm mb-2">${new Date(
+                  item.createdAt
+                ).toLocaleDateString("en-US", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })}</p>
+                <div class="flex items-center mb-2">
+                ${Array(item.rate)
+                  .fill(`<span class="text-yellow-400 text-xl">★</span>`)
+                  .join("")}
+                ${Array(5 - item.rate)
+                  .fill(`<span class="text-gray-300 text-xl">★</span>`)
+                  .join("")}
+                </div>
+                <p class="text-gray-700 leading-relaxed ">
+                  "${item.content}"
+                </p>
+              </div>
+            </div>`;
+    });
+    reviewsList.innerHTML = htmls.join("");
+    countReviews.textContent = totalItem;
+  } catch (error) {
+    console.log(error);
+  }
+};
+totalPageElement.addEventListener("click", (e) => {
+  if (e.target.classList.contains("item-page")) {
+    query.page = e.target.textContent;
+    renderReviews(query);
+  }
+});
+btnPrevReview.addEventListener("click", () => {
+  if (currentPageReview === 1) {
+    return;
+  }
+  query.page--;
+  renderReviews(query);
+});
+btnNextReview.addEventListener("click", () => {
+  if (currentPageReview === totalPageReview) {
+    return;
+  }
+  query.page++;
+  renderReviews(query);
+});
+btnSelectRateNumber.forEach((item) => {
+  item.addEventListener("click", (e) => {
+    const rate = e.currentTarget.dataset.rate;
+    query.page = 1;
+    query.rate = rate;
+    renderReviews(query);
+  });
+});
+await renderReviews(query);
+const renderSoldRate = async () => {
+  try {
+    const res = await fetch(url_api + `/sold_rate/get?id=${id}`);
+    const { message, element } = await res.json();
+    if (message) console.error(message);
+    productSold.textContent = element.sold;
+    averageRate.textContent = element.rate;
+  } catch (error) {
+    console.log(error);
+  }
+};
+await renderSoldRate();

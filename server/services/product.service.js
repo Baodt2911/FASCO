@@ -16,6 +16,12 @@ const getAllProductService = async ({
   max_price,
 }) => {
   try {
+    if (page === 0) {
+      return {
+        status: 404,
+        element: [],
+      };
+    }
     const skip = (page - 1) * pageSize;
     const totalItem = await _product.countDocuments();
     const totalPage = Math.ceil(totalItem / pageSize);

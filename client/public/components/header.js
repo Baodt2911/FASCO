@@ -8,7 +8,7 @@ const Header = (isLogin) => {
   <ul class="flex justify-center items-center gap-x-14">
     <li>
       <a
-        href=""
+        href="./index.html"
         class="hover:text-[#FF4646] font-poppins text-sm text-[#484848]"
         >Home</a
       >

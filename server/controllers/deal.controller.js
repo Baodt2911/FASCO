@@ -1,6 +1,9 @@
 import {
   createDealService,
+  getAllDealService,
   getDealService,
+  changeStatusDealService,
+  deleteDealService,
   updateDealService,
 } from "../services/deal.service.js";
 
@@ -48,10 +51,21 @@ const getDealController = async (req, res) => {
     console.log(error);
   }
 };
-const updateDealController = async (req, res) => {
+const getAllDealController = async (req, res) => {
+  try {
+    const { status, message, element } = await getAllDealService();
+    res.status(status).json({
+      message,
+      deals: element,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+const changeStatusDealController = async (req, res) => {
   try {
     const _id = req.params._id;
-    const { status, message, element } = await updateDealService({ _id });
+    const { status, message, element } = await changeStatusDealService({ _id });
     res.status(status).json({
       message,
     });
@@ -59,4 +73,34 @@ const updateDealController = async (req, res) => {
     console.log(error);
   }
 };
-export { createDealController, getDealController, updateDealController };
+const updateDealController = async (req, res) => {
+  try {
+    const _id = req.params._id;
+    const data = req.body;
+    const { status, message, element } = await updateDealService({ _id, data });
+    res.status(status).json({
+      message,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+const deleteDealController = async (req, res) => {
+  try {
+    const _id = req.params._id;
+    const { status, message, element } = await deleteDealService({ _id });
+    res.status(status).json({
+      message,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+export {
+  createDealController,
+  getDealController,
+  changeStatusDealController,
+  getAllDealController,
+  deleteDealController,
+  updateDealController,
+};

@@ -19,7 +19,7 @@ router.post(
   verfifyAccessToken,
   completeOrderController
 );
-router.put("/update-order/:orderId", checkAdmin, updateOrderController);
+router.post("/update-order/:orderId", checkAdmin, updateOrderController);
 router.get("/get", verfifyAccessToken, getOrderController);
 router.get("/get-detail", checkAdmin, getDetailOrderController);
 

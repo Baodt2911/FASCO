@@ -71,8 +71,12 @@ const updateOrderController = async (req, res) => {
 };
 const completeOrderController = async (req, res) => {
   try {
+    const { userId } = req.user;
     const { orderId } = req.params;
-    const { status, element, message } = await completeOrderService(orderId);
+    const { status, element, message } = await completeOrderService({
+      userId,
+      orderId,
+    });
     res.status(status).json({
       message,
       element,

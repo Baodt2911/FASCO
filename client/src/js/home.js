@@ -1,4 +1,4 @@
-import { getProducts, url_api } from "./utils.js";
+import { getAccessToken, getProducts, url_api } from "./utils.js";
 const productNewArrivals = document.getElementById("product-new-arrivals");
 const slideElement = document.querySelector(".slider");
 const nextSlide = document.querySelector(".btn-next-slide");
@@ -6,6 +6,7 @@ const prevSlide = document.querySelector(".btn-prev-slide");
 const saleOffElement = document.querySelector(".sale-off");
 const listDots = document.querySelector(".dots");
 const ItemCategory = document.querySelectorAll(".bdt-item-category");
+const cardDeal = document.getElementById("card-deal");
 const title_deal = document.querySelector(".title-deal");
 const description_deal = document.querySelector(".description-deal");
 const days_deal = document.querySelector(".days-deal");
@@ -15,10 +16,14 @@ const seconds_deal = document.querySelector(".seconds-deal");
 const months_deal = document.querySelector(".months-deal");
 const season_deal = document.querySelector(".season-deal");
 const percent_deal = document.querySelector(".percent-deal");
+const cardReview = document.getElementById("card-review");
 const renderSlider = async () => {
   try {
     const res = await fetch(url_api + "/deal/get");
     const { message, deals } = await res.json();
+    if (deals.length === 0) {
+      return cardDeal.classList.add("hidden");
+    }
     title_deal.textContent = deals[0].title;
     description_deal.textContent = deals[0].description;
     months_deal.textContent = new Date(deals[0].end_date).getMonth();
@@ -205,3 +210,65 @@ const changeCategory = async (e) => {
 ItemCategory.forEach((item) => {
   item.addEventListener("click", changeCategory);
 });
+const ItemReview = ({ photos, content, rate, firstName, lastName }) => {
+  return `
+    <swiper-slide class="item-card-testimonial">
+      <div class="flex-1 flex items-center justify-center">
+        <div class="w-2/3 h-2/5">
+          <img
+            loading="lazy"
+            class="w-full h-full object-cover"
+            src="${photos[0].url}"
+            alt=""
+          />
+        </div>
+      </div>
+      <div class="flex-1 flex flex-col justify-evenly">
+        <p class="font-poppins text-[#484848] text-xs">
+          "${content}"
+        </p>
+        <!-- rate -->
+        <div
+          class="w-1/2 mt-2 rate flex items-center gap-x-1 pb-10 border-b-2 border-[#484848]"
+        >
+          ${Array(rate)
+            .fill(`<i class="fa-solid fa-star text-yellow-400"></i>`)
+            .join("")}
+        </div>
+        <!-- Name -->
+        <div>
+            <h2 class="font-volkhov text-3xl mb-5 mt-4">${firstName} ${lastName}</h2>
+        </div>
+      </div>
+    </swiper-slide>
+  `;
+};
+const renderReview = async () => {
+  try {
+    const res = await fetch(url_api + `/review/get-review?to=popular`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${await getAccessToken()}`,
+      },
+    });
+    const {
+      message,
+      datas: { reviews },
+    } = await res.json();
+    if (message) console.error(message);
+    const htmls = reviews.map(
+      ({
+        content,
+        idProduct: { photos },
+        rate,
+        userId: { firstName, lastName },
+      }) => {
+        return ItemReview({ photos, content, rate, firstName, lastName });
+      }
+    );
+    cardReview.innerHTML = htmls.join("");
+  } catch (error) {
+    console.log(error);
+  }
+};
+await renderReview();

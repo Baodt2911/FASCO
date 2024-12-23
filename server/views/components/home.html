@@ -22,29 +22,68 @@
     </div>
   </div>
   <h4 class="text-center text-secondary mb-4">
-    <i class="bi bi-graph-up"></i> Doanh thu tháng này
+    <i class="bi bi-graph-up"></i>
+    <span id="title-sale">Doanh thu tháng 12/2024</span>
   </h4>
-  <canvas class="shadow p-4" id="myChart" width="100vw" height="30%"></canvas>
-  <div class="col-6 d-flex items-center column-gap-5 mt-5">
-    <div
-      class="col-6 rounded shadow px-4 py-3"
-      style="background-color: #f5f5f5; height: 100px"
-    >
-      <h6 class="text-secondary">Số đơn hàng</h6>
-      <p class="fs-3 fw-semibold">
-        <i class="bi bi-pie-chart"></i>
-        <span class="month-total-orders"></span>
-      </p>
+  <canvas class="shadow p-4" id="myChart" width="100vw" height="20%"></canvas>
+  <div class="col-6 d-flex flex-column row-gap-3 mt-5">
+    <div class="datepicker-container">
+      <input
+        type="text"
+        class="form-control"
+        id="date-input"
+        readonly
+        style="background-color: #f5f5f54d"
+      />
+      <!-- Datepicker -->
+      <div id="datepicker" class="datepicker hidden">
+        <div class="datepicker-header">
+          <button class="btn icon-btn" id="prev-year">
+            <i class="bi bi-chevron-left"></i>
+          </button>
+          <span id="year-display" class="fw-bold">2024</span>
+          <button class="btn icon-btn" id="next-year">
+            <i class="bi bi-chevron-right"></i>
+          </button>
+        </div>
+        <div class="months-container">
+          <div class="month">Jan</div>
+          <div class="month">Feb</div>
+          <div class="month">Mar</div>
+          <div class="month">Apr</div>
+          <div class="month">May</div>
+          <div class="month">Jun</div>
+          <div class="month">Jul</div>
+          <div class="month">Aug</div>
+          <div class="month">Sep</div>
+          <div class="month">Oct</div>
+          <div class="month">Nov</div>
+          <div class="month">Dec</div>
+        </div>
+      </div>
     </div>
-    <div
-      class="col-6 rounded shadow px-4 py-3"
-      style="background-color: #f5f5f5; height: 100px"
-    >
-      <h6 class="text-secondary">Doanh số</h6>
-      <p class="fs-3 fw-semibold">
-        <i class="bi bi-bag-check"></i>
-        <span class="month-total-revenue"></span>
-      </p>
+
+    <div class="d-flex items-center column-gap-5">
+      <div
+        class="col-6 rounded shadow px-4 py-3"
+        style="background-color: #f5f5f5; height: 100px"
+      >
+        <h6 class="text-secondary">Số đơn hàng</h6>
+        <p class="fs-3 fw-semibold">
+          <i class="bi bi-pie-chart"></i>
+          <span class="month-total-orders"></span>
+        </p>
+      </div>
+      <div
+        class="col-6 rounded shadow px-4 py-3"
+        style="background-color: #f5f5f5; height: 100px"
+      >
+        <h6 class="text-secondary">Doanh số</h6>
+        <p class="fs-3 fw-semibold">
+          <i class="bi bi-bag-check"></i>
+          <span class="month-total-revenue"></span>
+        </p>
+      </div>
     </div>
   </div>
 </div>

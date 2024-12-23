@@ -21,8 +21,10 @@ import Header from "../../public/components/header.js";
 import MiniCart from "../../public/components/mini_cart.js";
 import Subcribe from "../../public/components/subscribe.js";
 import { auth, onAuthStateChanged } from "./firebase.js";
-headerElement.innerHTML = Header(isLogin);
-footerElement.innerHTML = Footer();
+if (headerElement && footerElement) {
+  headerElement.innerHTML = Header(isLogin);
+  footerElement.innerHTML = Footer();
+}
 const iconUser = document.querySelector(".icon-user");
 const cardUser = document.querySelector(".card-user");
 if (isLogin) {
@@ -41,11 +43,10 @@ if (isLogin) {
 }
 const getCart = async () => {
   try {
-    const accessToken = await getAccessToken();
     const res = await fetch("http://localhost:3000/cart/get-cart", {
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + accessToken,
+        Authorization: `Bearer ${await getAccessToken()}`,
       },
     });
     const { carts, message } = await res.json();
@@ -84,7 +85,16 @@ const removeFromCart = (carts) => {
 };
 
 const { carts } = await getCart();
-
+const renderSubtotal = (carts) => {
+  const subtotalElement = document.getElementById("subtotal");
+  if (subtotalElement) {
+    const subtotal = carts.reduce((acc, current) => {
+      return (acc += current.product.price * current.quantity);
+    }, 0);
+    subtotalElement.textContent = `$${subtotal}.00`;
+  }
+};
+renderSubtotal(carts);
 // if (bannerElement) {
 //   bannerElement.innerHTML = BannerMiddle();
 // }
@@ -96,6 +106,7 @@ if (subscribeElement) {
 }
 if (miniCartElement) {
   miniCartElement.innerHTML = MiniCart();
+  renderSubtotal(carts);
   const renderMiniCart = (carts) => {
     const miniCartProducts = document.querySelector(".mini-cart-products");
     const htmls = carts.map((product) => {
@@ -110,29 +121,43 @@ if (miniCartElement) {
       </div>
       <div class="flex-1 flex flex-col gap-y-3">
         <!-- name product  -->
-        <p class="font-volkhov text-xl font-bold name-product">${product.product.name}</p>
+        <p class="font-volkhov text-xl font-bold name-product">${
+          product.product.name
+        }</p>
         <!-- color  -->
-        <p class="font-poppins text-lg text-[#8A8A8A] color-product">Color: ${product.color.color}</p>
+        <p class="font-poppins text-lg text-[#8A8A8A] ">Color: <span class="color-product">${
+          product.color.color
+        }</span></p>
         <!-- size  -->
-        <p class="font-poppins text-lg text-[#8A8A8A] ">Size: <span>${product.size}</span></p>
+        <p class="font-poppins text-lg text-[#8A8A8A] ">Size: <span class="size-product">${
+          product.size
+        }</span></p>
         <!-- price  -->
-        <p class="font-poppins text-lg ">$${product.product.price}.00</p>
+        <p class="font-poppins text-lg ">$${
+          product.product.price * product.quantity
+        }.00</p>
         <!-- quantity & remove -->
         <div class="w-full flex items-center justify-between pr-10">
           <!-- quantity  -->
-          <div
-            class="flex items-center w-40 h-12 border border-[#EEEEE] justify-around p-x-5 rounded-sm"
-          >
-            <button class="btn-reduce w-5 h-full text-xl">-</button>
-            <input
-              type="number"
-              class="quantity-product w-10 h-full outline-none font-jost text-center"
-              value="${product.quantity}"
-            />
-            <button class="btn-increase w-5 h-full text-xl">+</button>
-          </div>
+              <div
+                class="flex items-center w-32 h-12 mx-auto border border-[#EEEEE] justify-around p-x-5 rounded-sm" 
+                data-id="${product._id}" 
+                data-id_product="${product.product._id}"  
+                data-id_color="${product.color._id}">
+                <button class="btn-reduce w-5 h-full text-xl">-</button>
+                <input
+                  type="number"
+                  min="1"
+                  readonly
+                  class="quantity-cart w-10 h-full outline-none font-jost text-center"
+                  value="${product.quantity}"
+                />
+                <button class="btn-increase w-5 h-full text-xl" >+</button>
+              </div>
           <!-- remove  -->
-          <button data-id="${product._id}" class="btn-remove-product-mini-cart font-poppins text-md text-[#DA3F3F] hover:underline">
+          <button data-id="${
+            product._id
+          }" class="btn-remove-product-mini-cart font-poppins text-md  hover:scale-90 underline text-red-500">
             Remove
           </button>
         </div>
@@ -144,7 +169,55 @@ if (miniCartElement) {
     const btnRemoveProductMiniCart = document.querySelectorAll(
       ".btn-remove-product-mini-cart"
     );
+    const btnReduce = document.querySelectorAll(".btn-reduce");
+    const btnIncrease = document.querySelectorAll(".btn-increase");
+    btnReduce.forEach((item) => {
+      item.addEventListener("click", (e) => {
+        const size =
+          e.target.parentElement.parentElement.parentElement.querySelector(
+            ".size-product"
+          ).textContent;
+        const id = e.target.parentElement.dataset.id;
+        const product = e.target.parentElement.dataset.id_product;
+        const color = e.target.parentElement.dataset.id_color;
+        const quantity = e.target.parentElement.querySelector(".quantity-cart");
 
+        if (quantity.value == 1) {
+          removeFromCart({ id });
+          return;
+        }
+        if (quantity.value > 1) {
+          quantity.value--;
+        }
+        const carts = {
+          product,
+          color,
+          size,
+          quantity: -1,
+        };
+        socket.emit("add-to-cart", carts);
+      });
+    });
+    btnIncrease.forEach((item) => {
+      item.addEventListener("click", (e) => {
+        const size =
+          e.target.parentElement.parentElement.parentElement.querySelector(
+            ".size-product"
+          ).textContent;
+        const product = e.target.parentElement.dataset.id_product;
+        const color = e.target.parentElement.dataset.id_color;
+        const quantity = e.target.parentElement.querySelector(".quantity-cart");
+        const carts = {
+          product,
+          color,
+          size,
+        };
+        socket.emit("add-to-cart", carts);
+        if (quantity.value >= 0 && quantity.value < 100) {
+          quantity.value++;
+        }
+      });
+    });
     btnRemoveProductMiniCart.forEach((item) => {
       item.addEventListener("click", (e) => {
         const id = e.target.dataset.id;
@@ -156,13 +229,11 @@ if (miniCartElement) {
   socket.on("get-cart", (data) => {
     const { carts } = data;
     renderMiniCart(carts);
+    renderSubtotal(carts);
     cartLenght.innerText = carts.length;
   });
   renderMiniCart(carts);
   cartLenght.innerText = carts.length;
-  socket.on("message", (message) => {
-    console.log(message);
-  });
 }
 if (!isLogin) {
   btnShowMiniCart?.classList.add("hidden");
@@ -180,7 +251,6 @@ document.addEventListener("click", function (event) {
     miniCartElement.style = "transform:translateX(100%);opacity:0;";
   }
 });
-
 const cartsProduct = document.getElementById("carts-product");
 if (cartsProduct) {
   const renderCart = (carts) => {
@@ -200,12 +270,16 @@ if (cartsProduct) {
                 <!-- name product  -->
                 <p>${product.product.name}</p>
                 <!-- Color  -->
-                <p class="font-poppins text-[#8A8A8A]">Color: ${product.color.color}</p>
+                <p class="font-poppins text-[#8A8A8A]">Color: <span class="color-product">${
+                  product.color.color
+                }</span></p>
                 <!-- size  -->
-                <p class="font-poppins text-[#8A8A8A]">Size: ${product.size}</p>
+                <p class="font-poppins text-[#8A8A8A]">Size: <span class="size-product">${
+                  product.size
+                }</span></p>
                 <!-- remove  -->
                 <button data-id="${product._id}"
-                  class="btn-remove-product-cart font-poppins text-[#DA3F3F] text-sm underline"
+                  class="btn-remove-product-cart font-poppins hover:scale-90 underline text-red-500 text-sm"
                 >
                   Remove
                 </button>
@@ -216,25 +290,81 @@ if (cartsProduct) {
             <!-- quantity  -->
             <td class="">
               <div
-                class="flex items-center w-32 h-12 mx-auto border border-[#EEEEE] justify-around p-x-5 rounded-sm"
-              >
+                class="flex items-center w-32 h-12 mx-auto border border-[#EEEEE] justify-around p-x-5 rounded-sm" 
+                data-id="${product._id}" 
+                data-id_product="${product.product._id}"  
+                data-id_color="${product.color._id}">
                 <button class="btn-reduce w-5 h-full text-xl">-</button>
                 <input
                   type="number"
-                  class="quantity w-10 h-full outline-none font-jost text-center"
+                  readonly
+                  class="quantity-cart w-10 h-full outline-none font-jost text-center"
                   value="${product.quantity}"
                 />
                 <button class="btn-increase w-5 h-full text-xl">+</button>
               </div>
             </td>
             <!-- total  -->
-            <td class="text-center">$14.90</td> 
+            <td class="text-center">$${
+              product.product.price * product.quantity
+            }.00</td> 
         </tr>`;
     });
     cartsProduct.innerHTML = htmls.join("");
     const btnRemoveProductCart = document.querySelectorAll(
       ".btn-remove-product-cart"
     );
+    const btnReduce = document.querySelectorAll(".btn-reduce");
+    const btnIncrease = document.querySelectorAll(".btn-increase");
+    btnReduce.forEach((item) => {
+      item.addEventListener("click", (e) => {
+        const size =
+          e.target.parentElement.parentElement.parentElement.querySelector(
+            ".size-product"
+          ).textContent;
+        const id = e.target.parentElement.dataset.id;
+        const product = e.target.parentElement.dataset.id_product;
+        const color = e.target.parentElement.dataset.id_color;
+        const quantity = e.target.parentElement.querySelector(".quantity-cart");
+
+        if (quantity.value == 1) {
+          removeFromCart({ id });
+          return;
+        }
+        if (quantity.value > 1) {
+          quantity.value--;
+        }
+        const carts = {
+          product,
+          color,
+          size,
+          quantity: -1,
+        };
+        socket.emit("add-to-cart", carts);
+      });
+    });
+    btnIncrease.forEach((item) => {
+      item.addEventListener("click", (e) => {
+        const size =
+          e.target.parentElement.parentElement.parentElement.querySelector(
+            ".size-product"
+          ).textContent;
+        const product = e.target.parentElement.dataset.id_product;
+        const color = e.target.parentElement.dataset.id_color;
+        const quantity = e.target.parentElement.querySelector(".quantity-cart");
+        const carts = {
+          product,
+          color,
+          size,
+        };
+        console.log(carts);
+
+        if (quantity.value >= 0 && quantity.value < 100) {
+          quantity.value++;
+        }
+        socket.emit("add-to-cart", carts);
+      });
+    });
     btnRemoveProductCart.forEach((item) => {
       item.addEventListener("click", (e) => {
         const id = e.target.dataset.id;
@@ -242,11 +372,11 @@ if (cartsProduct) {
       });
     });
   };
-  renderCart(carts);
   socket.on("get-cart", (data) => {
     const { carts } = data;
     renderCart(carts);
   });
+  renderCart(carts);
 }
 const btnLogout = document.querySelector(".btn-logout");
 if (isLogin) {
@@ -257,10 +387,8 @@ if (isLogin) {
       credentials: "include",
     });
     const jsonRes = await res.json();
+    localStorage.clear();
     window.location.reload();
     console.log(jsonRes);
   };
-  // onAuthStateChanged(auth, (user) => {
-  //   console.log(user);
-  // });
 }

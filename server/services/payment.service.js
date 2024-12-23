@@ -1,14 +1,15 @@
 import _payment from "../models/payment.model.js";
-
+import _order from "../models/order.model.js";
 const base = "https://api-m.sandbox.paypal.com";
 import fetch from "node-fetch";
 import {
+  createOrderService,
   generateAccessTokenPaypal,
   updateOrderService,
 } from "./order.service.js";
-const getPaymentService = async ({ orderId }) => {
+const getPaymentService = async ({ userId, orderId }) => {
   try {
-    const payment = await _payment.findOne({ orderId });
+    const payment = await _payment.findOne({ $and: [{ userId }, { orderId }] });
     if (!payment) {
       return {
         status: 404,
@@ -23,9 +24,10 @@ const getPaymentService = async ({ orderId }) => {
     console.log(error);
   }
 };
-const createPaymentService = async ({ orderId, amount, method }) => {
+const createPaymentService = async ({ userId, orderId, amount, method }) => {
   try {
     const payment = await _payment.create({
+      userId,
       orderId,
       amount,
       method,
@@ -44,10 +46,10 @@ const createPaymentService = async ({ orderId, amount, method }) => {
     console.log(error);
   }
 };
-const updatePaymentService = async ({ orderId, captureId, status }) => {
+const updatePaymentService = async ({ userId, orderId, captureId, status }) => {
   try {
     const payment = await _payment.findOneAndUpdate(
-      { orderId },
+      { $and: [{ userId }, { orderId }] },
       { captureId, status }
     );
     if (!payment) {
@@ -64,9 +66,9 @@ const updatePaymentService = async ({ orderId, captureId, status }) => {
     console.log(error);
   }
 };
-const refundPaymentService = async ({ orderId }) => {
+const refundPaymentService = async ({ userId, orderId }) => {
   try {
-    const payment = await _payment.findOne({ orderId });
+    const payment = await _payment.findOne({ $and: [{ userId }, { orderId }] });
     if (!payment) {
       return {
         status: 404,
@@ -90,8 +92,8 @@ const refundPaymentService = async ({ orderId }) => {
     });
     const jsonRes = await res.json();
     if (res.ok) {
-      await updateOrderService({ orderId, status: "canceled" });
-      await updatePaymentService({ orderId, status: "refunded" });
+      await updateOrderService({ userId, orderId, status: "canceled" });
+      await updatePaymentService({ userId, orderId, status: "refunded" });
     }
     return {
       status: res.status,

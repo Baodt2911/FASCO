@@ -4,8 +4,9 @@ import shop from "./shop.js";
 import orders_sell from "./orders-sell.js";
 import comments from "./comment.js";
 import promotion from "./promotion.js";
+import deals from "./deals.js";
 // import { io } from "https://cdn.socket.io/4.7.5/socket.io.esm.min.js";
-// await utils.isLoggedIn();
+await utils.isLoggedIn();
 // const currentUrl = utils.getCurrentUrl();
 // const socket = io(currentUrl, {
 //   auth: {
@@ -34,6 +35,7 @@ const urls = {
   orders_sell: "./components/orders-sell.html",
   comments: "./components/comments.html",
   promotion: "./components/promotion.html",
+  deals: "./components/deals.html",
 };
 utils.setComponent(content, urls[pageActive]);
 const activeItemNav = (page) => {
@@ -87,6 +89,9 @@ const mutationContent = (mutation) => {
       break;
     case "promotion":
       promotion();
+      break;
+    case "deals":
+      deals();
       break;
     default:
       home();

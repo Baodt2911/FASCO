@@ -26,7 +26,8 @@ btnLogin.addEventListener("click", async (e) => {
         password.classList.add("is-invalid");
       }
     } else {
-      if (data.user.admin) {
+      const { admin } = utils.parseJwt(data.accessToken);
+      if (admin) {
         utils.isLoggedIn();
         window.localStorage.setItem("at", data.accessToken);
       } else {

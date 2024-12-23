@@ -4,7 +4,7 @@ import {
 } from "../services/reviews.service.js";
 const getReviewProductController = async (req, res) => {
   try {
-    const { id, page = 1, pageSize = 20, rate = 5, to } = req.query;
+    const { id, page = 1, pageSize = 10, rate = 5, to } = req.query;
     const { status, message, element } = await getReviewProductService({
       id,
       page: +page,
@@ -14,7 +14,7 @@ const getReviewProductController = async (req, res) => {
     });
     res.status(status).json({
       message,
-      reviews: element,
+      datas: element,
     });
   } catch (error) {
     console.log(error);

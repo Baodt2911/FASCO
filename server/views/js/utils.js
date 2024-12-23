@@ -1,7 +1,5 @@
 const utils = (function () {
-  const currentUrl = window.location.href
-    .toString()
-    .split(window.location.pathname)[0];
+  const currentUrl = window.location.origin;
   return {
     convertTimeUTC: (time) => {
       const date = new Date(time).toLocaleString("vi-VN");
@@ -167,6 +165,11 @@ const utils = (function () {
       setTimeout(() => {
         notification.classList.remove("show-notification");
       }, 2500);
+    },
+    modalInstance: (element) => {
+      const modalInstance =
+        bootstrap.Modal.getInstance(element) || new bootstrap.Modal(element);
+      return modalInstance;
     },
   };
 })();

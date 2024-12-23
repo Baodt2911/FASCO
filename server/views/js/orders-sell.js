@@ -1,7 +1,7 @@
 import utils from "./utils.js";
 const ItemProductOrder = ({ name, color, size, quantity }) => {
-  return ` <div class="row row-cols-2 d-flex align-items-start">
-              <div class="col-4">
+  return ` <div class="d-flex flex-1 p-2">
+              <div class="flex-shrink-0" style="max-width: 100px;">
                 <img
                   src="${color.url}"
                   alt=""
@@ -10,7 +10,7 @@ const ItemProductOrder = ({ name, color, size, quantity }) => {
                   style="object-fit: contain"
                 />
               </div>
-              <div class="col-8 lh-1">
+              <div class="ms-3">
                 <h6 style="font-size: 14px">${name}</h6>
                 <h6 style="font-size: 14px">Màu: ${color.color}</h6>
                 <h6 style="font-size: 14px">Kích thước: ${size}</h6>
@@ -37,12 +37,15 @@ const ordersSell = () => {
     try {
       const accessToken = await utils.getAccessToken();
       let convertQuery = "";
-      if (query?.search_orderId) {
-        convertQuery = `search_orderId=${query.search_orderId}`;
-      } else if (query?.search_orderId && query?.search_status) {
-        convertQuery = `search_orderId=${query.search_orderId}&search_status=${query.search_status}`;
-      } else if (query?.search_status) {
-        convertQuery = `search_status=${query.search_status}`;
+      if (query) {
+        const params = [];
+        if (query.search_orderId) {
+          params.push(`search_orderId=${query.search_orderId}`);
+        }
+        if (query.search_status) {
+          params.push(`search_status=${query.search_status}`);
+        }
+        convertQuery = params.join("&");
       }
       const res = await fetch(
         utils.getCurrentUrl() + `/order/get-detail?${convertQuery}`,
@@ -54,9 +57,11 @@ const ordersSell = () => {
           },
         }
       );
-      const data = await res.json();
-      const status = ["completed", "canceled"];
-      const htmls = data.element.map((item) => {
+      const { orders, message } = await res.json();
+      if (!orders) {
+        return;
+      }
+      const htmls = orders.map((item) => {
         return `<tr class="text-left" data-orderId="${item.orderId}">
           <td class="text-primary fw-medium">${item.orderId}</td>
           <td>
@@ -66,16 +71,16 @@ const ordersSell = () => {
           </td>
           <td>
             <div class="row">
-              <span>Họ và tên: ${item.userId.firstName} ${
-          item.userId.lastName
+              <span>Họ và tên: ${item.userId.address.list[0].firstName} ${
+          item.userId.address.list[0].lastName
         }</span>
               <span>Email: ${item.userId.email}</span>
               <span>SĐT: ${item.userId.phone}</span>
-              <span>Địa chỉ: ${item.userId?.address}</span>
+              <span>Địa chỉ: ${item.userId.address.list[0].addressLine1}</span>
             </div>
           </td>
-          <td class="row gap-3">${item.list
-            .map(({ name, color, size, quantity }) =>
+          <td class="d-flex flex-column gap-3">${item.list
+            .map(({ product: { name }, color, size, quantity }) =>
               ItemProductOrder({ name, color, size, quantity })
             )
             .join("")}</td>
@@ -85,11 +90,13 @@ const ordersSell = () => {
            <div class="row gap-2 px-3">
               <p>${statusOrder[item.status]}</p>
               <button type="button" class="btn btn-primary btn-completed-order ${
-                status.includes(item.status) ? "d-none" : ""
+                ["pending", "canceled", "completed"].includes(item.status)
+                  ? "d-none"
+                  : ""
               }">
                 Hoàn thành</button
               ><button type="button" class="btn btn-danger ${
-                status.includes(item.status) ? "d-none" : ""
+                ["canceled", "completed"].includes(item.status) ? "d-none" : ""
               } btn-cancel-order">Hủy</button>
             </div>
           </td>
@@ -120,7 +127,7 @@ const ordersSell = () => {
         const res = await fetch(
           utils.getCurrentUrl() + `/order/update-order/${orderId}`,
           {
-            method: "PUT",
+            method: "POST",
             headers: {
               "Content-Type": "application/json",
               Authorization: `Bearer ${accessToken}`,
@@ -128,10 +135,10 @@ const ordersSell = () => {
             body: JSON.stringify({ orderStatus: "completed" }),
           }
         );
-        const data = await res.json();
+        const { message } = await res.json();
         if (!res.ok) {
           return utils.showNotification({
-            message: "Có lỗi xảy ra",
+            message,
             status: "warning",
           });
         }

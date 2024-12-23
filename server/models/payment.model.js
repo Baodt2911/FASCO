@@ -1,6 +1,11 @@
 import mongoose, { Schema } from "mongoose";
 const payment = new Schema(
   {
+    userId: {
+      type: String,
+      required: true,
+      ref: "user",
+    },
     orderId: {
       type: String,
       required: true,

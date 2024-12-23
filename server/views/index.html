@@ -42,6 +42,7 @@
       padding: 15px 30px 15px 20px;
       transform: translateX(200%);
       transition: 0.5s all;
+      z-index: 99999;
     }
     .show-notification {
       transform: translateX(0px) !important;
@@ -61,6 +62,58 @@
       opacity: 1;
       visibility: inherit;
     } */
+    .datepicker-container {
+      position: relative;
+      width: 150px;
+      display: inline-block;
+    }
+
+    .datepicker {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      z-index: 1050;
+      background: #fff;
+      border: 1px solid #ddd;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      border-radius: 5px;
+      width: 240px;
+    }
+
+    .datepicker-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 10px;
+      background-color: #f8f9fa;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .month {
+      padding: 8px 5px;
+      cursor: pointer;
+      text-align: center;
+      border-radius: 4px;
+    }
+
+    .month:hover,
+    .month.selected {
+      background-color: #007bff;
+      color: #fff;
+    }
+
+    .months-container {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 5px;
+      padding: 10px;
+    }
+
+    .hidden {
+      opacity: 0;
+      visibility: hidden;
+      transition: 0.5s all;
+    }
   </style>
   <body>
     <div class="container-fluid">
@@ -128,6 +181,15 @@
                   <span class="ms-1 d-none d-sm-inline">Mã giảm giá</span>
                 </a>
               </li>
+              <li class="nav-item" data-page="deals">
+                <a
+                  href="/dashboard/deals.html"
+                  class="text-white nav-link align-middle px-0 fs-5"
+                >
+                  <i class="bi bi-list-columns-reverse"></i>
+                  <span class="ms-1 d-none d-sm-inline">Deals</span>
+                </a>
+              </li>
             </ul>
             <hr />
             <div class="dropdown pb-5">
@@ -139,7 +201,7 @@
                 aria-expanded="false"
               >
                 <i class="bi bi-person-gear"></i>
-                <span class="d-none d-sm-inline mx-2">Đỗ Bảo</span>
+                <span class="d-none d-sm-inline mx-2">Admin</span>
               </a>
               <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
                 <li id="btn-logout">
