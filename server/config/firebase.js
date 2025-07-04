@@ -1,5 +1,5 @@
 import firebase from "firebase-admin";
-import serviceAccount from "../key_account/serviceAccountKey.json" assert { type: "json" };
+import serviceAccount from "../serviceAccountKey.json" assert { type: "json" };
 firebase.initializeApp({
   credential: firebase.credential.cert(serviceAccount),
   storageBucket: "gs://fasco-a5db7.appspot.com",
