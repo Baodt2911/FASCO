@@ -31,7 +31,8 @@ FASCO là hệ thống quản lý bán hàng thời trang, hỗ trợ quản lý
 
 |        Trang chủ / Dashboard        |              Trang sản phẩm               |            Trang đơn hàng             |
 | :---------------------------------: | :---------------------------------------: | :-----------------------------------: |
-| ![Demo Home](path/to/home-demo.png) | ![Demo Product](path/to/product-demo.png) | ![Demo Order](path/to/order-demo.png) |
+| ![Demo Home](path/to/home-demo.png) | ![Demo Product](![image](https://github.com/user-attachments/assets/17009f0f-88ea-4bb1-8490-686fb0612470)
+) | ![Demo Order](path/to/order-demo.png) |
 
 ---
 
