@@ -1238,10 +1238,6 @@ video {
   justify-content: space-evenly;
 }
 
-.gap-2{
-  gap: 0.5rem;
-}
-
 .gap-20{
   gap: 5rem;
 }
@@ -1533,11 +1529,6 @@ video {
 .bg-\[\#484848\]{
   --tw-bg-opacity: 1;
   background-color: rgb(72 72 72 / var(--tw-bg-opacity));
-}
-
-.bg-\[\#5B86E5\]{
-  --tw-bg-opacity: 1;
-  background-color: rgb(91 134 229 / var(--tw-bg-opacity));
 }
 
 .bg-\[\#787878CC\]{

@@ -40,7 +40,14 @@ const verfifyRefreshToken = (req, res, next) => {
       message: "You're not authenticated!",
     });
   }
-  const token = !!authorization ? authorization.split(" ")[1] : rt;
+  const token = authorization?.startsWith("Bearer ")
+    ? authorization.split(" ")[1]
+    : rt;
+  if (!token) {
+    return res.status(403).json({
+      message: "Token is'nt valid",
+    });
+  }
   jwt.verify(token, process.env.REFRESHTOKEN_KEY, (err, decoded) => {
     if (err) {
       return res.status(403).json({
