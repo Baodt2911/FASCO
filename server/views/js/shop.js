@@ -415,7 +415,7 @@ const shop = () => {
     objectURLs.push(url);
     const div = document.createElement("div");
     div.classList.add("d-flex", "items-start", "gap-3", "item-image-product");
-    div.setAttribute("data-nameFile", files[0].name);
+    div.setAttribute("data-name", files[0].name);
     div.innerHTML = ItemProductElement(url);
     console.log(sizes);
 
@@ -503,7 +503,7 @@ const shop = () => {
     );
     itemBtnRemoveSizeQuantity.forEach((item) => {
       item.onclick = () => {
-        const nameFile = item.closest(".item-image-product").dataset.nameFile;
+        const nameFile = item.closest(".item-image-product").dataset.name;
         const size = item.parentElement.querySelector(".item-size");
         const quantity = item.parentElement.querySelector(".item-quantity");
         dataImageProduct.forEach((data) => {
@@ -559,6 +559,7 @@ const shop = () => {
         }
         if (!(countList >= 5)) {
           dataImageProduct.forEach((item) => {
+            console.log("test:", item.file.name, nameFile);
             if (item.file.name == nameFile) {
               item.metadata.color = color.value;
               let isSize = false;
@@ -575,7 +576,7 @@ const shop = () => {
               const index = item.metadata.sizes.findIndex(
                 (item) => item.size == size.value
               );
-              console.log(index, item.metadata.sizes[index]);
+              console.log("test:", index, item.metadata.sizes[index]);
 
               item.metadata.sizes[index].quantity = parseInt(quantity.value);
               listSizeQuantity.appendChild(li);
