@@ -43,7 +43,7 @@ if (isLogin) {
 }
 const getCart = async () => {
   try {
-    const res = await fetch("http://localhost:3000/cart/get-cart", {
+    const res = await fetch(url_api + "/cart/get-cart", {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${await getAccessToken()}`,

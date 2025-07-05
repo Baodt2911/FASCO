@@ -103,6 +103,8 @@ const socket = io(url_api, {
   auth: {
     token: await getAccessToken(),
   },
+  transports: ["websocket", "polling"],
+  withCredentials: true,
 });
 socket.on("connect", () => {
   console.log(socket.id);
