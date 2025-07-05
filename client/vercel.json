@@ -19,5 +19,15 @@
       "source": "/components/(.*)",
       "destination": "/public/components/$1"
     }
+  ],
+  "routes": [
+    {
+      "src": "/",
+      "dest": "/public/pages/index.html"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/public/pages/$1"
+    }
   ]
 }
