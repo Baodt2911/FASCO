@@ -7,7 +7,7 @@
   "version": "1.0.0",
   "main": "tailwind.config.js",
   "scripts": {
-    "build": "npx update-browserslist-db@latest && tailwindcss -i ./src/css/input.css -o ./src/css/output.css --minify",
+    "build": "npx update-browserslist-db@latest && tailwindcss -i ./src/css/input.css -o ./public/css/output.css --minify",
     "dev": "tailwindcss -i ./src/css/input.css -o ./src/css/output.css --watch",
     "update-browserslist": "npx update-browserslist-db@latest"
   },

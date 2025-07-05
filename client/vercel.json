@@ -2,66 +2,62 @@
   "version": 2,
   "builds": [
     {
-      "src": "package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "public"
-      }
+      "src": "public/**/*",
+      "use": "@vercel/static"
     }
   ],
   "routes": [
     {
       "src": "/",
-      "dest": "/public/pages/index.html"
+      "dest": "/pages/index.html"
     },
     {
       "src": "/account",
-      "dest": "/public/pages/account.html"
+      "dest": "/pages/account.html"
     },
     {
       "src": "/address",
-      "dest": "/public/pages/address.html"
+      "dest": "/pages/address.html"
     },
     {
       "src": "/cart",
-      "dest": "/public/pages/cart.html"
+      "dest": "/pages/cart.html"
     },
     {
       "src": "/checkout",
-      "dest": "/public/pages/checkout.html"
+      "dest": "/pages/checkout.html"
     },
     {
       "src": "/forgot-password",
-      "dest": "/public/pages/forgotPassword.html"
+      "dest": "/pages/forgotPassword.html"
     },
     {
       "src": "/orders",
-      "dest": "/public/pages/orders.html"
+      "dest": "/pages/orders.html"
     },
     {
       "src": "/product-detail",
-      "dest": "/public/pages/productDetail.html"
+      "dest": "/pages/productDetail.html"
     },
     {
       "src": "/shop",
-      "dest": "/public/pages/shop.html"
+      "dest": "/pages/shop.html"
     },
     {
       "src": "/signin",
-      "dest": "/public/pages/signIn.html"
+      "dest": "/pages/signIn.html"
     },
     {
       "src": "/signup",
-      "dest": "/public/pages/Signup.html"
+      "dest": "/pages/Signup.html"
     },
     {
       "src": "/404",
-      "dest": "/public/pages/404.html"
+      "dest": "/pages/404.html"
     },
     {
       "src": "/(.*)",
-      "dest": "/public/pages/404.html"
+      "dest": "/pages/404.html"
     }
-  ],
-  "outputDirectory": "public"
+  ]
 }
