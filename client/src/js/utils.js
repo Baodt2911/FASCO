@@ -1,6 +1,6 @@
 import { io } from "https://cdn.socket.io/4.7.5/socket.io.esm.min.js";
 import { auth, onAuthStateChanged } from "./firebase.js";
-export const url_api = "http://localhost:3000";
+export const url_api = "https://fasco.onrender.com";
 const notification = ({ message, status }) => {
   const notification = document.getElementById("notification");
   const icon = {

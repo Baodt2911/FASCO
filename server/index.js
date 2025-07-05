@@ -33,7 +33,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const io = new Server(server, {
   cors: {
-    origin: [`http://localhost:${PORT}`, "http://localhost:5500"],
+    origin: [`http://localhost:${PORT}`, "http://localhost:5500", process.env.URL_CLIENT],
     credentials: true,
   },
 });
@@ -43,7 +43,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(
   cors({
-    origin: [`http://localhost:${PORT}`, "http://localhost:5500"],
+    origin: [`http://localhost:${PORT}`, "http://localhost:5500",process.env.URL_CLIENT],
     credentials: true,
   })
 );
