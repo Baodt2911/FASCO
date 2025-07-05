@@ -7,7 +7,8 @@
   "version": "1.0.0",
   "main": "tailwind.config.js",
   "scripts": {
-    "tailwindcss": "tailwindcss -i ./src/css/input.css -o ./src/css/output.css --watch"
+    "build": "tailwindcss -i ./src/css/input.css -o ./src/css/output.css --minify",
+    "dev": "tailwindcss -i ./src/css/input.css -o ./src/css/output.css --watch"
   },
   "author": "Baodt2911",
   "license": "ISC",
