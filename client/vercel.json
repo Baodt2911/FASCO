@@ -1,9 +1,72 @@
 {
-  "public": "public/pages",
-  "rewrites": [
+  "version": 2,
+  "builds": [
     {
-      "source": "/",
-      "destination": "/index.html"
+      "src": "public/**/*",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "src/**/*",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/src/(.*)",
+      "dest": "/src/$1"
+    },
+    {
+      "src": "/",
+      "dest": "/pages/index.html"
+    },
+    {
+      "src": "/account",
+      "dest": "/pages/account.html"
+    },
+    {
+      "src": "/address",
+      "dest": "/pages/address.html"
+    },
+    {
+      "src": "/cart",
+      "dest": "/pages/cart.html"
+    },
+    {
+      "src": "/checkout",
+      "dest": "/pages/checkout.html"
+    },
+    {
+      "src": "/forgot-password",
+      "dest": "/pages/forgotPassword.html"
+    },
+    {
+      "src": "/orders",
+      "dest": "/pages/orders.html"
+    },
+    {
+      "src": "/product-detail",
+      "dest": "/pages/productDetail.html"
+    },
+    {
+      "src": "/shop",
+      "dest": "/pages/shop.html"
+    },
+    {
+      "src": "/signin",
+      "dest": "/pages/signIn.html"
+    },
+    {
+      "src": "/signup",
+      "dest": "/pages/Signup.html"
+    },
+    {
+      "src": "/404",
+      "dest": "/pages/404.html"
+    },
+
+    {
+      "src": "/(.*)",
+      "dest": "/pages/404.html"
     }
   ]
 }
