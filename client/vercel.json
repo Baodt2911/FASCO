@@ -17,56 +17,55 @@
     },
     {
       "src": "/",
-      "dest": "/pages/index.html"
+      "dest": "/public/pages/index.html"
     },
     {
       "src": "/account",
-      "dest": "/pages/account.html"
+      "dest": "/public/pages/account.html"
     },
     {
       "src": "/address",
-      "dest": "/pages/address.html"
+      "dest": "/public/pages/address.html"
     },
     {
       "src": "/cart",
-      "dest": "/pages/cart.html"
+      "dest": "/public/pages/cart.html"
     },
     {
       "src": "/checkout",
-      "dest": "/pages/checkout.html"
+      "dest": "/public/pages/checkout.html"
     },
     {
       "src": "/forgot-password",
-      "dest": "/pages/forgotPassword.html"
+      "dest": "/public/pages/forgotPassword.html"
     },
     {
       "src": "/orders",
-      "dest": "/pages/orders.html"
+      "dest": "/public/pages/orders.html"
     },
     {
       "src": "/product-detail",
-      "dest": "/pages/productDetail.html"
+      "dest": "/public/pages/productDetail.html"
     },
     {
       "src": "/shop",
-      "dest": "/pages/shop.html"
+      "dest": "/public/pages/shop.html"
     },
     {
       "src": "/signin",
-      "dest": "/pages/signIn.html"
+      "dest": "/public/pages/signIn.html"
     },
     {
       "src": "/signup",
-      "dest": "/pages/Signup.html"
+      "dest": "/public/pages/Signup.html"
     },
     {
       "src": "/404",
-      "dest": "/pages/404.html"
+      "dest": "/public/pages/404.html"
     },
-
     {
       "src": "/(.*)",
-      "dest": "/pages/404.html"
+      "dest": "/public/pages/404.html"
     }
   ]
 }
