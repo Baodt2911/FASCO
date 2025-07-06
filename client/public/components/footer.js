@@ -1,7 +1,7 @@
 const Footer = () => {
   return `<nav class="mx-56 flex items-center justify-between">
   <a
-    href="../pages/index.html"
+    href="index.html"
     class="logo font-volkhov text-3xl text-[#484848]"
     >FASCO</a
   >
