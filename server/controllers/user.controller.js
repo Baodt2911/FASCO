@@ -52,9 +52,9 @@ const loginController = async (req, res) => {
       res.cookie("rt", element?.refreshToken, {
         // domain: "",
         path: "/",
-        sameSite: "Strict",
+        sameSite: "None",
         secure: true,
-        httpOnly: false,
+        httpOnly: true,
         expires: new Date(
           Math.floor(currentDate.getTime()) + 15 * 24 * 60 * 60 * 1000
         ),
@@ -83,9 +83,9 @@ const loginGoogleController = async (req, res) => {
       res.cookie("rt", element?.refreshToken, {
         // domain: "",
         path: "/",
-        sameSite: "Strict",
+        sameSite: "None",
         secure: true,
-        httpOnly: false,
+        httpOnly: true,
         expires: new Date(
           Math.floor(currentDate.getTime()) + 15 * 24 * 60 * 60 * 1000
         ),
