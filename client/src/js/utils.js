@@ -1,5 +1,8 @@
 import { io } from "https://cdn.socket.io/4.7.5/socket.io.esm.min.js";
-export const url_api = "https://fasco.onrender.com";
+export const url_api =
+  window.location.hostname == "localhost"
+    ? "http://localhost:3000"
+    : "https://fasco.onrender.com";
 
 const notification = ({ message, status, duration = 3000 }) => {
   // Tạo notification container nếu chưa có

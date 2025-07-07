@@ -39,7 +39,7 @@ btnGoogle.addEventListener("click", async () => {
     }
     localStorage.setItem("at", accessToken);
     if (status == "success") {
-      window.location.assign("/index.html");
+      window.location.href = "index.html";
     }
   } catch (error) {
     console.log(error);
@@ -67,7 +67,7 @@ const SignIn = () => {
       }
       localStorage.setItem("at", accessToken);
       if (status == "success") {
-        window.location.assign("/index.html");
+        window.location.href = "index.html";
       }
     })
     .catch((error) => {
