@@ -27,5 +27,17 @@
       "source": "/(.*)",
       "destination": "/public/pages/$1"
     }
+  ],
+  "redirects": [
+    {
+      "source": "/public/pages/:path*",
+      "destination": "/public/pages/:path*",
+      "statusCode": 200
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/public/pages/404.html",
+      "statusCode": 404
+    }
   ]
 }
