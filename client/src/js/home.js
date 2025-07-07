@@ -1,4 +1,5 @@
-import { getAccessToken, getProducts, url_api } from "./utils.js";
+import { getAccessToken, getProducts, isLoggedIn, url_api } from "./utils.js";
+const isLogin = await isLoggedIn();
 const productNewArrivals = document.getElementById("product-new-arrivals");
 const slideElement = document.querySelector(".slider");
 const nextSlide = document.querySelector(".btn-next-slide");
@@ -244,6 +245,9 @@ const ItemReview = ({ photos, content, rate, firstName, lastName }) => {
   `;
 };
 const renderReview = async () => {
+  if (!isLogin) {
+    return;
+  }
   try {
     const res = await fetch(url_api + `/review/get-review?to=popular`, {
       headers: {

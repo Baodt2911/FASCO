@@ -1,7 +1,7 @@
 import { getAccessToken, isLoggedIn, notification, url_api } from "./utils.js";
 const isLogin = await isLoggedIn();
 if (!isLogin) {
-  window.location.href = "SignIn.html";
+  window.location.href = "signIn.html";
 }
 const listProductsCheckOut = document.getElementById("list-products-checkout");
 const subtotal = document.querySelector(".subtotal");

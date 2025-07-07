@@ -43,6 +43,10 @@ if (isLogin) {
 }
 const getCart = async () => {
   try {
+    if (!isLogin) {
+      return { carts: [] };
+    }
+
     const res = await fetch(url_api + "/cart/get-cart", {
       headers: {
         "Content-Type": "application/json",
@@ -56,6 +60,7 @@ const getCart = async () => {
     return carts || { carts: [] };
   } catch (error) {
     console.log(error);
+    return { carts: [] };
   }
 };
 const removeFromCart = (carts) => {

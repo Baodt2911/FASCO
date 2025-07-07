@@ -1,7 +1,7 @@
 import { getAccessToken, isLoggedIn, notification, url_api } from "./utils.js";
 const isLogin = await isLoggedIn();
 if (!isLogin) {
-  window.location.href = "SignIn.html";
+  window.location.href = "signIn.html";
 }
 const fullName = document.getElementById("full-name");
 const email = document.getElementById("email");
