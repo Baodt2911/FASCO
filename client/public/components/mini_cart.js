@@ -35,14 +35,14 @@ const MiniCart = () => {
       <p class="font-volkhov text-lg" id="subtotal">$0.00</p>
     </div>
     <!-- checkout  -->
-    <a href="../pages/checkout.html"
+    <a href="checkout.html"
       class="bg-black rounded-xl w-full h-14 flex items-center justify-center hover:text-[#FF4646] font-poppins text-sm text-white shadow-xl shadow-[#bbbbbbcc] mb-3"
     >
       Check out
     </a>
     <!-- view cart -->
     <div class="w-full flex justify-center">
-      <a href="../pages/cart.html" class="underline font-volkhov text-lg">View Cart</a>
+      <a href="cart.html" class="underline font-volkhov text-lg">View Cart</a>
     </div>
   </div>
 </div>

@@ -5,8 +5,9 @@ import {
   socket,
   params,
   url_api,
+  isLoggedIn,
 } from "./utils.js";
-
+const isLogin = await isLoggedIn();
 const btnReduce = document.querySelector(".btn-reduce");
 const bntIncrease = document.querySelector(".btn-increase");
 const quantity = document.querySelector(".quantity");
@@ -130,6 +131,13 @@ itemColor.forEach((item) => {
   });
 });
 btnAddToCart.addEventListener("click", async () => {
+  if (!isLogin) {
+    notification({
+      message: "Please login before adding to the cart",
+      status: "error",
+    });
+    return;
+  }
   carts.quantity = parseInt(quantity.value) || 1;
   const isValid = Object.keys(carts).every((key) => {
     return carts[key] !== "" && carts[key] !== null && carts[key] !== undefined;
