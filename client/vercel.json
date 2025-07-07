@@ -30,7 +30,7 @@
   ],
   "redirects": [
     {
-      "source": "/public/pages/:path*",
+      "source": "/:path*",
       "destination": "/public/pages/:path*",
       "statusCode": 200
     },
