@@ -42,7 +42,7 @@ const renderSlider = async () => {
 
     listDots.innerHTML = dotHtmls.join("");
     const htmls = deals[0]?.applied_products.map((product, index) => {
-      return `<a href="../pages/productDetail.html?id=${
+      return `<a href="productDetail.html?id=${
         product._id
       }" class="bdt-item-slide ${
         index === 0 ? "slide-active" : ""

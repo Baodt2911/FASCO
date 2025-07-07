@@ -42,7 +42,7 @@ btnGoogle.addEventListener("click", async () => {
     }
     localStorage.setItem("at", accessToken);
     if (status == "success") {
-      window.location.assign("/client/public/pages/index.html");
+      window.location.assign("/index.html");
     }
   } catch (error) {
     console.log(error);
