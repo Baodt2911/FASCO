@@ -2,6 +2,7 @@ import _otp from "../models/otp.model.js";
 import _user from "../models/user.model.js";
 import bcrpyt from "bcrypt";
 import otpGenerate from "otp-generator";
+import nodemailer from "nodemailer";
 const validOtpService = async ({ otp, hashOtp }) => {
   try {
     const isValid = await bcrpyt.compare(otp, hashOtp);

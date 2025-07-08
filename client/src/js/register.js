@@ -76,10 +76,28 @@ confirmPassword.addEventListener("input", (e) => {
     e.currentTarget.parentElement.classList.remove("border-red-500");
   }
 });
-const sendOtp = () => {
+
+const sendOtp = (e) => {
   if (!email.value) {
+    notification({
+      message: "Email must not leave blank",
+      status: "info",
+    });
     return;
   }
+
+  let countdown = 60;
+  e.target.disabled = true;
+  const timerId = setInterval(() => {
+    countdown--;
+    e.target.innerHTML = `<span class="countdown">${countdown}</span>`;
+    if (countdown == 0) {
+      e.target.textContent = "Send code";
+      e.target.disabled = false;
+      clearInterval(timerId);
+    }
+  }, 1000);
+
   fetch(url_api + "/otp/send-otp", {
     method: "POST",
     headers: {
@@ -88,7 +106,12 @@ const sendOtp = () => {
     body: JSON.stringify({ email: email.value }),
   })
     .then((res) => res.json())
-    .then((data) => console.log(data))
+    .then((data) => {
+      notification({
+        message: "The confirmation code has been sent to email",
+        status: "success",
+      });
+    })
     .catch((error) => {
       console.log(error);
     });
@@ -108,7 +131,7 @@ const createAccount = () => {
   if (!isInfor()) {
     notification({
       message: "Check information",
-      status: "warning",
+      status: "info",
     });
     return;
   }
