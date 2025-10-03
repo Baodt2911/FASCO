@@ -22,14 +22,14 @@ const Header = (isLogin) => {
     </li>
     <li>
       <a
-        href=""
+        href="shop.html?sex=men"
         class="hover:text-[#FF4646] font-poppins text-sm text-[#484848]"
         >Men</a
       >
     </li>
     <li>
       <a
-        href=""
+        href="shop.html?sex=women"
         class="hover:text-[#FF4646] font-poppins text-sm text-[#484848]"
         >Women</a
       >

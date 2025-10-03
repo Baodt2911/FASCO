@@ -19,12 +19,6 @@ const utils = (function () {
         console.log(error);
       }
     },
-    checkCookie: (cookieName) => {
-      const cookies = document.cookie.split(";");
-      return cookies.some((cookie) =>
-        cookie.trim().startsWith(cookieName + "=")
-      );
-    },
     requestRefreshToken: async () => {
       try {
         const res = await fetch(currentUrl + "/auth/refresh-token", {
@@ -66,12 +60,6 @@ const utils = (function () {
       const currentTime = Math.floor(Date.now() / 1000);
       return decoded.exp < currentTime;
     },
-    getRefreshToken: () => {
-      let token = document.cookie.split(";").find((token) => {
-        return token.trim().startsWith("rt" + "=");
-      });
-      return token.split("=")[1];
-    },
     getAccessToken: async () => {
       let token = window.localStorage.getItem("at");
       if (!token || utils.isTokenExpired(token)) {
@@ -84,30 +72,39 @@ const utils = (function () {
       return utils.parseJwt(token)?.admin;
     },
     isLoggedIn: async () => {
-      const isCookie = utils.checkCookie("rt");
       const pathname = window.location.pathname;
-      let isLoggedIn = false;
-      if (isCookie) {
-        try {
-          const res = await fetch(currentUrl + "/auth/is-login", {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: "Bearer " + utils.getRefreshToken(),
-            },
-          });
-          const { isLogin } = await res.json();
-          isLoggedIn = isLogin;
-        } catch (error) {
-          console.error(error);
-        }
-      }
-      if (isLoggedIn) {
-        if (pathname == "/dashboard" || pathname == "/dashboard/") {
+      // Check local
+      if (
+        !window.localStorage.getItem("at") ||
+        utils.isTokenExpired(window.localStorage.getItem("at"))
+      ) {
+        window.localStorage.removeItem("at");
+        if (pathname == "/dashboard/login.html") {
           return;
         }
-        window.location.href = "/dashboard";
-      } else {
+        window.location.href = "/dashboard/login.html";
+      }
+      // Check server
+      try {
+        const res = await fetch(utils.getCurrentUrl() + "/auth/is-login", {
+          method: "GET",
+          credentials: "include",
+        });
+        const { isLogin } = await res.json();
+        if (!isLogin) {
+          window.localStorage.removeItem("at");
+          if (pathname == "/dashboard/login.html") {
+            return;
+          }
+          window.location.href = "/dashboard/login.html";
+        } else {
+          if (pathname == "/dashboard" || pathname == "/dashboard/") {
+            return;
+          }
+          window.location.href = "/dashboard";
+        }
+      } catch (error) {
+        console.error(error);
         window.localStorage.removeItem("at");
         if (pathname == "/dashboard/login.html") {
           return;

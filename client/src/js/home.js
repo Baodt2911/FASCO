@@ -245,16 +245,8 @@ const ItemReview = ({ photos, content, rate, firstName, lastName }) => {
   `;
 };
 const renderReview = async () => {
-  if (!isLogin) {
-    return;
-  }
   try {
-    const res = await fetch(url_api + `/review/get-review?to=popular`, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${await getAccessToken()}`,
-      },
-    });
+    const res = await fetch(url_api + `/review/get-review?to=popular`);
     const {
       message,
       datas: { reviews },

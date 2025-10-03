@@ -38,14 +38,23 @@
             <h1 class="font-volkhov text-5xl">Fashion</h1>
             <!-- navigation  -->
             <div class="navigation-link flex items-center">
-              <a href="" class="font-poppins">Home</a>
-              <a href="" class="font-poppins">Fashion</a>
+              <a href="index.html" class="font-poppins">Home</a>
+              <a href="shop.html" class="font-poppins">Fashion</a>
             </div>
           </div>
           <div class="w-full h-full mt-32 flex items-start">
             <!-- filter  -->
             <div class="w-1/5 flex flex-col gap-y-5">
-              <h3 class="font-volkhov text-3xl mb-5">Filters</h3>
+              <div class="flex items-center justify-between mb-5 pr-5">
+                <h3 class="font-volkhov text-3xl">Filters</h3>
+                <button
+                  class="text-sm text-[#8A8A8A] hover:text-red-500 font-poppins"
+                  type="button"
+                  onclick="clearQueryParams()"
+                >
+                  Clear all filters
+                </button>
+              </div>
               <!-- price  -->
               <div>
                 <p class="font-poppins text-lg mb-3">Price</p>
@@ -148,16 +157,20 @@
                 </div>
                 <ul class="">
                   <li class="text-[#8A8A8A] font-poppins hover:text-red-500">
-                    <a href="">All product</a>
+                    <a href="#" onclick="addQueryParams({})">All product</a>
                   </li>
                   <li class="text-[#8A8A8A] font-poppins hover:text-red-500">
-                    <a href="">Men</a>
+                    <a href="#" onclick="addQueryParams({sex:'men'})">Men</a>
                   </li>
                   <li class="text-[#8A8A8A] font-poppins hover:text-red-500">
-                    <a href="">Women</a>
+                    <a href="#" onclick="addQueryParams({sex:'women'})"
+                      >Women</a
+                    >
                   </li>
                   <li class="text-[#8A8A8A] font-poppins hover:text-red-500">
-                    <a href="">Accessories</a>
+                    <a href="#" onclick="addQueryParams({type:'accessories'})"
+                      >Accessories</a
+                    >
                   </li>
                 </ul>
               </div>
@@ -391,6 +404,13 @@
         }
       }
       window.location.href = url.toString(); // Điều hướng tới URL mới
+    }
+    function clearQueryParams() {
+      const url = new URL(window.location.href);
+      url.searchParams.forEach((_, key) => {
+        url.searchParams.delete(key);
+      });
+      window.location.href = url.toString();
     }
   </script>
   <script src="../../src/js/shop.js" type="module"></script>
