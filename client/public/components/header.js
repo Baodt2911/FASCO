@@ -58,7 +58,7 @@ const Header = (isLogin) => {
         </div>
       </div> `
       : `<a
-    href="Signup.html"
+    href="signup.html"
     class="bg-black rounded-xl w-36 h-14 flex items-center justify-center hover:text-[#FF4646] font-poppins text-sm text-white shadow-xl shadow-[#bbbbbbcc]"
     >Sign Up</a
   >`
