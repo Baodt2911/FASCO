@@ -83,7 +83,7 @@ app.use((err, req, res, next) => {
   });
 });
 // Connect mongodb
-await connMongoDb();
-server.listen(PORT, () => {
+server.listen(PORT, async () => {
+  await connMongoDb();
   console.log(`PORT: http://localhost:${PORT}`);
 });
