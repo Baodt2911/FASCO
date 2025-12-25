@@ -2,7 +2,7 @@ import { io } from "https://cdn.socket.io/4.7.5/socket.io.esm.min.js";
 export const url_api =
   window.location.hostname == "localhost"
     ? "http://localhost:3000"
-    : "https://fasco.onrender.com";
+    : "https://fasco-api-582396501234.europe-west1.run.app";
 
 const notification = ({ message, status, duration = 3000 }) => {
   // Tạo notification container nếu chưa có
